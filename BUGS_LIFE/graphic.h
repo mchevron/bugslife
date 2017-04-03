@@ -6,4 +6,13 @@
  \date Mars 2017
  */
 
-int main_glui();
+
+void graphic_draw_circle (float xc,
+                          float yc,
+                          float r,
+                          int   filled);
+
+
+void graphic_set_color3f(float r,
+                         float g,
+                         float b);

@@ -24,6 +24,9 @@
 #define MAX_RENDU1      5 
 #define	MAX_FOURMILIERE 10
 #define MAX_LINE        120
+#define GRAPHIC_EMPTY   0
+#define GRAPHIC_FILLED  1
+#define AUTOMATIC       0
 
 /********** User IDs pour les fonctions callback ********/
 #define BUTTON1_ID 01
