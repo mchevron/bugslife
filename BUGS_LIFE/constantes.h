@@ -26,6 +26,12 @@
 #define MAX_LINE        120
 
 /********** User IDs pour les fonctions callback ********/
+#define BUTTON1_ID 01
+#define BUTTON2_ID 02
+#define BUTTON3_ID 03
+#define BUTTON4_ID 04
+#define BUTTON5_ID 05
+#define CHECKBOX_ID 10
 #define CHECKBOX1_ID 11
 #define CHECKBOX2_ID 12
 #define CHECKBOX3_ID 13
