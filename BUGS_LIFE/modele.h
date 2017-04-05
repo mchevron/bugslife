@@ -11,4 +11,8 @@ typedef enum etape_lecture {
     L_NOURRITURE, L_EXIT, L_COMPLETE, L_CONTINUE,
 } ETAPE_LECTURE;
 
-int modele_lecture(int argc, char *argv[]);
+int modele_lecture(int argc, const char *argv[]);
+
+int modele_update(const char *argv[]);
+
+void new_food(float pos_x, float pos_y);

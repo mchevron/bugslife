@@ -69,3 +69,7 @@ int nourriture_lecture(char tab[MAX_LINE]) {
 	}
     return L_NOURRITURE;            
 }
+
+void add_new_food(float pos_x, float pos_y) {
+    
+}

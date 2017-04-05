@@ -20,7 +20,7 @@
 #define COMPLETE	0
 #define EXIT		1
 
-int modele_lecture(int argc, char *argv[])
+int modele_lecture(int argc, const char *argv[])
 {
     char tab[MAX_LINE];
     unsigned i=0;     			// indice fourmiliere
@@ -77,4 +77,13 @@ int modele_lecture(int argc, char *argv[])
     error_fichier_incomplet();
     fclose(fentree);
     return EXIT;
+}
+
+int modele_update(const char *argv[]) {
+    //free memory
+    return modele_lecture(BLANK, argv);
+}
+
+void new_food(float pos_x, float pos_y) {
+    add_new_food(pos_x, pos_y);
 }

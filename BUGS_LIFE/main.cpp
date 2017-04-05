@@ -24,20 +24,17 @@ namespace {
     //GLUT
     int main_window;
     int width, height;			/* Taille de la fenetre (en pixels) */
+    GLfloat aspect_ratio;
     
     //GLUI
     char text[200] = "Fileinput";
-    //char color[MAX_FOURMILIERE][200];
+    int run = 0;
+    FILE *fentree;
+    FILE *fsortie;
     GLUI_EditText *edittext1;
     GLUI_EditText *edittext2;
     GLUI_Checkbox *checkbox;
     GLUI_RadioGroup *radio;
-    GLUI_Checkbox *checkbox1;
-    GLUI_Checkbox *checkbox2;
-    GLUI_Checkbox *checkbox3;
-    GLUI_Spinner *spinner1;
-    GLUI_Spinner *spinner2;
-
 }
 
 /*------------------------------------------------------------------*/
@@ -50,25 +47,28 @@ void control_cb(int control)
     switch (control)
     {
         case (BUTTON1_ID):
-            fopen("E01.txt", "r");
+            //remplace la simulation par le contenu du fichier
+            printf("modele_update\n one step\n");
+            //const char *filepath = edittext1->get_text();
+            //if(modele_update(filepath) return EXIT_FAILURE
             break;
         case (BUTTON2_ID):
-            // save source to destination
+            // sauvegarde();
             break;
         case (RADIOBUTTON_ID):
             printf("radio group: %d\n", radio->get_int_val() );
             if (radio->get_int_val() == AUTOMATIC) {
                 // automatic food creation
             }
-            else {
-                // manual food creation
-            }
             break;
         case (BUTTON3_ID):
             // start ! simulation
+            printf("start !\n");
+            run = RUN;
             break;
         case (BUTTON4_ID):
-            // stop simulation
+            // step simulation
+            printf("modele_update\n one step\n");
             break;
         case (CHECKBOX_ID):
             // record simulation
@@ -89,16 +89,26 @@ void display_cb(){
     glClear (GL_COLOR_BUFFER_BIT);
     /*Defini le domaine*/
     glLoadIdentity ();
-    glOrtho (-20., 20., -20., 20., -1, 1);
-    //boucle pour chaque fourmillère
-        graphic_set_color3f (0.8, 0.8, 0.8);
-        graphic_draw_circle (0., 0., 5, GRAPHIC_EMPTY);
-        //boucle pour chaque ouvrière
-            graphic_draw_circle (0., 0., 2, GRAPHIC_FILLED);
-        //boucle pour chaque garde
-            graphic_draw_circle (0., 0., 2, GRAPHIC_FILLED);
-    //boucle pour chaque nourriture
+    glOrtho (-1, 1, -1, 1, -1, 1);
     
+    if (aspect_ratio <= 1.)
+        glOrtho(-DMAX, DMAX, -DMAX/aspect_ratio, DMAX/aspect_ratio, -1.0, 1.0);
+    else
+        glOrtho(-DMAX*aspect_ratio, DMAX*aspect_ratio, -DMAX, DMAX, -1.0, 1.0);
+    
+    
+    //boucle pour chaque fourmillère
+        graphic_set_color3f (1., 0., 0.);
+        graphic_draw_circle (2., 5., 10, GRAPHIC_EMPTY);
+        //boucle pour chaque ouvrière
+            graphic_draw_circle (-3., -2., RAYON_FOURMI, GRAPHIC_EMPTY);
+        //boucle pour chaque garde
+            graphic_draw_circle (0., 0., RAYON_FOURMI, GRAPHIC_FILLED);
+            graphic_set_color3f (0., 0., 0.);
+            graphic_draw_circle (0., 0., RAYON_FOURMI, GRAPHIC_EMPTY);
+    //boucle pour chaque nourriture
+        graphic_set_color3f (0., 0., 0.);
+        graphic_draw_circle (5., 5., RAYON_FOOD, GRAPHIC_EMPTY);
     glutSwapBuffers();
 }
 
@@ -111,6 +121,53 @@ void  reshape_cb ( int  x,  int  y)
     width = x;
     height = y;
     glViewport( 0, 0, width, height);
+    aspect_ratio = (GLfloat) width / (GLfloat) height;
+    glutPostRedisplay();
+}
+
+/*------------------------------------------------------------------*/
+/*
+ * Clique souris pour nourriture en mode manuel
+ */
+void processMouse(int button, int state, int x, int y)
+{
+    float pos_x, pos_y;
+    
+    if (state == GLUT_DOWN && radio->get_int_val() != AUTOMATIC) {
+        pos_x = -DMAX + ((double) x/width)*(DMAX+DMAX);
+        pos_y = -DMAX + ((double) (height -y)/height)*(DMAX+DMAX);
+        new_food(pos_x, pos_y);
+        //glutSwapBuffers();
+        //graphic_set_color3f (0., 0., 0.);
+        //graphic_draw_circle (pos_x, pos_y , RAYON_FOOD, GRAPHIC_EMPTY);
+        //glutSwapBuffers();
+    }
+}
+
+/*------------------------------------------------------------------*/
+/*
+ *mémorise l'état actuel de la simulation
+ */
+void sauvegarde()
+{
+    fsortie = fopen(edittext2->get_text(), "w");
+    //fgets(chaine, 60);
+    //fputs(chaine, sortie);
+    fclose(fsortie);
+}
+
+/*------------------------------------------------------------------*/
+/*
+ *idle
+ */
+
+void idle_cb()
+{
+    if ( glutGetWindow() != main_window)
+        glutSetWindow( main_window);
+    
+    printf("Modele update\n");
+    glutPostRedisplay();
 }
 
 /*------------------------------------------------------------------*/
@@ -120,16 +177,17 @@ int main(int argc, char *argv[])
     
     /**********************/ /* GLUT */ /**********************/
     glutInit(&argc, argv);
-    glutInitDisplayMode( GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH );
+    glutInitDisplayMode( GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA );
     glutInitWindowPosition( 50, 50 );
-    glutInitWindowSize( 400, 400 );
+    glutInitWindowSize( 500, 500 );
     
-    main_window = glutCreateWindow(  "Serie 17-19"  );
-    glutDisplayFunc( display_cb );
-    glutReshapeFunc( reshape_cb );
+    main_window = glutCreateWindow("Bug's Life");
+    glutDisplayFunc(display_cb);
+    glutReshapeFunc(reshape_cb);
+    glutMouseFunc(processMouse);
     
     /**********************/ /* GLUI */ /**********************/
-    GLUI *glui = GLUI_Master.create_glui((char*) "Bug's Life", 0, 500, 50 );
+    GLUI *glui = GLUI_Master.create_glui((char*) "Bug's Life", 0, 600, 50 );
     
     // file panel
     GLUI_Panel *File_panel = glui->add_panel((char*) "File" );
@@ -154,7 +212,7 @@ int main(int argc, char *argv[])
     GLUI_Panel *simulation_panel = glui->add_panel((char*) "File" );
     glui->add_button_to_panel(simulation_panel, (char*) "Start !", BUTTON3_ID,
                               control_cb);
-    glui->add_button_to_panel(simulation_panel, (char*) "Stop", BUTTON4_ID,
+    glui->add_button_to_panel(simulation_panel, (char*) "Step", BUTTON4_ID,
                               control_cb);
     checkbox = glui->add_checkbox_to_panel(simulation_panel, (char*)"Record",NULL,
                                             CHECKBOX_ID, control_cb);
@@ -165,9 +223,6 @@ int main(int argc, char *argv[])
     glui->add_column();
     GLUI_Panel *information_rollout = glui->add_rollout((char*) "Information");
     glui->add_statictext_to_panel(information_rollout, (char*) "Couleur");
-    //for(i=0; i<nb_fourmiliere; i+=1) {
-    //glui->add_statictext_to_panel(information_rollout, (char*) color[i]);
-    //}
     glui->add_column_to_panel(information_rollout);
     glui->add_statictext_to_panel(information_rollout, (char*) "Fourmis total");
     glui->add_column_to_panel(information_rollout);
@@ -177,7 +232,9 @@ int main(int argc, char *argv[])
     glui->add_column_to_panel(information_rollout);
     glui->add_statictext_to_panel(information_rollout, (char*) "Nourriture");
     
-    //Start Glut Main Loop
+    //Callbacks
+    if (run == RUN) GLUI_Master.set_glutIdleFunc(idle_cb);
+    glui->set_main_gfx_window(main_window);
     glutMainLoop();
 
     return EXIT_SUCCESS;

@@ -27,6 +27,9 @@
 #define GRAPHIC_EMPTY   0
 #define GRAPHIC_FILLED  1
 #define AUTOMATIC       0
+#define INFO_COLONNES   4
+#define BLANK           0
+#define RUN             1
 
 /********** User IDs pour les fonctions callback ********/
 #define BUTTON1_ID 01

@@ -12,3 +12,4 @@ typedef struct nourriture NOURRITURE;
 
 int nourriture_nb_nourriture(char tab[MAX_LINE]);
 int nourriture_lecture(char tab[MAX_LINE]);
+void add_new_food(float pos_x, float pos_y);
