@@ -90,3 +90,18 @@ void modele_update(char *argv[]) {
 void new_food(float pos_x, float pos_y) {
     add_new_food(pos_x, pos_y);
 }
+
+void modele_dessine_complet() {
+    fourmilieres_dessine();
+    nourriture_dessine();
+}
+
+int get_info_rollout(int info) {
+    switch(info)
+    {
+        case NB_FOURMILIERE:
+            return get_nb_fourmiliere();
+            break;
+    }
+    return get_nb_fourmiliere();
+}

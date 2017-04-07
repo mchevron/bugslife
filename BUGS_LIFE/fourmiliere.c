@@ -68,16 +68,14 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE])
         error_lecture_elements_fourmiliere(i, ERR_FOURMILIERE, ERR_PAS_ASSEZ);
         return L_EXIT;
     }
-    graphic_set_color3f (1., 0., 0.);
-    graphic_draw_circle (0. ,0. ,1.5, GRAPHIC_EMPTY);
-    //graphic_draw_circle ((p_fourmiliere+i)->x, (p_fourmiliere+i)->y,
-    //                     (p_fourmiliere+i)->rayon, GRAPHIC_EMPTY);
     printf("%lf %lf %d %d %d %lf\n",(p_fourmiliere+i)->x,
            (p_fourmiliere+i)->y,
            (p_fourmiliere+i)->nbO,
            (p_fourmiliere+i)->nbG,
            (p_fourmiliere+i)->total_food,
            (p_fourmiliere+i)->rayon);
+    fourmi_recoit(&(p_fourmiliere+i)->p_fourmi_ouvriere,
+                  &(p_fourmiliere+i)->p_fourmi_garde);
     (p_fourmiliere+i)->id = i;
     (p_fourmiliere+i)->nbF = (p_fourmiliere+i)->nbO + (p_fourmiliere+i)->nbG;
     if (fourmiliere_test_rayon(i,(p_fourmiliere+i)->nbF,
@@ -197,3 +195,18 @@ int fourmiliere_test_superposition(){
     }
     return FAUX;
 }
+
+void fourmilieres_dessine() {
+    unsigned i = 0;
+    for(i=0; i<nb_fourmiliere; i=i+1) {
+        graphic_find_color ((p_fourmiliere+i)->id);
+        graphic_draw_circle ((p_fourmiliere+i)->x, (p_fourmiliere+i)->y,
+                             (p_fourmiliere+i)->rayon, GRAPHIC_EMPTY);
+    }
+    fourmi_dessine(nb_fourmiliere, p_fourmiliere);
+}
+
+int get_nb_fourmiliere() {
+    return nb_fourmiliere;
+}
+

@@ -14,6 +14,7 @@
 #include "constantes.h"
 #include "nourriture.h"
 #include "modele.h"
+#include "graphic.h"
 
 #define WORD_LENGTH_COMPARE 	9
 #define ZERO_NOURRITURE 		0
@@ -28,7 +29,7 @@ struct nourriture
     NOURRITURE * next;
 };
 
-NOURRITURE * p_nourriture = NULL;
+static NOURRITURE * p_nourriture = NULL;
 static unsigned nb_nourriture = 0;
 static unsigned l = 0;
 
@@ -95,5 +96,18 @@ NOURRITURE * ajouter_nourriture ( NOURRITURE ** p_tete )
 
 void add_new_food(float pos_x, float pos_y) {
     
+}
+
+void nourriture_dessine() {
+    int i=0;
+    graphic_set_color3f (0., 0., 0.);
+    for(i=0; i<nb_nourriture; i=i+1) {
+        NOURRITURE * courant = p_nourriture;
+        graphic_draw_circle (courant->x, courant->y,
+                             RAYON_FOOD, GRAPHIC_EMPTY);
+        courant = courant->next; /* courant devient nul après le premier
+                                  passage. Comme s'il n'y avait pas d'adresse 
+                                  stockée dans next ... une idée?  */
+    }
 }
 

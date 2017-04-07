@@ -11,9 +11,17 @@ typedef enum etape_lecture {
     L_NOURRITURE, L_EXIT, L_COMPLETE, L_CONTINUE,
 } ETAPE_LECTURE;
 
+typedef enum get_info {
+    NB_FOURMILIERE
+} GET_INFO;
+
 int modele_lecture(char nom_fichier[]);
 int modele_verification_rendu2(void);
 
 void modele_update(char *argv[]);
 
 void new_food(float pos_x, float pos_y);
+
+void modele_dessine_complet();
+
+int get_info_rollout(int info);

@@ -16,3 +16,5 @@ void graphic_draw_circle (float xc,
 void graphic_set_color3f(float r,
                          float g,
                          float b);
+
+void graphic_find_color (unsigned i);

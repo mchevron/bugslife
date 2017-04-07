@@ -13,6 +13,8 @@
 #include "fourmi.h"
 #include "fourmiliere.h"
 #include "modele.h"
+#include "graphic.h"
+
 
 #define NB_ELEMENTS_FOURMILIERE 6
 #define NB_ELEMENTS_GARDE		3
@@ -60,9 +62,10 @@ struct fourmiliere
     FOURMI * p_fourmi_garde;
 };
 
-static FOURMILIERE * p_fourmiliere;
 static unsigned etape_lecture;
 static unsigned j = 0;                          //indice fourmi
+static FOURMI ** p_fourmi_ouvriere;
+static FOURMI ** p_fourmi_garde;
 
 int fourmi_ouvriere_lecture(unsigned i, char tab[MAX_LINE]) {
     FOURMI * ouvri;
@@ -76,14 +79,13 @@ int fourmi_ouvriere_lecture(unsigned i, char tab[MAX_LINE]) {
     if(etape_lecture != L_CONTINUE && etape_lecture != L_OUVRIERE) j = 0;
     if(etape_lecture != L_CONTINUE) return etape_lecture;
     //printf("%p", (void*)&(p_fourmiliere+i)->p_fourmi_ouvriere);
-    ouvri = ajouter_fourmi(&(p_fourmiliere+i)->p_fourmi_ouvriere);
-    if (ouvri == NULL) return L_EXIT;
     if (sscanf(tab, "%*[ \t]%u %lf %lf %lf %lf %d", &age, &posx, &posy, &butx, &buty,
                &bool_nourriture) != NB_ELEMENTS_FOURMILIERE) {
         error_lecture_elements_fourmiliere(i, ERR_OUVRIERE, ERR_PAS_ASSEZ);
         return L_EXIT;
     }
-    ouvri = ajouter_fourmi(&(p_fourmiliere+i)->p_fourmi_ouvriere);
+    ouvri = ajouter_fourmi(p_fourmi_ouvriere);
+    if (ouvri == NULL) return L_EXIT;
     ouvri->ouvriere.age = age;
     ouvri->ouvriere.posx = posx;
     ouvri->ouvriere.posy = posy;
@@ -106,7 +108,7 @@ int fourmi_garde_lecture(unsigned i, char tab[MAX_LINE]) {
     if(etape_lecture != L_CONTINUE) return etape_lecture;
     char *deb = tab, *fin = NULL;
     while(sscanf(deb, "%*[ \t]%u %lf %lf", &age, &x, &y) == NB_ELEMENTS_GARDE) {
-        guard = ajouter_fourmi(&(p_fourmiliere+i)->p_fourmi_garde);
+        guard = ajouter_fourmi(p_fourmi_garde);
         if (guard == NULL) return L_EXIT;
         guard->garde.age = age;
         guard->garde.x = x;
@@ -136,14 +138,16 @@ int fourmi_test_age(unsigned num_fourmiliere, unsigned num_fourmi,
     return FAUX;
 }
 
+void fourmi_recoit( FOURMI **p_ouvriere, FOURMI ** p_garde){
+    p_fourmi_ouvriere = p_ouvriere;
+    p_fourmi_garde = p_garde;
+}
+
 FOURMI * ajouter_fourmi ( FOURMI ** p_tete )
 {
-    //FOURMI * four = NULL;
+    FOURMI * four = NULL;
     
-    //if (!(four = (FOURMI *) malloc (sizeof(FOURMI))))
-        
-    FOURMI * four = (FOURMI*)malloc(sizeof(FOURMI));
-    if(four==NULL)
+    if (!(four = (FOURMI *) malloc (sizeof(FOURMI))))
     {
         printf ("Pb d'allocation dans %s\n", __func__);
         return four;								
@@ -157,4 +161,32 @@ FOURMI * ajouter_fourmi ( FOURMI ** p_tete )
 
 void test_superposition_fourmi() {
     
+}
+
+void fourmi_dessine(unsigned nb_fourmiliere, FOURMILIERE * p_fourmiliere) {
+    int i = 0, j = 0, k = 0;
+    for(i=0; i<nb_fourmiliere; i=i+1) {
+        graphic_find_color ((p_fourmiliere+i)->id);
+        for(j=0; j<p_fourmiliere->nbO; j=j+1) {
+            graphic_draw_circle ((p_fourmiliere+i)->p_fourmi_ouvriere->ouvriere.posx,
+                                 (p_fourmiliere+i)->p_fourmi_ouvriere->ouvriere.posy,
+                                 RAYON_FOURMI, GRAPHIC_EMPTY);
+        }
+        k = p_fourmiliere->nbG;
+        for(j=0; j<p_fourmiliere->nbG; j=j+1) {
+            k = ((p_fourmiliere+i)->p_fourmi_garde+j)->garde.x;
+            graphic_draw_circle (((p_fourmiliere+i)->p_fourmi_garde+j)->garde.x,
+                                 ((p_fourmiliere+i)->p_fourmi_garde+j)->garde.y,
+                                 RAYON_FOURMI, GRAPHIC_FILLED);
+            graphic_set_color3f (0., 0., 0.);
+            graphic_draw_circle (((p_fourmiliere+i)->p_fourmi_garde+j)->garde.x,
+                                 ((p_fourmiliere+i)->p_fourmi_garde+j)->garde.y,
+                                 RAYON_FOURMI, GRAPHIC_EMPTY); /* Cette methode ne 
+                                fonctionne pas parce que l'adresse de la prochaine garde 
+                                n'est pas à garde+j ... une idée? 
+                                Il faudra faire la même chose pour nourriture et 
+                                ouvrières */
+            graphic_find_color ((p_fourmiliere+i)->id);
+        }
+    }
 }

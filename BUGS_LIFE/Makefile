@@ -2,23 +2,28 @@
 ##########################
 
 CC     = gcc
+CPP    = g++
 
 # Options de compilation : (-g = pour deverminer)
 #################################################
 
-CFLAGS = -g
+CFLAGS = -Wall
 
 
 # Librairies a utiliser :
 # LIBS: toutes les librairies qu'il faut intégrer
 #########################
 
-LIBS   = -framework OpenGL -framework GLUT -framework GLUI -lm -lstdc++
+# LINUX LIBS:
+LIBS   = -lglut -lGL -lGLU -lm -Llib -lglui -L/usr/X11R6/lib -lX11 -lXext -lXmu -lXi
+
+# MAC LIBS:
+#LIBS   = -framework OpenGL -framework GLUT -framework GLUI -lm -lstdc++
 
 # Liste de fichiers source (.c) a compiler :
 ############################################
 
-CFILES = modele.c error.c fourmi.c fourmiliere.c nourriture.c utilitaire.c main.cpp graphic.cpp
+CFILES = modele.c error.c fourmi.c fourmiliere.c nourriture.c utilitaire.c main.cpp graphic.c
 
 # Liste de modules objets (generee a partir de CFILES) :
 # Les fichiers objets (.o) ont le même nom que les fichiers source (.c)
@@ -54,7 +59,7 @@ depend:
 
 clean:
 	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
-	@/bin/rm -f *.o rendu2.x
+	@/bin/rm -f *.o *.x *.c~ *.h~
 
 #
 # -- Regles de dependances generees par "make depend"

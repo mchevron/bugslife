@@ -97,20 +97,17 @@ void display_cb(){
     else
         glOrtho(-DMAX*aspect_ratio, DMAX*aspect_ratio, -DMAX, DMAX, -1.0, 1.0);
     
+    modele_dessine_complet();
     
     //boucle pour chaque fourmillère
         //graphic_set_color3f (1., 0., 0.);
         //graphic_draw_circle (2., 5., 10, GRAPHIC_EMPTY);
         //boucle pour chaque ouvrière
-            graphic_set_color3f (1., 0., 0.);
-            graphic_draw_circle (-3., -2., RAYON_FOURMI, GRAPHIC_EMPTY);
+
         //boucle pour chaque garde
-            graphic_draw_circle (0., 0., RAYON_FOURMI, GRAPHIC_FILLED);
-            graphic_set_color3f (0., 0., 0.);
-            graphic_draw_circle (0., 0., RAYON_FOURMI, GRAPHIC_EMPTY);
+
     //boucle pour chaque nourriture
-        graphic_set_color3f (0., 0., 0.);
-        graphic_draw_circle (5., 5., RAYON_FOOD, GRAPHIC_EMPTY);
+
     glutSwapBuffers();
 }
 
@@ -175,7 +172,25 @@ void idle_cb()
 /*------------------------------------------------------------------*/
 int main(int argc, char *argv[])
 {
-    
+    switch (argc) {
+        case MODE_SIMPLE:
+            
+            break;
+        case MODE_SPECIFIQUE:
+            if (strcmp(argv[1], "Error") == 0){
+                if (modele_lecture(argv[2])) return EXIT_FAILURE;
+            }
+            else if (strcmp(argv[1] , "Verification") == 0)
+                if (modele_verification_rendu2()) return EXIT_FAILURE;
+            //~ if (argv[1] == "Graphic")
+            
+            //~if (argv[1] == "Final")
+            break;
+        default:
+            printf("usage : \"%s mode_test nom_fichier\" ou \"%s\"\n"
+                   ,argv[0],argv[0]);
+            return EXIT_FAILURE;
+    }
     /**********************/ /* GLUT */ /**********************/
     glutInit(&argc, argv);
     glutInitDisplayMode( GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA );
@@ -223,36 +238,33 @@ int main(int argc, char *argv[])
     // Information rollout
     glui->add_column();
     GLUI_Panel *information_rollout = glui->add_rollout((char*) "Information");
-    glui->add_statictext_to_panel(information_rollout, (char*) "Couleur");
-    glui->add_column_to_panel(information_rollout);
-    glui->add_statictext_to_panel(information_rollout, (char*) "Fourmis total");
-    glui->add_column_to_panel(information_rollout);
-    glui->add_statictext_to_panel(information_rollout, (char*) "Ouvrières");
-    glui->add_column_to_panel(information_rollout);
-    glui->add_statictext_to_panel(information_rollout, (char*) "Gardes");
-    glui->add_column_to_panel(information_rollout);
-    glui->add_statictext_to_panel(information_rollout, (char*) "Nourriture");
+    GLUI_Panel *titles = glui->add_panel_to_panel(information_rollout, "", GLUI_PANEL_NONE);
+    glui->add_statictext_to_panel(titles, (char*) "Couleur");
+    glui->add_column_to_panel(titles);
+    glui->add_statictext_to_panel(titles, (char*) "Fourmis total");
+    glui->add_column_to_panel(titles);
+    glui->add_statictext_to_panel(titles, (char*) "Ouvrières");
+    glui->add_column_to_panel(titles);
+    glui->add_statictext_to_panel(titles, (char*) "Gardes");
+    glui->add_column_to_panel(titles);
+    glui->add_statictext_to_panel(titles, (char*) "Nourriture");
+    
+    int i = 0;
+    GLUI_Panel *info[MAX_FOURMILIERE];
+    for(i=0; i<10; i=i+1) {
+        info[i] = glui->add_panel_to_panel(information_rollout, "", GLUI_PANEL_NONE);
+        glui->add_statictext_to_panel(info[i], (char*) "Couleur");
+        glui->add_column_to_panel(info[i]);
+        glui->add_statictext_to_panel(info[i], (int*) get_info_rollout(NB_FOURMILIERE));
+        glui->add_column_to_panel(info[i]);
+        glui->add_statictext_to_panel(info[i], (char*) "Ouvrières");
+        glui->add_column_to_panel(info[i]);
+        glui->add_statictext_to_panel(info[i], (char*) "Gardes");
+        glui->add_column_to_panel(info[i]);
+        glui->add_statictext_to_panel(info[i], (char*) "Nourriture");
+    }
     
     glui->set_main_gfx_window(main_window);
-    switch (argc) {
-        case MODE_SIMPLE:
-            
-            break;
-        case MODE_SPECIFIQUE:
-            if (strcmp(argv[1], "Error") == 0){
-                if (modele_lecture(argv[2])) return EXIT_FAILURE;
-            }
-            else if (strcmp(argv[1] , "Verification") == 0)
-                if (modele_verification_rendu2()) return EXIT_FAILURE;
-            //~ if (argv[1] == "Graphic")
-            
-            //~if (argv[1] == "Final")
-            break;
-        default:
-            printf("usage : \"%s mode_test nom_fichier\" ou \"%s\"\n"
-                   ,argv[0],argv[0]);
-            return EXIT_FAILURE;
-    }
     
     //Callbacks
     GLUI_Master.set_glutIdleFunc(idle_cb);

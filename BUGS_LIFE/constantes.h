@@ -33,6 +33,7 @@
 #define STEP            0
 #define MODE_SIMPLE		1
 #define MODE_SPECIFIQUE 3
+#define RGB             3
 
 /********** User IDs pour les fonctions callback ********/
 #define BUTTON1_ID 01
