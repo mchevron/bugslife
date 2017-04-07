@@ -69,6 +69,7 @@ void control_cb(int control)
         case (BUTTON4_ID):
             // step simulation
             printf("modele_update\n one step\n");
+            run = STEP;
             break;
         case (CHECKBOX_ID):
             // record simulation
@@ -163,11 +164,11 @@ void sauvegarde()
 
 void idle_cb()
 {
-    if ( glutGetWindow() != main_window)
-        glutSetWindow( main_window);
-    
-    printf("Modele update\n");
-    glutPostRedisplay();
+    if (run == RUN){
+        if (glutGetWindow() != main_window) glutSetWindow( main_window);
+        printf("Modele update\n");
+        glutPostRedisplay();
+    }
 }
 
 /*------------------------------------------------------------------*/
@@ -233,7 +234,7 @@ int main(int argc, char *argv[])
     glui->add_statictext_to_panel(information_rollout, (char*) "Nourriture");
     
     //Callbacks
-    if (run == RUN) GLUI_Master.set_glutIdleFunc(idle_cb);
+    GLUI_Master.set_glutIdleFunc(idle_cb);
     glui->set_main_gfx_window(main_window);
     glutMainLoop();
 

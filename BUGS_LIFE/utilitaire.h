@@ -10,3 +10,5 @@
 
 int utilitaire_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere, 
 								double x, double y);
+
+//float red[] = {1.,

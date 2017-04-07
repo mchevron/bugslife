@@ -30,6 +30,7 @@
 #define INFO_COLONNES   4
 #define BLANK           0
 #define RUN             1
+#define STEP            0
 
 /********** User IDs pour les fonctions callback ********/
 #define BUTTON1_ID 01
