@@ -15,6 +15,7 @@
 #include "fourmi.h"
 #include "fourmiliere.h"
 #include "modele.h"
+#include "graphic.h"
 
 #define NB_ELEMENTS_FOURMILIERE 6
 #define WORD_LENGTH_COMPARE 	9
@@ -67,6 +68,10 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE])
         error_lecture_elements_fourmiliere(i, ERR_FOURMILIERE, ERR_PAS_ASSEZ);
         return L_EXIT;
     }
+    graphic_set_color3f (1., 0., 0.);
+    graphic_draw_circle (0. ,0. ,1.5, GRAPHIC_EMPTY);
+    //graphic_draw_circle ((p_fourmiliere+i)->x, (p_fourmiliere+i)->y,
+    //                     (p_fourmiliere+i)->rayon, GRAPHIC_EMPTY);
     printf("%lf %lf %d %d %d %lf\n",(p_fourmiliere+i)->x,
            (p_fourmiliere+i)->y,
            (p_fourmiliere+i)->nbO,

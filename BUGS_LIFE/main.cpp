@@ -11,13 +11,13 @@
 #include <string.h>
 #include <GLUI/glui.h>
 #include <GLUT/glut.h>
-#include "graphic.h"
 
 
 extern "C"
 {
 #include "modele.h"
 #include "constantes.h"
+#include "graphic.h"
 }
 
 namespace {
@@ -99,9 +99,10 @@ void display_cb(){
     
     
     //boucle pour chaque fourmillère
-        graphic_set_color3f (1., 0., 0.);
-        graphic_draw_circle (2., 5., 10, GRAPHIC_EMPTY);
+        //graphic_set_color3f (1., 0., 0.);
+        //graphic_draw_circle (2., 5., 10, GRAPHIC_EMPTY);
         //boucle pour chaque ouvrière
+            graphic_set_color3f (1., 0., 0.);
             graphic_draw_circle (-3., -2., RAYON_FOURMI, GRAPHIC_EMPTY);
         //boucle pour chaque garde
             graphic_draw_circle (0., 0., RAYON_FOURMI, GRAPHIC_FILLED);
@@ -174,27 +175,6 @@ void idle_cb()
 /*------------------------------------------------------------------*/
 int main(int argc, char *argv[])
 {
-    switch (argc) {
-        case MODE_SIMPLE:
-            
-            break;
-        case MODE_SPECIFIQUE:
-            if (strcmp(argv[1], "Error") == 0){
-                if (modele_lecture(argv[2])) return EXIT_FAILURE;
-            }
-            else if (strcmp(argv[1] , "Verification") == 0)
-                if (modele_verification_rendu2()) return EXIT_FAILURE;
-            //~ if (argv[1] == "Graphic")
-            
-            //~if (argv[1] == "Final")
-            break;
-        default:
-            printf("usage : \"%s mode_test nom_fichier\" ou \"%s\"\n"
-                   ,argv[0],argv[0]);
-            return EXIT_FAILURE;
-    }
-    
-    return EXIT_SUCCESS;
     
     /**********************/ /* GLUT */ /**********************/
     glutInit(&argc, argv);
@@ -253,10 +233,31 @@ int main(int argc, char *argv[])
     glui->add_column_to_panel(information_rollout);
     glui->add_statictext_to_panel(information_rollout, (char*) "Nourriture");
     
+    glui->set_main_gfx_window(main_window);
+    switch (argc) {
+        case MODE_SIMPLE:
+            
+            break;
+        case MODE_SPECIFIQUE:
+            if (strcmp(argv[1], "Error") == 0){
+                if (modele_lecture(argv[2])) return EXIT_FAILURE;
+            }
+            else if (strcmp(argv[1] , "Verification") == 0)
+                if (modele_verification_rendu2()) return EXIT_FAILURE;
+            //~ if (argv[1] == "Graphic")
+            
+            //~if (argv[1] == "Final")
+            break;
+        default:
+            printf("usage : \"%s mode_test nom_fichier\" ou \"%s\"\n"
+                   ,argv[0],argv[0]);
+            return EXIT_FAILURE;
+    }
+    
     //Callbacks
     GLUI_Master.set_glutIdleFunc(idle_cb);
     glui->set_main_gfx_window(main_window);
     glutMainLoop();
-
+    
     return EXIT_SUCCESS;
 }

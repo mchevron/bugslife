@@ -41,8 +41,8 @@ struct garde
 
 struct fourmi
 {
-    GARDE garde;
     OUVRIERE ouvriere;
+    GARDE garde;
     FOURMI *next;
 };
 
@@ -60,7 +60,7 @@ struct fourmiliere
     FOURMI * p_fourmi_garde;
 };
 
-FOURMILIERE * p_fourmiliere;
+static FOURMILIERE * p_fourmiliere;
 static unsigned etape_lecture;
 static unsigned j = 0;                          //indice fourmi
 
@@ -75,6 +75,7 @@ int fourmi_ouvriere_lecture(unsigned i, char tab[MAX_LINE]) {
     etape_lecture = fourmiliere_ouvriere_lecture_precontrol(i, j, tab);
     if(etape_lecture != L_CONTINUE && etape_lecture != L_OUVRIERE) j = 0;
     if(etape_lecture != L_CONTINUE) return etape_lecture;
+    //printf("%p", (void*)&(p_fourmiliere+i)->p_fourmi_ouvriere);
     ouvri = ajouter_fourmi(&(p_fourmiliere+i)->p_fourmi_ouvriere);
     if (ouvri == NULL) return L_EXIT;
     if (sscanf(tab, "%*[ \t]%u %lf %lf %lf %lf %d", &age, &posx, &posy, &butx, &buty,
@@ -137,9 +138,12 @@ int fourmi_test_age(unsigned num_fourmiliere, unsigned num_fourmi,
 
 FOURMI * ajouter_fourmi ( FOURMI ** p_tete )
 {
-    FOURMI * four = NULL;
+    //FOURMI * four = NULL;
     
-    if (!(four = (FOURMI *) malloc (sizeof(FOURMI))))
+    //if (!(four = (FOURMI *) malloc (sizeof(FOURMI))))
+        
+    FOURMI * four = (FOURMI*)malloc(sizeof(FOURMI));
+    if(four==NULL)
     {
         printf ("Pb d'allocation dans %s\n", __func__);
         return four;								

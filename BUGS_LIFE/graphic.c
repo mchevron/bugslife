@@ -1,15 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <GLUI/glui.h>
 #include <GLUT/glut.h>
 #include "graphic.h"
 #include <math.h>
-
-extern "C"
-{
 #include "constantes.h"
-}
 
 void graphic_draw_circle (float xc,
                           float yc,
