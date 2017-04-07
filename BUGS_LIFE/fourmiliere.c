@@ -24,6 +24,7 @@
 
 struct fourmiliere
 {
+    unsigned id;
     double x;
     double y;
     int nbO;
@@ -50,6 +51,7 @@ int fourmiliere_nb_fourmiliere(char tab[MAX_LINE]) {
 
 int fourmiliere_lecture(unsigned i, char tab[MAX_LINE])
 {
+    /*
     if (i >= nb_fourmiliere) return L_NB_NOURRITURE;
     if (sscanf(tab, " %lf %lf %d %d %d %lf", &tab_fourmiliere[i].x,
                                      &tab_fourmiliere[i].y,
@@ -67,11 +69,13 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE])
 							   tab_fourmiliere[i].rayon)) return L_EXIT;
 	if (utilitaire_test_pos_domaine(ERR_FOURMILIERE, i, tab_fourmiliere[i].x,
 									tab_fourmiliere[i].y)) return L_EXIT;
+    */
     return L_OUVRIERE;
 }
 
 int fourmiliere_ouvriere_lecture_precontrol(unsigned i, unsigned j, 
 											char tab[MAX_LINE]) {
+    /*
     char check[MAX_LINE];
 	double test = 0.;
     sscanf(tab, " %s", check);
@@ -93,11 +97,13 @@ int fourmiliere_ouvriere_lecture_precontrol(unsigned i, unsigned j,
         j = 0;
         return fourmi_garde_lecture(i, tab);
     }
-    if(sscanf(tab, " %lf", &test) == ECHEC) return L_OUVRIERE;                          
-        return L_CONTINUE;
+    if(sscanf(tab, " %lf", &test) == ECHEC) return L_OUVRIERE;  
+    */
+    return L_CONTINUE;
 }
 
 int fourmiliere_garde_lecture_precontrol(unsigned i, unsigned j, char tab[MAX_LINE]){
+    /*
     char check[MAX_LINE];
 	double test = 0.;
     sscanf(tab, " %s", check);
@@ -112,6 +118,7 @@ int fourmiliere_garde_lecture_precontrol(unsigned i, unsigned j, char tab[MAX_LI
     }
     if(strcmp(check, "FIN_LISTE") == ECHEC) return L_FOURMILIERE;
     if(sscanf(tab, " %lf", &test)==ECHEC) return L_GARDE;
+     */
     return L_CONTINUE;
 }
 
