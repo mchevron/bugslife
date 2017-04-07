@@ -14,6 +14,8 @@ typedef struct ouvriere OUVRIERE;
 typedef struct fourmi FOURMI;
 
 int fourmi_test_age(unsigned num_fourmiliere, unsigned num_fourmi,
-					 unsigned age);
+                    unsigned age);
 int fourmi_ouvriere_lecture(unsigned i, char tab[MAX_LINE]);
 int fourmi_garde_lecture(unsigned i, char tab[MAX_LINE]);
+FOURMI * ajouter_fourmi ( FOURMI ** p_tete );
+void test_superposition_fourmi();
