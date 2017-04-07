@@ -32,11 +32,11 @@ struct fourmiliere
     int nbF;
     int total_food;
     double rayon;
-    FOURMI * tab_fourmi_ouvriere[MAX_RENDU1];
-    FOURMI * tab_fourmi_garde[MAX_RENDU1];
+    FOURMI * p_fourmi_ouvriere;
+    FOURMI * p_fourmi_garde;
 };
 
-static FOURMILIERE tab_fourmiliere[MAX_RENDU1];
+static FOURMILIERE * p_fourmiliere = NULL;
 static int nb_fourmiliere;
 
 int fourmiliere_nb_fourmiliere(char tab[MAX_LINE]) {
@@ -51,74 +51,81 @@ int fourmiliere_nb_fourmiliere(char tab[MAX_LINE]) {
 
 int fourmiliere_lecture(unsigned i, char tab[MAX_LINE])
 {
-    /*
+    
     if (i >= nb_fourmiliere) return L_NB_NOURRITURE;
-    if (sscanf(tab, " %lf %lf %d %d %d %lf", &tab_fourmiliere[i].x,
-                                     &tab_fourmiliere[i].y,
-                                     &tab_fourmiliere[i].nbO,
-                                     &tab_fourmiliere[i].nbG,
-                                     &tab_fourmiliere[i].total_food,
-                                     &tab_fourmiliere[i].rayon) 
-                                     != NB_ELEMENTS_FOURMILIERE){
-		error_lecture_elements_fourmiliere(i, ERR_FOURMILIERE, ERR_PAS_ASSEZ);
-		return L_EXIT;
-	}
-    tab_fourmiliere[i].nbF = tab_fourmiliere[i].nbO + tab_fourmiliere[i].nbG;
-    if (fourmiliere_test_rayon(i,tab_fourmiliere[i].nbF,
-							   tab_fourmiliere[i].total_food, 
-							   tab_fourmiliere[i].rayon)) return L_EXIT;
-	if (utilitaire_test_pos_domaine(ERR_FOURMILIERE, i, tab_fourmiliere[i].x,
-									tab_fourmiliere[i].y)) return L_EXIT;
-    */
+    if (!(p_fourmiliere = malloc(MAX_FOURMILIERE*sizeof(FOURMILIERE))))
+    {
+        printf("No memory for %s\n", __func__);
+        return L_EXIT;
+    }
+    if (sscanf(tab, "%*[ \t]%lf %lf %d %d %d %lf", &(p_fourmiliere+i)->x,
+               &(p_fourmiliere+i)->y,
+               &(p_fourmiliere+i)->nbO,
+               &(p_fourmiliere+i)->nbG,
+               &(p_fourmiliere+i)->total_food,
+               &(p_fourmiliere+i)->rayon) != NB_ELEMENTS_FOURMILIERE){
+        error_lecture_elements_fourmiliere(i, ERR_FOURMILIERE, ERR_PAS_ASSEZ);
+        return L_EXIT;
+    }
+    printf("%lf %lf %d %d %d %lf\n",(p_fourmiliere+i)->x,
+           (p_fourmiliere+i)->y,
+           (p_fourmiliere+i)->nbO,
+           (p_fourmiliere+i)->nbG,
+           (p_fourmiliere+i)->total_food,
+           (p_fourmiliere+i)->rayon);
+    (p_fourmiliere+i)->id = i;
+    (p_fourmiliere+i)->nbF = (p_fourmiliere+i)->nbO + (p_fourmiliere+i)->nbG;
+    if (fourmiliere_test_rayon(i,(p_fourmiliere+i)->nbF,
+                               (p_fourmiliere+i)->total_food,
+                               (p_fourmiliere+i)->rayon)) return L_EXIT;
+    if (utilitaire_test_pos_domaine(ERR_FOURMILIERE, i, (p_fourmiliere+i)->x,
+                                    (p_fourmiliere+i)->y)) return L_EXIT;
     return L_OUVRIERE;
 }
 
 int fourmiliere_ouvriere_lecture_precontrol(unsigned i, unsigned j, 
 											char tab[MAX_LINE]) {
-    /*
     char check[MAX_LINE];
-	double test = 0.;
+    double test = 0.;
     sscanf(tab, " %s", check);
     if((strcmp(check, "FIN_LISTE") == ECHEC)
-		&& (j < tab_fourmiliere[i].nbO)) {
-        error_lecture_elements_fourmiliere(i, ERR_OUVRIERE, ERR_PAS_ASSEZ);         
-		return L_EXIT;
+       && (j < (p_fourmiliere+i)->nbO)) {
+        error_lecture_elements_fourmiliere(i, ERR_OUVRIERE, ERR_PAS_ASSEZ);
+        return L_EXIT;
     }
-    //if(strncmp(check, "FIN_LISTE", WORD_LENGTH_COMPARE) == ECHEC) {
+    if ((strcmp(check, "FIN_LISTE") == ECHEC) && ((p_fourmiliere+i)->nbF == 0))
+        return L_COMPLETE;
     if(strcmp(check, "FIN_LISTE") == ECHEC) {
         return L_GARDE;
     }
-    if(j == tab_fourmiliere[i].nbO && tab_fourmiliere[i].nbO > 0) {
+    if(j == (p_fourmiliere+i)->nbO && (p_fourmiliere+i)->nbO > 0) {
         error_lecture_elements_fourmiliere(i, ERR_OUVRIERE, ERR_TROP);
         return L_EXIT;
     }
-    if(tab_fourmiliere[i].nbF == 0) return L_FOURMILIERE;
-    if(tab_fourmiliere[i].nbO == 0) {
+    if((p_fourmiliere+i)->nbF == 0) return L_FOURMILIERE;
+    if((p_fourmiliere+i)->nbO == 0) {
         j = 0;
         return fourmi_garde_lecture(i, tab);
     }
-    if(sscanf(tab, " %lf", &test) == ECHEC) return L_OUVRIERE;  
-    */
+    if(sscanf(tab, " %lf", &test) == ECHEC) return L_OUVRIERE;
     return L_CONTINUE;
 }
 
 int fourmiliere_garde_lecture_precontrol(unsigned i, unsigned j, char tab[MAX_LINE]){
-    /*
     char check[MAX_LINE];
-	double test = 0.;
+    double test = 0.;
     sscanf(tab, " %s", check);
     if((strcmp(check, "FIN_LISTE") == ECHEC)
-		&& (j < tab_fourmiliere[i].nbG)) {
+       && (j < (p_fourmiliere+i)->nbG)) {
         error_lecture_elements_fourmiliere(i, ERR_GARDE, ERR_PAS_ASSEZ);
-        return L_EXIT;                                                               
+        return L_EXIT;
     }
-    if (j > tab_fourmiliere[i].nbG) {											
+    if (j > (p_fourmiliere+i)->nbG) {
         error_lecture_elements_fourmiliere(i, ERR_GARDE, ERR_TROP);
         return L_EXIT;
     }
     if(strcmp(check, "FIN_LISTE") == ECHEC) return L_FOURMILIERE;
     if(sscanf(tab, " %lf", &test)==ECHEC) return L_GARDE;
-     */
     return L_CONTINUE;
 }
 
@@ -143,14 +150,45 @@ int fourmiliere_test_lecture_elements(unsigned nb_fourmiliere_fichier)
 	return FAUX;
 }
 
-int fourmiliere_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde, 
+int fourmiliere_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde,
 							   double x_garde, double y_garde) {
-    int distance = sqrt(pow(x_garde - tab_fourmiliere[num_fourmiliere].x,2) +
-                        pow(y_garde - tab_fourmiliere[num_fourmiliere].y,2));
-    if (distance > (tab_fourmiliere[num_fourmiliere].rayon - 
-				   (RAYON_FOURMI + EPSIL_ZERO))){
+    int distance = sqrt(pow(x_garde - (p_fourmiliere+num_fourmiliere)->x,2) +
+                        pow(y_garde - (p_fourmiliere+num_fourmiliere)->y,2));
+    if (distance > (p_fourmiliere+num_fourmiliere)->rayon -
+        (RAYON_FOURMI + EPSIL_ZERO)){
         error_pos_garde(num_fourmiliere, num_garde);
         return VRAI;
+    }
+    return FAUX;
+}
+
+int fourmiliere_test_superposition(){
+    unsigned i = 0;
+    unsigned j = 0;
+    while ((p_fourmiliere + i) != NULL){
+        printf("%lf %lf %lf",(p_fourmiliere+i)->x,
+               (p_fourmiliere+i)->y,
+               (p_fourmiliere+i)->rayon);
+        j = i + 1;
+        while ((p_fourmiliere + j) != NULL){
+            printf("%lf %lf %lf",(p_fourmiliere+j)->x,
+                   (p_fourmiliere+j)->y,
+                   (p_fourmiliere+j)->rayon);
+            double dist1 = pow((p_fourmiliere+i)->x - (p_fourmiliere+j)->x,2);
+            double dist2 = pow((p_fourmiliere+i)->y - (p_fourmiliere+j)->y,2);
+            double distance = sqrt(dist1 + dist2);
+            printf("%lf\n", dist1);
+            printf("%lf\n", dist2);
+            printf("%lf\n", distance);
+            double r1 = (p_fourmiliere+i)->rayon;
+            double r2 = (p_fourmiliere+j)->rayon;
+            if (distance - (r1+ r2) <= 0){
+                error_superposition_fourmiliere(i, j);
+                return  VRAI;
+            }
+            j = j + 1;
+        }
+        i = i + 1;
     }
     return FAUX;
 }

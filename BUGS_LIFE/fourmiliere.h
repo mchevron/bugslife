@@ -23,3 +23,4 @@ int fourmiliere_garde_lecture_precontrol(unsigned i, unsigned j,
 int fourmiliere_lecture_elements(unsigned nb_fourmiliere_fichier);
 int fourmiliere_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde, 
 							   double x_garde, double y_garde);
+int fourmiliere_test_superposition();
