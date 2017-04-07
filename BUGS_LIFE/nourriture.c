@@ -1,3 +1,4 @@
+
 /*!
  \file nourriture.c
  \brief Module qui gère les données liées à la nourriture
@@ -22,16 +23,17 @@
 
 struct nourriture
 {
-	double x;
-	double y;  
+    double x;
+    double y;
+    NOURRITURE * next;
 };
 
-static NOURRITURE tab_nourriture[MAX_RENDU1];
+NOURRITURE * p_nourriture = NULL;
 static unsigned nb_nourriture = 0;
 static unsigned l = 0;
 
 int nourriture_nb_nourriture(char tab[MAX_LINE]) {
-	unsigned test = 0;
+    unsigned test = 0;
     if(sscanf(tab, " %u", &test) == REUSSI){
         sscanf(tab, " %u", &nb_nourriture);
         if (nb_nourriture == 0) return L_COMPLETE;
@@ -41,35 +43,57 @@ int nourriture_nb_nourriture(char tab[MAX_LINE]) {
 }
 
 int nourriture_lecture(char tab[MAX_LINE]) {
-	unsigned k = 0;
-	double test = 0.;
-	char check[MAX_LINE];
+    NOURRITURE* nourri;
+    unsigned k = 0;
+    double x = 0., y = 0.;
+    double test = 0.;
+    char check[MAX_LINE];
     sscanf(tab, " %s", check);
     if((strcmp(check, "FIN_LISTE") == ECHEC)
-		&& (l < nb_nourriture))
+       && (l < nb_nourriture))
     {
         error_lecture_elements_nourriture(ERR_PAS_ASSEZ);
         return L_EXIT;
     }
     if(strcmp(check, "FIN_LISTE") == ECHEC)
-		return L_COMPLETE;
+        return L_COMPLETE;
     if(sscanf(tab, " %lf", &test) == ECHEC) return L_NOURRITURE;
     char *deb=tab, *fin=NULL;
-    while(sscanf(deb, "%*[ \t]%lf %lf", &tab_nourriture[l].x, 
-		  &tab_nourriture[l].y) == NB_ELEMENTS_NOURRITURE) {
+    while(sscanf(deb, "%*[ \t]%lf %lf", &x, &y) == NB_ELEMENTS_NOURRITURE) {
+        nourri = ajouter_nourriture(&p_nourriture);
+        if (nourri == NULL) return L_EXIT;
+        nourri->x = x;
+        nourri->y = y;
         for (k = 0; k < NB_ELEMENTS_NOURRITURE; k++) {
-			strtod(deb,&fin);
-			deb = fin;
-		}
-		l=l+1;
+            strtod(deb,&fin);
+            deb = fin;
+        }
+        l=l+1;
     }
     if (l > nb_nourriture) {
-		error_lecture_elements_nourriture(ERR_TROP);
-		return L_EXIT;
-	}
-    return L_NOURRITURE;            
+        error_lecture_elements_nourriture(ERR_TROP);
+        return L_EXIT;
+    }
+    return L_NOURRITURE;
+}
+
+NOURRITURE * ajouter_nourriture ( NOURRITURE ** p_tete )
+{
+    NOURRITURE * nour = NULL;
+    
+    if (!(nour = (NOURRITURE *) malloc (sizeof(NOURRITURE))))
+    {
+        printf ("Pb d'allocation dans %s\n", __func__);
+        return nour;
+    }
+    
+    nour->next = *p_tete;
+    *p_tete		= nour;
+    
+    return nour;
 }
 
 void add_new_food(float pos_x, float pos_y) {
     
 }
+
