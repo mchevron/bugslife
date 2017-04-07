@@ -31,6 +31,8 @@
 #define BLANK           0
 #define RUN             1
 #define STEP            0
+#define MODE_SIMPLE		1
+#define MODE_SPECIFIQUE 3
 
 /********** User IDs pour les fonctions callback ********/
 #define BUTTON1_ID 01

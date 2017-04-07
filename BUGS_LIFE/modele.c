@@ -20,29 +20,27 @@
 #define COMPLETE	0
 #define EXIT		1
 
-int modele_lecture(int argc, const char *argv[])
+int modele_lecture(char nom_fichier[])
 {
     char tab[MAX_LINE];
     unsigned i=0;     			// indice fourmiliere
     unsigned etape_lecture=0;
+    char test;
     FILE *fentree;
     
-    if (argc != 2) {
-        error_fichier_inexistant();
-        return EXIT_FAILURE;
-    }
-                                         
-    fentree = fopen(argv[1], "r");
+    fentree = fopen(nom_fichier, "r");
     if (fentree==NULL) {
         error_fichier_inexistant();
         return EXIT_FAILURE;
     }
     
-    while(fgets(tab, MAX_LINE, fentree) != NULL|
-          etape_lecture == L_COMPLETE|
-          etape_lecture == L_EXIT)
+    while((fgets(tab, MAX_LINE, fentree) != NULL)||
+          (etape_lecture == L_COMPLETE)||
+          (etape_lecture == L_EXIT))
     {
         if((tab[DEBUT]=='#')||(tab[DEBUT]=='\n')||(tab[DEBUT]=='\r'))
+            continue;
+        if (sscanf(tab, " %c", &test), test == '#')
             continue;
         switch(etape_lecture)
         {
@@ -79,9 +77,14 @@ int modele_lecture(int argc, const char *argv[])
     return EXIT;
 }
 
-int modele_update(const char *argv[]) {
+int modele_verification_rendu2(void) {
+    //if (fourmiliere_test_superposition()) return EXIT;
+    return COMPLETE;
+}
+
+void modele_update(char *argv[]) {
     //free memory
-    return modele_lecture(BLANK, argv);
+    //return modele_lecture(nom_fichier);
 }
 
 void new_food(float pos_x, float pos_y) {

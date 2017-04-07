@@ -174,7 +174,27 @@ void idle_cb()
 /*------------------------------------------------------------------*/
 int main(int argc, char *argv[])
 {
-    //if(modele_lecture(argc, argv)) return EXIT_FAILURE;
+    switch (argc) {
+        case MODE_SIMPLE:
+            
+            break;
+        case MODE_SPECIFIQUE:
+            if (strcmp(argv[1], "Error") == 0){
+                if (modele_lecture(argv[2])) return EXIT_FAILURE;
+            }
+            else if (strcmp(argv[1] , "Verification") == 0)
+                if (modele_verification_rendu2()) return EXIT_FAILURE;
+            //~ if (argv[1] == "Graphic")
+            
+            //~if (argv[1] == "Final")
+            break;
+        default:
+            printf("usage : \"%s mode_test nom_fichier\" ou \"%s\"\n"
+                   ,argv[0],argv[0]);
+            return EXIT_FAILURE;
+    }
+    
+    return EXIT_SUCCESS;
     
     /**********************/ /* GLUT */ /**********************/
     glutInit(&argc, argv);
