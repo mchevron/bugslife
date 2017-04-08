@@ -29,8 +29,6 @@ namespace {
     //GLUI
     char text[200] = "Fileinput";
     int run = 0;
-    FILE *fentree;
-    FILE *fsortie;
     GLUI_EditText *edittext1;
     GLUI_EditText *edittext2;
     GLUI_Checkbox *checkbox;
@@ -46,37 +44,48 @@ void control_cb(int control)
     printf( "callback: %d\n", control );
     switch (control)
     {
-        case (BUTTON1_ID):
+        case (BUTTON1_ID): {
             //remplace la simulation par le contenu du fichier
             printf("modele_update\n one step\n");
-            //const char *filepath = edittext1->get_text();
-            //if(modele_update(filepath) return EXIT_FAILURE
+            const char *fentree = edittext1->get_text();
+            //remplace la simulation par le contenu du fichier
+            printf("%s\n", fentree);
+            //if(modele_update(fentree) return EXIT_FAILURE;
             break;
-        case (BUTTON2_ID):
-            // sauvegarde();
+        }
+        case (BUTTON2_ID): {
+            const char* fsortie = edittext2->get_text();
+            printf("%c\n", *fsortie);
+            //sauvegarde(fsortie);
             break;
-        case (RADIOBUTTON_ID):
+        }
+        case (RADIOBUTTON_ID): {
             printf("radio group: %d\n", radio->get_int_val() );
             if (radio->get_int_val() == AUTOMATIC) {
                 // automatic food creation
             }
             break;
-        case (BUTTON3_ID):
+        }
+        case (BUTTON3_ID): {
             // start ! simulation
             printf("start !\n");
             run = RUN;
             break;
-        case (BUTTON4_ID):
+        }
+        case (BUTTON4_ID): {
             // step simulation
             printf("modele_update\n one step\n");
             run = STEP;
             break;
-        case (CHECKBOX_ID):
+        }
+        case (CHECKBOX_ID): {
             // record simulation
             break;
-        default:
+        }
+        default: {
             printf("\n Unknown command\n");
             break;
+        }
     }
 }
 
@@ -98,15 +107,6 @@ void display_cb(){
         glOrtho(-DMAX*aspect_ratio, DMAX*aspect_ratio, -DMAX, DMAX, -1.0, 1.0);
     
     modele_dessine_complet();
-    
-    //boucle pour chaque fourmillère
-        //graphic_set_color3f (1., 0., 0.);
-        //graphic_draw_circle (2., 5., 10, GRAPHIC_EMPTY);
-        //boucle pour chaque ouvrière
-
-        //boucle pour chaque garde
-
-    //boucle pour chaque nourriture
 
     glutSwapBuffers();
 }
@@ -136,23 +136,7 @@ void processMouse(int button, int state, int x, int y)
         pos_x = -DMAX + ((double) x/width)*(DMAX+DMAX);
         pos_y = -DMAX + ((double) (height -y)/height)*(DMAX+DMAX);
         new_food(pos_x, pos_y);
-        //glutSwapBuffers();
-        //graphic_set_color3f (0., 0., 0.);
-        //graphic_draw_circle (pos_x, pos_y , RAYON_FOOD, GRAPHIC_EMPTY);
-        //glutSwapBuffers();
     }
-}
-
-/*------------------------------------------------------------------*/
-/*
- *mémorise l'état actuel de la simulation
- */
-void sauvegarde()
-{
-    fsortie = fopen(edittext2->get_text(), "w");
-    //fgets(chaine, 60);
-    //fputs(chaine, sortie);
-    fclose(fsortie);
 }
 
 /*------------------------------------------------------------------*/
@@ -177,14 +161,12 @@ int main(int argc, char *argv[])
             
             break;
         case MODE_SPECIFIQUE:
-            if (strcmp(argv[1], "Error") == 0){
-                if (modele_lecture(argv[2])) return EXIT_FAILURE;
+            if ((strcmp(argv[1], "Error") == 0) ||
+                (strcmp(argv[1] , "Verification") == 0)
+                || (strcmp(argv[1], "Graphic") == 0)
+                || (strcmp(argv[1], "Final") == 0)){
+                if (modele_lecture(argv[1], argv[2])) return EXIT_FAILURE;
             }
-            else if (strcmp(argv[1] , "Verification") == 0)
-                if (modele_verification_rendu2()) return EXIT_FAILURE;
-            //~ if (argv[1] == "Graphic")
-            
-            //~if (argv[1] == "Final")
             break;
         default:
             printf("usage : \"%s mode_test nom_fichier\" ou \"%s\"\n"
@@ -253,9 +235,9 @@ int main(int argc, char *argv[])
     GLUI_Panel *info[MAX_FOURMILIERE];
     for(i=0; i<10; i=i+1) {
         info[i] = glui->add_panel_to_panel(information_rollout, "", GLUI_PANEL_NONE);
-        glui->add_statictext_to_panel(info[i], (char*) "Couleur");
+        glui->add_statictext_to_panel(info[i], "RED");
         glui->add_column_to_panel(info[i]);
-        glui->add_statictext_to_panel(info[i], (int*) get_info_rollout(NB_FOURMILIERE));
+        glui->add_statictext_to_panel(info[i],  get_info_rollout(NB_FOURMI));
         glui->add_column_to_panel(info[i]);
         glui->add_statictext_to_panel(info[i], (char*) "Ouvrières");
         glui->add_column_to_panel(info[i]);
@@ -263,6 +245,7 @@ int main(int argc, char *argv[])
         glui->add_column_to_panel(info[i]);
         glui->add_statictext_to_panel(info[i], (char*) "Nourriture");
     }
+    glui->add_separator_to_panel(information_rollout );
     
     glui->set_main_gfx_window(main_window);
     

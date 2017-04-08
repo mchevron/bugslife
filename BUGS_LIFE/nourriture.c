@@ -101,13 +101,18 @@ void add_new_food(float pos_x, float pos_y) {
 void nourriture_dessine() {
     int i=0;
     graphic_set_color3f (0., 0., 0.);
+    NOURRITURE * courant = p_nourriture;
     for(i=0; i<nb_nourriture; i=i+1) {
-        NOURRITURE * courant = p_nourriture;
         graphic_draw_circle (courant->x, courant->y,
                              RAYON_FOOD, GRAPHIC_EMPTY);
-        courant = courant->next; /* courant devient nul après le premier
-                                  passage. Comme s'il n'y avait pas d'adresse 
-                                  stockée dans next ... une idée?  */
+        courant = courant->next;
     }
+}
+
+void nourriture_save(FILE *f_sortie) {
+    char chaine[MAX_LINE];
+    chaine[0] = nb_nourriture;
+    // chaine[1] = "\n";
+    fputs(chaine, f_sortie);
 }
 

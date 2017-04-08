@@ -12,16 +12,17 @@ typedef enum etape_lecture {
 } ETAPE_LECTURE;
 
 typedef enum get_info {
-    NB_FOURMILIERE
+    NB_FOURMI
 } GET_INFO;
 
-int modele_lecture(char nom_fichier[]);
+int modele_lecture(char mode[], char nom_fichier[]);
+int modele_lecture_fichier(char nom_fichier[]);
+int modele_update(char *fentree);
 int modele_verification_rendu2(void);
-
-void modele_update(char *argv[]);
 
 void new_food(float pos_x, float pos_y);
 
 void modele_dessine_complet();
 
-int get_info_rollout(int info);
+char* get_info_rollout(int info);
+void sauvegarde(char *fsortie);

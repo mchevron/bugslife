@@ -9,11 +9,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #include "error.h"
 #include "fourmi.h"
 #include "fourmiliere.h"
 #include "modele.h"
 #include "graphic.h"
+#include "constantes.h"
 
 
 #define NB_ELEMENTS_FOURMILIERE 6
@@ -152,19 +154,94 @@ FOURMI * ajouter_fourmi ( FOURMI ** p_tete )
         printf ("Pb d'allocation dans %s\n", __func__);
         return four;								
     }
-    
     four->next = *p_tete;
     *p_tete		= four;
     
     return four;
 }
 
-void test_superposition_fourmi() {
-    
+int fourmi_test_superposition( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
+                              char type1[], char type2[], unsigned i, unsigned j ){
+    printf ("Je suis dans %s\n", __func__);
+    FOURMI * frm1 = p_frm_frml1;
+    FOURMI * frm2 = NULL;
+    //printf("%lf %lf\n", frm1->ouvriere.posx, frm2->ouvriere.posx);
+    if((strcmp(type1, "OUVRIERE") == ECHEC) && (strcmp(type1, "OUVRIERE") == ECHEC)){
+        while (frm1 != NULL){
+            frm2 = p_frm_frml2;
+            while (frm2 != NULL){
+                double distance = utilitaire_calcul_distance(frm1->ouvriere.posx,
+                                                             frm2->ouvriere.posx,
+                                                             frm1->ouvriere.posy,
+                                                             frm2->ouvriere.posy);
+                if (distance - (RAYON_FOURMI + RAYON_FOURMI) <= 0){
+                    error_superposition_fourmi(ERR_OUVRIERE, i, frm1->ouvriere.id,
+                                               ERR_OUVRIERE, j, frm2->ouvriere.id);
+                    return  VRAI;
+                }
+                frm2 = frm2->next;
+            }
+            frm1 = frm1->next;
+            //printf("%lf %lf\n", frm1->ouvriere.posx, frm2->ouvriere.posx);
+        }
+    }
+    else if((strcmp(type1, "GARDE") == ECHEC) && (strcmp(type1, "OUVRIERE") == ECHEC)){
+        while (frm1 != NULL){
+            while (frm2 != NULL){
+                double distance = utilitaire_calcul_distance(frm1->garde.x,
+                                                             frm2->ouvriere.posx,
+                                                             frm1->garde.y,
+                                                             frm2->ouvriere.posy);
+                if (distance - (RAYON_FOURMI + RAYON_FOURMI) <= 0){
+                    error_superposition_fourmi(ERR_GARDE, i, frm1->garde.id,
+                                               ERR_OUVRIERE, j, frm2->ouvriere.id);
+                    return  VRAI;
+                }
+                frm2 = frm2->next;
+            }
+            frm1 = frm1->next;
+        }
+    }
+    else if((strcmp(type1, "OUVRIERE") == ECHEC) && (strcmp(type1, "GARDE") == ECHEC)){
+        while (frm1 != NULL){
+            while (frm2 != NULL){
+                double distance = utilitaire_calcul_distance(frm1->ouvriere.posx,
+                                                             frm2->garde.x,
+                                                             frm1->ouvriere.posy,
+                                                             frm2->garde.y);
+                if (distance - (RAYON_FOURMI + RAYON_FOURMI) <= 0){
+                    error_superposition_fourmi(ERR_OUVRIERE, i, frm1->ouvriere.id,
+                                               ERR_GARDE, j, frm2->garde.id);
+                    return  VRAI;				
+                }
+                frm2 = frm2->next;
+            }
+            frm1 = frm1->next;
+        }
+    }
+    else if ((strcmp(type1, "GARDE") == ECHEC) && (strcmp(type1, "GARDE") == ECHEC)){
+        while (frm1 != NULL){
+            while (frm2 != NULL){
+                double distance = utilitaire_calcul_distance(frm1->garde.x, 
+                                                             frm2->garde.x,
+                                                             frm1->garde.y,
+                                                             frm2->garde.y);
+                if (distance - (RAYON_FOURMI + RAYON_FOURMI) <= 0){
+                    error_superposition_fourmi(ERR_GARDE, i, frm1->garde.id,
+                                               ERR_GARDE, j, frm2->garde.id);
+                    return  VRAI;				
+                }
+                frm2 = frm2->next;
+            }
+            frm1 = frm1->next;
+        }
+    }
+    return FAUX;
 }
 
 void fourmi_dessine(unsigned nb_fourmiliere, FOURMILIERE * p_fourmiliere) {
-    int i = 0, j = 0, k = 0;
+    int i = 0, j = 0;
+    /*
     for(i=0; i<nb_fourmiliere; i=i+1) {
         graphic_find_color ((p_fourmiliere+i)->id);
         for(j=0; j<p_fourmiliere->nbO; j=j+1) {
@@ -172,21 +249,21 @@ void fourmi_dessine(unsigned nb_fourmiliere, FOURMILIERE * p_fourmiliere) {
                                  (p_fourmiliere+i)->p_fourmi_ouvriere->ouvriere.posy,
                                  RAYON_FOURMI, GRAPHIC_EMPTY);
         }
-        k = p_fourmiliere->nbG;
+        FOURMI * courant = (p_fourmiliere+i)->p_fourmi_garde;
         for(j=0; j<p_fourmiliere->nbG; j=j+1) {
-            k = ((p_fourmiliere+i)->p_fourmi_garde+j)->garde.x;
-            graphic_draw_circle (((p_fourmiliere+i)->p_fourmi_garde+j)->garde.x,
-                                 ((p_fourmiliere+i)->p_fourmi_garde+j)->garde.y,
+            graphic_draw_circle (courant->garde.x,
+                                 courant->garde.y,
                                  RAYON_FOURMI, GRAPHIC_FILLED);
             graphic_set_color3f (0., 0., 0.);
-            graphic_draw_circle (((p_fourmiliere+i)->p_fourmi_garde+j)->garde.x,
-                                 ((p_fourmiliere+i)->p_fourmi_garde+j)->garde.y,
-                                 RAYON_FOURMI, GRAPHIC_EMPTY); /* Cette methode ne 
-                                fonctionne pas parce que l'adresse de la prochaine garde 
-                                n'est pas à garde+j ... une idée? 
-                                Il faudra faire la même chose pour nourriture et 
-                                ouvrières */
-            graphic_find_color ((p_fourmiliere+i)->id);
+            graphic_draw_circle (courant->garde.x,
+                                 courant->garde.y,
+                                RAYON_FOURMI, GRAPHIC_FILLED);
+            courant = courant->next;
+            //graphic_find_color ((p_fourmiliere+i)->id);
         }
-    }
+    } */
+}
+
+void fourmi_save(FILE *f_sortie) {
+    
 }

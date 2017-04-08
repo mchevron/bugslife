@@ -20,7 +20,23 @@
 #define COMPLETE	0
 #define EXIT		1
 
-int modele_lecture(char nom_fichier[])
+int modele_lecture(char mode[], char nom_fichier[]){
+    if (strcmp(mode, "Error") == 0){
+        if (modele_lecture_fichier(nom_fichier)) return EXIT;
+        else {
+            error_success();
+            return COMPLETE;
+        }
+    }
+    else if (!(modele_lecture_fichier(nom_fichier)))
+    {
+        if (modele_verification_rendu2())
+            return EXIT;
+    }
+    return COMPLETE;
+}
+
+int modele_lecture_fichier(char nom_fichier[])
 {
     char tab[MAX_LINE];
     unsigned i=0;     			// indice fourmiliere
@@ -78,13 +94,14 @@ int modele_lecture(char nom_fichier[])
 }
 
 int modele_verification_rendu2(void) {
-    //if (fourmiliere_test_superposition()) return EXIT;
+    if (fourmiliere_test_superposition()) return EXIT;
     return COMPLETE;
 }
 
-void modele_update(char *argv[]) {
+int modele_update(char *fentree) {
     //free memory
     //return modele_lecture(nom_fichier);
+    return 0;
 }
 
 void new_food(float pos_x, float pos_y) {
@@ -96,12 +113,19 @@ void modele_dessine_complet() {
     nourriture_dessine();
 }
 
-int get_info_rollout(int info) {
+char* get_info_rollout(int info) {
     switch(info)
     {
-        case NB_FOURMILIERE:
-            return get_nb_fourmiliere();
+        case NB_FOURMI:
+            return get_nb_fourmis();
             break;
     }
-    return get_nb_fourmiliere();
+    return get_nb_fourmis();
+}
+
+void sauvegarde(char *fsortie) {
+    FILE *f_sortie = fopen(fsortie, "w");
+    fourmiliere_save(f_sortie);
+    nourriture_save(f_sortie);
+    fclose(f_sortie);
 }

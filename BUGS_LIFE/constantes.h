@@ -28,12 +28,14 @@
 #define GRAPHIC_FILLED  1
 #define AUTOMATIC       0
 #define INFO_COLONNES   4
+#define INFO            5
 #define BLANK           0
 #define RUN             1
 #define STEP            0
 #define MODE_SIMPLE		1
 #define MODE_SPECIFIQUE 3
 #define RGB             3
+#define ECHEC           0
 
 /********** User IDs pour les fonctions callback ********/
 #define BUTTON1_ID 01
