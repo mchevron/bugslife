@@ -85,7 +85,10 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE])
                                (p_fourmiliere+i)->rayon)) return L_EXIT;
     if (utilitaire_test_pos_domaine(ERR_FOURMILIERE, i, (p_fourmiliere+i)->x,
                                     (p_fourmiliere+i)->y)) return L_EXIT;
-    return L_OUVRIERE;
+    if((p_fourmiliere+i)->nbO > 0) return L_OUVRIERE;
+    if((p_fourmiliere+i)->nbG > 0) return L_GARDE;
+    if((p_fourmiliere+i)->nbF == 0) return L_NB_NOURRITURE;
+    else return L_EXIT;
 }
 
 int fourmiliere_ouvriere_lecture_precontrol(unsigned i, unsigned j, 
@@ -211,7 +214,7 @@ void fourmilieres_dessine() {
 }
 
 char* get_nb_fourmis() {
-    char nb[INFO];
+    char nb[5];
     sprintf(nb, "%d", p_fourmiliere->nbF);
     return nb;
 }

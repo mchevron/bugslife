@@ -105,7 +105,7 @@ int modele_update(char *fentree) {
 }
 
 void new_food(float pos_x, float pos_y) {
-    add_new_food(pos_x, pos_y);
+    clique_nourriture(pos_x, pos_y);
 }
 
 void modele_dessine_complet() {
@@ -113,9 +113,13 @@ void modele_dessine_complet() {
     nourriture_dessine();
 }
 
-char* get_info_rollout(int info) {
+char* get_info_rollout(unsigned info, unsigned i, char* data_glui) {
+    char* j = graphic_get_color(i, data_glui);
     switch(info)
     {
+        case COLOR:
+            return graphic_get_color(i, data_glui);
+            break;
         case NB_FOURMI:
             return get_nb_fourmis();
             break;

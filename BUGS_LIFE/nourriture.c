@@ -94,18 +94,24 @@ NOURRITURE * ajouter_nourriture ( NOURRITURE ** p_tete )
     return nour;
 }
 
-void add_new_food(float pos_x, float pos_y) {
-    
+void clique_nourriture(float pos_x, float pos_y) {
+    NOURRITURE* nourri;
+    nourri = ajouter_nourriture(&p_nourriture);
+    nourri->x = pos_x;
+    nourri->y = pos_y;
+    nb_nourriture++;
 }
 
 void nourriture_dessine() {
-    int i=0;
-    graphic_set_color3f (0., 0., 0.);
-    NOURRITURE * courant = p_nourriture;
-    for(i=0; i<nb_nourriture; i=i+1) {
-        graphic_draw_circle (courant->x, courant->y,
-                             RAYON_FOOD, GRAPHIC_EMPTY);
-        courant = courant->next;
+    if(nb_nourriture != 0) {
+        int i=0;
+        graphic_set_color3f (0., 0., 0.);
+        NOURRITURE * courant = p_nourriture;
+        for(i=0; i<nb_nourriture; i=i+1) {
+            graphic_draw_circle (courant->x, courant->y,
+                                 RAYON_FOOD, GRAPHIC_EMPTY);
+            courant = courant->next;
+        }
     }
 }
 

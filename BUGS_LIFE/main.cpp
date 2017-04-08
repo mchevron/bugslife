@@ -136,6 +136,7 @@ void processMouse(int button, int state, int x, int y)
         pos_x = -DMAX + ((double) x/width)*(DMAX+DMAX);
         pos_y = -DMAX + ((double) (height -y)/height)*(DMAX+DMAX);
         new_food(pos_x, pos_y);
+        glutPostRedisplay();
     }
 }
 
@@ -185,68 +186,71 @@ int main(int argc, char *argv[])
     glutMouseFunc(processMouse);
     
     /**********************/ /* GLUI */ /**********************/
-    GLUI *glui = GLUI_Master.create_glui((char*) "Bug's Life", 0, 600, 50 );
+    GLUI *glui = GLUI_Master.create_glui( "Bug's Life", 0, 600, 50 );
     
     // file panel
-    GLUI_Panel *File_panel = glui->add_panel((char*) "File" );
-    edittext1 = glui->add_edittext_to_panel(File_panel, (char*)"FileName:",
+    GLUI_Panel *File_panel = glui->add_panel( "File" );
+    edittext1 = glui->add_edittext_to_panel(File_panel, "FileName:",
                                             GLUI_EDITTEXT_TEXT, text,
                                             EDITTEXT_ID, control_cb);
-    glui->add_button_to_panel(File_panel, (char*) "Open", BUTTON1_ID, control_cb);
-    edittext2 = glui->add_edittext_to_panel(File_panel, (char*)"FileName:",
+    glui->add_button_to_panel(File_panel,  "Open", BUTTON1_ID, control_cb);
+    edittext2 = glui->add_edittext_to_panel(File_panel, "FileName:",
                                             GLUI_EDITTEXT_TEXT, text,
                                             EDITTEXT_ID, control_cb);
-    glui->add_button_to_panel(File_panel, (char*) "Save", BUTTON2_ID, control_cb);
+    glui->add_button_to_panel(File_panel,  "Save", BUTTON2_ID, control_cb);
     
     // Food creation radiobutton
-    GLUI_Panel *food_creation_panel = glui->add_panel((char*) "Food Creation" );
+    GLUI_Panel *food_creation_panel = glui->add_panel( "Food Creation" );
     radio = glui->add_radiogroup_to_panel(
                                           food_creation_panel, NULL, RADIOBUTTON_ID,
                                           control_cb);
-    glui->add_radiobutton_to_group( radio,(char*) "Automatic" );
-    glui->add_radiobutton_to_group( radio,(char*) "Manual" );
+    glui->add_radiobutton_to_group( radio, "Automatic" );
+    glui->add_radiobutton_to_group( radio, "Manual" );
     
     // simulation panel
-    GLUI_Panel *simulation_panel = glui->add_panel((char*) "File" );
-    glui->add_button_to_panel(simulation_panel, (char*) "Start !", BUTTON3_ID,
+    GLUI_Panel *simulation_panel = glui->add_panel( "File" );
+    glui->add_button_to_panel(simulation_panel,  "Start !", BUTTON3_ID,
                               control_cb);
-    glui->add_button_to_panel(simulation_panel, (char*) "Step", BUTTON4_ID,
+    glui->add_button_to_panel(simulation_panel,  "Step", BUTTON4_ID,
                               control_cb);
-    checkbox = glui->add_checkbox_to_panel(simulation_panel, (char*)"Record",NULL,
+    checkbox = glui->add_checkbox_to_panel(simulation_panel, "Record",NULL,
                                             CHECKBOX_ID, control_cb);
     
-    glui->add_button((char*) "Exit", 0, exit);
+    glui->add_button( "Exit", 0, exit);
     
     // Information rollout
     glui->add_column();
-    GLUI_Panel *information_rollout = glui->add_rollout((char*) "Information");
+    GLUI_Panel *information_rollout = glui->add_rollout( "Information");
     GLUI_Panel *titles = glui->add_panel_to_panel(information_rollout, "", GLUI_PANEL_NONE);
-    glui->add_statictext_to_panel(titles, (char*) "Couleur");
+    glui->add_statictext_to_panel(titles, "Couleur");
     glui->add_column_to_panel(titles);
-    glui->add_statictext_to_panel(titles, (char*) "Fourmis total");
+    glui->add_statictext_to_panel(titles, "Fourmis total");
     glui->add_column_to_panel(titles);
-    glui->add_statictext_to_panel(titles, (char*) "Ouvrières");
+    glui->add_statictext_to_panel(titles, "Ouvrières");
     glui->add_column_to_panel(titles);
-    glui->add_statictext_to_panel(titles, (char*) "Gardes");
+    glui->add_statictext_to_panel(titles, "Gardes");
     glui->add_column_to_panel(titles);
-    glui->add_statictext_to_panel(titles, (char*) "Nourriture");
+    glui->add_statictext_to_panel(titles, "Nourriture");
     
+    /*
     int i = 0;
     GLUI_Panel *info[MAX_FOURMILIERE];
+    char* data_glui = NULL;
     for(i=0; i<10; i=i+1) {
-        info[i] = glui->add_panel_to_panel(information_rollout, "", GLUI_PANEL_NONE);
-        glui->add_statictext_to_panel(info[i], "RED");
-        glui->add_column_to_panel(info[i]);
-        glui->add_statictext_to_panel(info[i],  get_info_rollout(NB_FOURMI));
-        glui->add_column_to_panel(info[i]);
-        glui->add_statictext_to_panel(info[i], (char*) "Ouvrières");
-        glui->add_column_to_panel(info[i]);
-        glui->add_statictext_to_panel(info[i], (char*) "Gardes");
-        glui->add_column_to_panel(info[i]);
-        glui->add_statictext_to_panel(info[i], (char*) "Nourriture");
+        *info = glui->add_panel_to_panel(information_rollout, "", GLUI_PANEL_NONE);
+        char* j = get_info_rollout(COLOR, i, data_glui);
+        glui->add_statictext_to_panel(*info, get_info_rollout(COLOR, i, data_glui));
+        glui->add_column_to_panel(*info);
+        glui->add_statictext_to_panel(*info, get_info_rollout(NB_FOURMI, i, data_glui));
+        glui->add_column_to_panel(*info);
+        glui->add_statictext_to_panel(*info, "Ouvrières");
+        glui->add_column_to_panel(*info);
+        glui->add_statictext_to_panel(*info, "Gardes");
+        glui->add_column_to_panel(*info);
+        glui->add_statictext_to_panel(*info, "Nourriture");
     }
     glui->add_separator_to_panel(information_rollout );
-    
+    */
     glui->set_main_gfx_window(main_window);
     
     //Callbacks

@@ -241,27 +241,32 @@ int fourmi_test_superposition( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
 
 void fourmi_dessine(unsigned nb_fourmiliere, FOURMILIERE * p_fourmiliere) {
     int i = 0, j = 0;
-    /*
     for(i=0; i<nb_fourmiliere; i=i+1) {
         graphic_find_color ((p_fourmiliere+i)->id);
-        for(j=0; j<p_fourmiliere->nbO; j=j+1) {
-            graphic_draw_circle ((p_fourmiliere+i)->p_fourmi_ouvriere->ouvriere.posx,
-                                 (p_fourmiliere+i)->p_fourmi_ouvriere->ouvriere.posy,
-                                 RAYON_FOURMI, GRAPHIC_EMPTY);
+        if((p_fourmiliere+i)->nbO != 0) {
+            FOURMI * courant_o = (p_fourmiliere+i)->p_fourmi_ouvriere;
+            for(j=0; j<(p_fourmiliere+i)->nbO; j=j+1) {
+                graphic_draw_circle (courant_o->ouvriere.posx,
+                                     courant_o->ouvriere.posy,
+                                     RAYON_FOURMI, GRAPHIC_EMPTY);
+                courant_o = courant_o->next;
+            }
         }
-        FOURMI * courant = (p_fourmiliere+i)->p_fourmi_garde;
-        for(j=0; j<p_fourmiliere->nbG; j=j+1) {
-            graphic_draw_circle (courant->garde.x,
-                                 courant->garde.y,
-                                 RAYON_FOURMI, GRAPHIC_FILLED);
-            graphic_set_color3f (0., 0., 0.);
-            graphic_draw_circle (courant->garde.x,
-                                 courant->garde.y,
-                                RAYON_FOURMI, GRAPHIC_FILLED);
-            courant = courant->next;
-            //graphic_find_color ((p_fourmiliere+i)->id);
+        if((p_fourmiliere+i)->nbG != 0) {
+            FOURMI * courant_g = (p_fourmiliere+i)->p_fourmi_garde;
+            for(j=0; j<(p_fourmiliere+i)->nbG; j=j+1) {
+                graphic_draw_circle (courant_g->garde.x,
+                                     courant_g->garde.y,
+                                     RAYON_FOURMI, GRAPHIC_FILLED);
+                graphic_set_color3f (0., 0., 0.);
+                graphic_draw_circle (courant_g->garde.x,
+                                     courant_g->garde.y,
+                                     RAYON_FOURMI, GRAPHIC_EMPTY);
+                courant_g = courant_g->next;
+                graphic_find_color ((p_fourmiliere+i)->id);
+            }
         }
-    } */
+    }
 }
 
 void fourmi_save(FILE *f_sortie) {

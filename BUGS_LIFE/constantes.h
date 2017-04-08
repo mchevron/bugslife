@@ -36,6 +36,7 @@
 #define MODE_SPECIFIQUE 3
 #define RGB             3
 #define ECHEC           0
+#define COLOR_MAX_LENGTH 11
 
 /********** User IDs pour les fonctions callback ********/
 #define BUTTON1_ID 01

@@ -12,7 +12,7 @@ typedef enum etape_lecture {
 } ETAPE_LECTURE;
 
 typedef enum get_info {
-    NB_FOURMI
+    COLOR, NB_FOURMI
 } GET_INFO;
 
 int modele_lecture(char mode[], char nom_fichier[]);
@@ -24,5 +24,5 @@ void new_food(float pos_x, float pos_y);
 
 void modele_dessine_complet();
 
-char* get_info_rollout(int info);
+char* get_info_rollout(unsigned info, unsigned i, char* data_glui);
 void sauvegarde(char *fsortie);
