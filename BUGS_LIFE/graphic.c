@@ -52,13 +52,3 @@ void graphic_find_color (unsigned i) {
                                          {128,0,128}};
     graphic_set_color3f(color[i][0], color[i][1], color[i][2]);
 }
-
-char* graphic_get_color(unsigned i, char* data_glui) {
-    char color_name[MAX_FOURMILIERE][COLOR_MAX_LENGTH] = {"RED", "GREEN", "BLUE",
-                                                          "YELLOW", "CYAN",
-                                                          "MAGENTA", "GREY",
-                                                          "ORANGE", "DARK_GREEN",
-                                                          "PURPLE"};
-    data_glui = &color_name[i][0];
-    return data_glui;
-}

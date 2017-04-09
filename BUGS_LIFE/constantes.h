@@ -31,26 +31,23 @@
 #define INFO            5
 #define BLANK           0
 #define RUN             1
-#define STEP            0
 #define MODE_SIMPLE		1
 #define MODE_SPECIFIQUE 3
 #define RGB             3
 #define ECHEC           0
-#define COLOR_MAX_LENGTH 11
+#define MAX_LENGTH      20
+#define EMPTY           1
 
 /********** User IDs pour les fonctions callback ********/
-#define BUTTON1_ID 01
-#define BUTTON2_ID 02
-#define BUTTON3_ID 03
-#define BUTTON4_ID 04
-#define BUTTON5_ID 05
-#define CHECKBOX_ID 10
-#define CHECKBOX1_ID 11
-#define CHECKBOX2_ID 12
-#define CHECKBOX3_ID 13
-#define SPINNER1_ID 21
-#define SPINNER2_ID 22
-#define EDITTEXT_ID 31
-#define RADIOBUTTON_ID 41
+#define FILE_NAME_OPEN  01
+#define OPEN            02
+#define FILE_NAME_SAVE  03
+#define SAVE            04
+#define START           05
+#define STEP            06
+#define EXIT            07
+#define RECORD          11
+#define AUTO_MAN        12
+
 
 #endif

@@ -113,18 +113,8 @@ void modele_dessine_complet() {
     nourriture_dessine();
 }
 
-char* get_info_rollout(unsigned info, unsigned i, char* data_glui) {
-    char* j = graphic_get_color(i, data_glui);
-    switch(info)
-    {
-        case COLOR:
-            return graphic_get_color(i, data_glui);
-            break;
-        case NB_FOURMI:
-            return get_nb_fourmis();
-            break;
-    }
-    return get_nb_fourmis();
+char* modele_get_info_glui(unsigned info, unsigned i) {
+    return fourmiliere_get_info_rollout(info, i);
 }
 
 void sauvegarde(char *fsortie) {

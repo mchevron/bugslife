@@ -39,6 +39,7 @@ struct fourmiliere
 
 static FOURMILIERE * p_fourmiliere = NULL;
 static int nb_fourmiliere;
+static char info_glui[MAX_LENGTH];
 
 int fourmiliere_nb_fourmiliere(char tab[MAX_LINE]) {
     sscanf(tab, "%d", &nb_fourmiliere);
@@ -213,10 +214,56 @@ void fourmilieres_dessine() {
     fourmi_dessine(nb_fourmiliere, p_fourmiliere);
 }
 
-char* get_nb_fourmis() {
-    char nb[5];
-    sprintf(nb, "%d", p_fourmiliere->nbF);
-    return nb;
+char* fourmiliere_get_info_rollout(unsigned info, unsigned i) {
+    static int nbF_T = 0, nbO_T = 0, nbG_T = 0, total_food_T = 0;
+    char empty[EMPTY] = "";
+    if(i<nb_fourmiliere) {
+        switch(info)
+        {
+            case COLOR:
+                printf("test");
+                char color_name[MAX_FOURMILIERE][MAX_LENGTH] = {"Red", "Green",
+                    "Blue", "Yellow", "Cyan", "Magenta", "Grey", "Orange",
+                    "Dark_green", "Purple"};
+                char* color = color_name[i];
+                sprintf(info_glui, "%s", color);
+                break;
+            case NB_FOURMI:
+                sprintf(info_glui, "%d", (p_fourmiliere+i)->nbF);
+                nbF_T = nbF_T + (p_fourmiliere+i)->nbF;
+                break;
+            case NB_OUVRIERE:
+                sprintf(info_glui, "%d", (p_fourmiliere+i)->nbO);
+                nbO_T = nbO_T + (p_fourmiliere+i)->nbO;
+                break;
+            case NB_GARDE:
+                sprintf(info_glui, "%d", (p_fourmiliere+i)->nbG);
+                nbG_T = nbG_T + (p_fourmiliere+i)->nbG;
+                break;
+            case NB_NOURRITURE:
+                sprintf(info_glui, "%d", (p_fourmiliere+i)->total_food);
+                total_food_T = total_food_T + (p_fourmiliere+i)->total_food;
+                break;
+            case NBT_FOURMI:
+                sprintf(info_glui, "%d", nbF_T);
+                break;
+            case NBT_OUVRIERE:
+                sprintf(info_glui, "%d", nbO_T);
+                break;
+            case NBT_GARDE:
+                sprintf(info_glui, "%d", nbG_T);
+                break;
+            case NBT_NOURRITURE:
+                sprintf(info_glui, "%d", total_food_T);
+                break;
+            default:
+                sprintf(info_glui, "%s", empty);
+        }
+    }
+    else {
+        sprintf(info_glui, "%s", empty);
+    }
+    return info_glui;
 }
 
 void fourmiliere_save(FILE *f_sortie) {

@@ -18,5 +18,3 @@ void graphic_set_color3f(float r,
                          float b);
 
 void graphic_find_color (unsigned i);
-
-char* graphic_get_color(unsigned i, char* data_glui);

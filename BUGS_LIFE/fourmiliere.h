@@ -25,5 +25,6 @@ int fourmiliere_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde,
 							   double x_garde, double y_garde);
 int fourmiliere_test_superposition();
 void fourmilieres_dessine();
-char* get_nb_fourmis();
 void fourmiliere_save(FILE *f_sortie);
+
+char* fourmiliere_get_info_rollout(unsigned info, unsigned i);
