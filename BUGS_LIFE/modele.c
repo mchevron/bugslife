@@ -100,8 +100,7 @@ int modele_verification_rendu2(void) {
 
 int modele_update(char *fentree) {
     //free memory
-    //return modele_lecture(nom_fichier);
-    return 0;
+    return modele_lecture("Verification", fentree);
 }
 
 void new_food(float pos_x, float pos_y) {

@@ -29,9 +29,8 @@ namespace {
     //GLUI
     char text[200] = "Fileinput";
     int run = 0;
-    //char* info_rollout = NULL;
-    GLUI_EditText *f_entree;
-    GLUI_EditText *f_sortie;
+    GLUI_EditText * p_f_entree;
+    GLUI_EditText * p_f_sortie;
     GLUI_Checkbox *record;
     GLUI_RadioGroup *auto_man_radio;
 }
@@ -46,17 +45,13 @@ void control_cb(int control)
     switch (control)
     {
         case (OPEN): {
-            //remplace la simulation par le contenu du fichier
-            printf("modele_update\n one step\n");
-            const char *fentree = f_entree->get_text();
-            //remplace la simulation par le contenu du fichier
-            printf( "text: %s\n", f_entree->get_text());
-            printf( "text: %s\n", fentree);
-            //if(modele_update(fentree) return EXIT_FAILURE;
+            printf( "text: %s\n", p_f_entree->get_text());
+            printf( "text: %s\n", p_f_entree);
+            modele_update((char*)p_f_entree->get_text());
             break;
         }
         case (SAVE): {
-            const char* fsortie = f_sortie->get_text();
+            const char* fsortie = p_f_sortie->get_text();
             printf("%c\n", *fsortie);
             //sauvegarde(fsortie);
             break;
@@ -162,11 +157,11 @@ void idle_cb()
  */
 void add_file_panel(GLUI* glui) {
     GLUI_Panel *File_panel = glui->add_panel( "File" );
-    f_entree = glui->add_edittext_to_panel(File_panel, "FileName:",
+    *p_f_entree = glui->add_edittext_to_panel(File_panel, "FileName:",
                                             GLUI_EDITTEXT_TEXT, text,
                                             FILE_NAME_OPEN, control_cb);
     glui->add_button_to_panel(File_panel,  "Open", OPEN, control_cb);
-    f_sortie = glui->add_edittext_to_panel(File_panel, "FileName:",
+    p_f_sortie = glui->add_edittext_to_panel(File_panel, "FileName:",
                                             GLUI_EDITTEXT_TEXT, text,
                                             FILE_NAME_SAVE, control_cb);
     glui->add_button_to_panel(File_panel,  "Save", SAVE, control_cb);
