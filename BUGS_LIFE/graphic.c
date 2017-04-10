@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//#include <GL/glu.h>
+//#include <GL/glut.h>
 #include <GLUT/glut.h>
 #include "graphic.h"
 #include <math.h>

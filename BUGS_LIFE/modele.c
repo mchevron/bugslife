@@ -16,7 +16,7 @@
 #include "error.h"
 #include "modele.h"
 
-#define DEBUT	0
+#define DEBUT		0
 #define COMPLETE	0
 #define EXIT		1
 
@@ -28,16 +28,12 @@ int modele_lecture(char mode[], char nom_fichier[]){
             return COMPLETE;
         }
     }
-    else if (!(modele_lecture_fichier(nom_fichier)))
-    {
-        if (modele_verification_rendu2())
-            return EXIT;
-    }
+    else if ((modele_lecture_fichier(nom_fichier)) || (modele_verification_rendu2()))
+        return EXIT;
     return COMPLETE;
 }
 
-int modele_lecture_fichier(char nom_fichier[])
-{
+int modele_lecture_fichier(char nom_fichier[]){
     char tab[MAX_LINE];
     unsigned i=0;     			// indice fourmiliere
     unsigned etape_lecture=0;
@@ -52,14 +48,12 @@ int modele_lecture_fichier(char nom_fichier[])
     
     while((fgets(tab, MAX_LINE, fentree) != NULL)||
           (etape_lecture == L_COMPLETE)||
-          (etape_lecture == L_EXIT))
-    {
+          (etape_lecture == L_EXIT)) {
         if((tab[DEBUT]=='#')||(tab[DEBUT]=='\n')||(tab[DEBUT]=='\r'))
             continue;
         if (sscanf(tab, " %c", &test), test == '#')
             continue;
-        switch(etape_lecture)
-        {
+        switch(etape_lecture){
             case L_NB_FOURMILIERE:
                 etape_lecture = fourmiliere_nb_fourmiliere(tab);
                 break;
@@ -83,7 +77,6 @@ int modele_lecture_fichier(char nom_fichier[])
             case L_EXIT:
                 return EXIT;
             case L_COMPLETE:
-                error_success();
                 fclose(fentree);
                 return COMPLETE;
         }
@@ -98,17 +91,18 @@ int modele_verification_rendu2(void) {
     return COMPLETE;
 }
 
-int modele_update(char *fentree) {
-    //free memory
+int modele_update(char *fentree){
+    fourmiliere_free();
+    nourriture_free();
     return modele_lecture("Verification", fentree);
 }
 
-void new_food(float pos_x, float pos_y) {
-    clique_nourriture(pos_x, pos_y);
+void modele_new_food(float pos_x, float pos_y) {
+    nourriture_clique(pos_x, pos_y);
 }
 
 void modele_dessine_complet() {
-    fourmilieres_dessine();
+    fourmiliere_dessine();
     nourriture_dessine();
 }
 
@@ -116,8 +110,10 @@ char* modele_get_info_glui(unsigned info, unsigned i) {
     return fourmiliere_get_info_rollout(info, i);
 }
 
-void sauvegarde(char *fsortie) {
+void modele_sauvegarde(char *fsortie) {
     FILE *f_sortie = fopen(fsortie, "w");
+    fputs("# Fichier sauvegarde Bug's life\n", f_sortie);
+    fputs("\n", f_sortie);
     fourmiliere_save(f_sortie);
     nourriture_save(f_sortie);
     fclose(f_sortie);

@@ -18,12 +18,9 @@ typedef enum get_info {
 
 int modele_lecture(char mode[], char nom_fichier[]);
 int modele_lecture_fichier(char nom_fichier[]);
-int modele_update(char *fentree);
 int modele_verification_rendu2(void);
-
-void new_food(float pos_x, float pos_y);
-
+int modele_update(char *fentree);
+void modele_new_food(float pos_x, float pos_y);
 void modele_dessine_complet();
-
 char* modele_get_info_glui(unsigned info, unsigned i);
-void sauvegarde(char *fsortie);
+void modele_sauvegarde(char *fsortie);

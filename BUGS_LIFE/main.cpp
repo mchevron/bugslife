@@ -9,6 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//#include <GL/glui.h>
+//#include <GL/glut.h>
+//#include <GL/glu.h>
 #include <GLUI/glui.h>
 #include <GLUT/glut.h>
 
@@ -27,62 +30,54 @@ namespace {
     GLfloat aspect_ratio;
     
     //GLUI
-    char text[200] = "Fileinput";
     int run = 0;
-    GLUI_EditText * p_f_entree;
-    GLUI_EditText * p_f_sortie;
-    GLUI_Checkbox *record;
-    GLUI_RadioGroup *auto_man_radio;
+    GLUI_EditText* entree;
+    GLUI_EditText* sortie;
+    GLUI_Checkbox* record;
+    GLUI_RadioGroup* auto_man_radio;
 }
 
 /*------------------------------------------------------------------*/
 /*
  * GLUI control callback
  */
-void control_cb(int control)
-{
-    printf( "callback: %d\n", control );
-    switch (control)
-    {
-        case (OPEN): {
-            printf( "text: %s\n", p_f_entree->get_text());
-            printf( "text: %s\n", p_f_entree);
-            modele_update((char*)p_f_entree->get_text());
+void control_cb(int control){
+    switch (control){
+        case (OPEN): 
+            printf( "text: %s\n", entree->get_text());
+            modele_update((char*)entree->get_text());
+            /*char file[100];
+            sprintf(file, "%s", "/Users/maxchevron/Google\ Drive/05.-\ EPFL/2.\ Semestre\ II/6.\ Programmation\ II/Bug\'s\ life/bugslife/BUGS_LIFE/E12.txt");
+            printf( "text: %s\n", file);
+            modele_update((char*)file);*/
+            glutPostRedisplay();
             break;
-        }
-        case (SAVE): {
-            const char* fsortie = p_f_sortie->get_text();
-            printf("%c\n", *fsortie);
-            //sauvegarde(fsortie);
+        case (SAVE):
+            printf("text: %s\n", sortie->get_text());
+            modele_sauvegarde((char*)sortie->get_text());
             break;
-        }
-        case (AUTO_MAN): {
+        case (AUTO_MAN):
             printf("radio group: %d\n", auto_man_radio->get_int_val() );
             if (auto_man_radio->get_int_val() == AUTOMATIC) {
                 // automatic food creation
             }
             break;
-        }
-        case (START): {
+        case (START):
             // start ! simulation
             printf("start !\n");
             run = RUN;
             break;
-        }
-        case (STEP): {
+        case (STEP):
             // step simulation
             printf("modele_update\n one step\n");
             run = STEP;
             break;
-        }
-        case (RECORD): {
+        case (RECORD):
             // record simulation
             break;
-        }
-        default: {
+        default:
             printf("\n Unknown command\n");
             break;
-        }
     }
 }
 
@@ -112,8 +107,7 @@ void display_cb(){
 /*
  * widget reshape callback.
  */
-void  reshape_cb ( int  x,  int  y)
-{
+void  reshape_cb ( int  x,  int  y){
     width = x;
     height = y;
     glViewport( 0, 0, width, height);
@@ -125,15 +119,29 @@ void  reshape_cb ( int  x,  int  y)
 /*
  * Clique souris pour nourriture en mode manuel
  */
-void processMouse(int button, int state, int x, int y)
-{
+void processMouse(int button, int state, int x, int y){
     float pos_x, pos_y;
-    
     if (state == GLUT_DOWN && auto_man_radio->get_int_val() != AUTOMATIC) {
-        pos_x = -DMAX + ((double) x/width)*(DMAX+DMAX);
-        pos_y = -DMAX + ((double) (height -y)/height)*(DMAX+DMAX);
-        new_food(pos_x, pos_y);
-        glutPostRedisplay();
+        float dmax_x = DMAX;
+        float dmax_y = DMAX;
+        if(width>height) dmax_x = DMAX*aspect_ratio;
+        if(width<height) dmax_y = DMAX/aspect_ratio;
+        pos_x = -dmax_x + ((double) x/width)*(dmax_x+dmax_x);
+        pos_y = -dmax_y + ((double) (height -y)/height)*(dmax_y+dmax_y);
+        if(width>height && (pos_x < -dmax_x + ((double)
+                           (width-height)/(2*width))*(dmax_x+dmax_x)
+                            || pos_x > -dmax_x + ((double)
+                               (width+height)/(2*width))*(dmax_x+dmax_x)))
+            printf("Cannot add food out of the map\n");
+        else if(width<height && (pos_y < -dmax_y + ((double)
+                            (height-width)/(2*height))*(dmax_y+dmax_y)
+                            || pos_y > -dmax_y + ((double)
+                               (height+width)/(2*height))*(dmax_y+dmax_y)))
+            printf("Cannot add food out of the map\n");
+        else {
+            modele_new_food(pos_x, pos_y);
+            glutPostRedisplay();
+        }
     }
 }
 
@@ -142,8 +150,7 @@ void processMouse(int button, int state, int x, int y)
  *idle
  */
 
-void idle_cb()
-{
+void idle_cb(){
     if (run == RUN){
         if (glutGetWindow() != main_window) glutSetWindow( main_window);
         printf("Modele update\n");
@@ -157,14 +164,11 @@ void idle_cb()
  */
 void add_file_panel(GLUI* glui) {
     GLUI_Panel *File_panel = glui->add_panel( "File" );
-    *p_f_entree = glui->add_edittext_to_panel(File_panel, "FileName:",
-                                            GLUI_EDITTEXT_TEXT, text,
-                                            FILE_NAME_OPEN, control_cb);
+    entree = glui->add_edittext_to_panel(File_panel, "FileName:");
+    printf( "text: %s\n", entree->get_text());
     glui->add_button_to_panel(File_panel,  "Open", OPEN, control_cb);
-    p_f_sortie = glui->add_edittext_to_panel(File_panel, "FileName:",
-                                            GLUI_EDITTEXT_TEXT, text,
-                                            FILE_NAME_SAVE, control_cb);
-    glui->add_button_to_panel(File_panel,  "Save", SAVE, control_cb);
+    sortie = glui->add_edittext_to_panel(File_panel, "FileName:");
+    glui->add_button_to_panel(File_panel, "Save", SAVE, control_cb);
     
     // Food creation radiobutton
     GLUI_Panel *food_creation_panel = glui->add_panel( "Food Creation" );
@@ -228,8 +232,7 @@ void add_rollout(GLUI* glui) {
 }
 
 /*------------------------------------------------------------------*/
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
     switch (argc) {
         case MODE_SIMPLE:
             

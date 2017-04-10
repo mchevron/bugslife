@@ -12,15 +12,14 @@
 #include <string.h>
 #include "error.h"
 #include "constantes.h"
-#include "nourriture.h"
 #include "modele.h"
 #include "graphic.h"
+#include "nourriture.h"
 
 #define WORD_LENGTH_COMPARE 	9
 #define ZERO_NOURRITURE 		0
 #define NB_ELEMENTS_NOURRITURE	2
-#define	REUSSI					1
-#define ECHEC					0
+#define NB_NOURRITURE_PAR_LIGNE 3
 
 struct nourriture
 {
@@ -35,8 +34,9 @@ static unsigned l = 0;
 
 int nourriture_nb_nourriture(char tab[MAX_LINE]) {
     unsigned test = 0;
-    if(sscanf(tab, " %u", &test) == REUSSI){
+    if(sscanf(tab, " %u", &test) == VRAI){
         sscanf(tab, " %u", &nb_nourriture);
+        printf("%u\n",nb_nourriture);
         if (nb_nourriture == 0) return L_COMPLETE;
         return L_NOURRITURE;
     }
@@ -51,8 +51,7 @@ int nourriture_lecture(char tab[MAX_LINE]) {
     char check[MAX_LINE];
     sscanf(tab, " %s", check);
     if((strcmp(check, "FIN_LISTE") == ECHEC)
-       && (l < nb_nourriture))
-    {
+       && (l < nb_nourriture)){
         error_lecture_elements_nourriture(ERR_PAS_ASSEZ);
         return L_EXIT;
     }
@@ -71,6 +70,8 @@ int nourriture_lecture(char tab[MAX_LINE]) {
         }
         l=l+1;
     }
+    printf("%u\n",l);
+    printf("%u\n",nb_nourriture);
     if (l > nb_nourriture) {
         error_lecture_elements_nourriture(ERR_TROP);
         return L_EXIT;
@@ -78,12 +79,10 @@ int nourriture_lecture(char tab[MAX_LINE]) {
     return L_NOURRITURE;
 }
 
-NOURRITURE * ajouter_nourriture ( NOURRITURE ** p_tete )
-{
+NOURRITURE * ajouter_nourriture ( NOURRITURE ** p_tete ){
     NOURRITURE * nour = NULL;
     
-    if (!(nour = (NOURRITURE *) malloc (sizeof(NOURRITURE))))
-    {
+    if (!(nour = (NOURRITURE *) malloc (sizeof(NOURRITURE)))){
         printf ("Pb d'allocation dans %s\n", __func__);
         return nour;
     }
@@ -94,7 +93,7 @@ NOURRITURE * ajouter_nourriture ( NOURRITURE ** p_tete )
     return nour;
 }
 
-void clique_nourriture(float pos_x, float pos_y) {
+void nourriture_clique(float pos_x, float pos_y) {
     NOURRITURE* nourri;
     nourri = ajouter_nourriture(&p_nourriture);
     nourri->x = pos_x;
@@ -116,9 +115,57 @@ void nourriture_dessine() {
 }
 
 void nourriture_save(FILE *f_sortie) {
-    char chaine[MAX_LINE];
-    chaine[0] = nb_nourriture;
-    // chaine[1] = "\n";
-    fputs(chaine, f_sortie);
+    fputs("# Nb nourriture\n", f_sortie);
+	fprintf(f_sortie, "%u\n", nb_nourriture);
+	unsigned i = 0;
+	NOURRITURE * nour = p_nourriture;
+	while (nour != NULL){
+		fprintf(f_sortie, "    %lf", nour->x);		
+		fprintf(f_sortie, " %lf", nour->y);
+		nour = nour->next;
+		i = i + 1;
+		if (i == NB_NOURRITURE_PAR_LIGNE){
+			fputs("\n", f_sortie);
+			i = 0;
+		}
+	}
+	if (nb_nourriture != 0)
+		fputs("\n", f_sortie);
+		fputs("FIN_LISTE\n", f_sortie);
 }
 
+void nourriture_free(void){
+    nourriture_vider(&p_nourriture);
+    free(p_nourriture);
+    p_nourriture = NULL;
+    nb_nourriture = 0;
+    l = 0;
+}
+
+void nourriture_vider ( NOURRITURE ** p_liste ){
+    /* Retire un à un les elements en tete de la liste */
+    NOURRITURE *nour;
+    while ( * p_liste != NULL ){
+        nour = * p_liste;
+        nourriture_retirer ( p_liste, nour );
+    }
+}
+
+void nourriture_retirer ( NOURRITURE ** p_tete, NOURRITURE *nour ){
+    NOURRITURE* courant=* p_tete;
+    NOURRITURE* precedent=* p_tete;
+    while ( courant != nour && courant != NULL ){
+        precedent=courant;
+        courant=courant->next;
+    }
+    if ( courant != NULL ){
+        if ( courant != * p_tete ){
+            precedent->next=courant->next;
+            free ( courant );
+        }
+        else {
+            * p_tete = courant->next;
+            free ( courant );
+        }
+    }
+}
