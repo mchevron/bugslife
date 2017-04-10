@@ -77,7 +77,7 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE]){
                                     (p_fourmiliere+i)->y)) return L_EXIT;
     if((p_fourmiliere+i)->nbO > 0) return L_OUVRIERE;
     if((p_fourmiliere+i)->nbG > 0) return L_GARDE;
-    if((p_fourmiliere+i)->nbF == 0) return L_NB_NOURRITURE;
+    if((p_fourmiliere+i)->nbF == 0) return L_FOURMILIERE;
     else return L_EXIT;
 }
 
@@ -130,7 +130,7 @@ int fourmiliere_garde_lecture_precontrol(unsigned i, unsigned j, char tab[MAX_LI
 int fourmiliere_test_rayon(unsigned num_fourmiliere, int nbF, int total_food,
 							double rayon_fourmiliere){
 	double rayon_max = (1 + sqrt(nbF) + sqrt(total_food))*RAYON_FOURMI;
-	if (rayon_fourmiliere > (int) rayon_max) {
+	if (rayon_fourmiliere > (double) rayon_max) {
 		error_rayon_fourmiliere(num_fourmiliere);
         return L_EXIT;
 	}
@@ -163,7 +163,7 @@ int fourmiliere_test_superposition(void){
     unsigned j = 0;
     if(nb_fourmiliere<=1) return FAUX;
     for (i = 0; i < nb_fourmiliere; i++){
-        for (j = i+ 1; j <= nb_fourmiliere; j++){
+        for (j = i+ 1; j < nb_fourmiliere; j++){
             double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
                                                          (p_fourmiliere+j)->x,
                                                          (p_fourmiliere+i)->y,

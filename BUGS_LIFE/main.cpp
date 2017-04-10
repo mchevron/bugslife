@@ -240,9 +240,11 @@ int main(int argc, char *argv[]){
         case MODE_SPECIFIQUE:
             if ((strcmp(argv[1], "Error") == 0) ||
                 (strcmp(argv[1] , "Verification") == 0)
-                || (strcmp(argv[1], "Graphic") == 0)
-                || (strcmp(argv[1], "Final") == 0)){
+                || (strcmp(argv[1], "Final") == 0)) {
                 if (modele_lecture(argv[1], argv[2])) return EXIT_FAILURE;
+            }
+            if (strcmp(argv[1], "Graphic") == 0) {
+                if (modele_lecture(argv[1], argv[2])) cleanup();
             }
             break;
         default:

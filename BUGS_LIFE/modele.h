@@ -20,6 +20,7 @@ int modele_lecture(char mode[], char nom_fichier[]);
 int modele_lecture_fichier(char nom_fichier[]);
 int modele_verification_rendu2(void);
 int modele_update(char *fentree);
+void cleanup();
 void modele_new_food(float pos_x, float pos_y);
 void modele_dessine_complet();
 char* modele_get_info_glui(unsigned info, unsigned i);

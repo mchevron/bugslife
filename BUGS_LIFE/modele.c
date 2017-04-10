@@ -59,6 +59,7 @@ int modele_lecture_fichier(char nom_fichier[]){
                 break;
             case L_FOURMILIERE:
                 etape_lecture = fourmiliere_lecture(i, tab);
+                if(etape_lecture == L_FOURMILIERE) i=i+1;
                 break;
             case L_OUVRIERE:
                 etape_lecture = fourmi_ouvriere_lecture(i, tab);
@@ -92,9 +93,13 @@ int modele_verification_rendu2(void) {
 }
 
 int modele_update(char *fentree){
+    cleanup();
+    return modele_lecture("Verification", fentree);
+}
+
+void cleanup() {
     fourmiliere_free();
     nourriture_free();
-    return modele_lecture("Verification", fentree);
 }
 
 void modele_new_food(float pos_x, float pos_y) {
