@@ -228,10 +228,10 @@ void main_cleanup(void) {
 
 
 int main(int argc, char *argv[]){
-    int status = 0;
     switch (argc) {
         case MODE_SIMPLE:
-            status = system("./demo.x");
+            system("./demo.x");
+            return EXIT_SUCCESS;
             break;
         case MODE_SPECIFIQUE:
             if ((strcmp(argv[1], "Error") == 0) ||
@@ -248,6 +248,7 @@ int main(int argc, char *argv[]){
                    ,argv[0],argv[0]);
             return EXIT_FAILURE;
     }
+    
     /**********************/ /* GLUT */ /**********************/
     glutInit(&argc, argv);
     glutInitDisplayMode( GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA );

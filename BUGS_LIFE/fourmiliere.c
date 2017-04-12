@@ -302,6 +302,8 @@ void fourmiliere_free(void){
         free((p_fourmiliere+i)->p_fourmi_garde);
         (p_fourmiliere+i)->p_fourmi_ouvriere = NULL;
         (p_fourmiliere+i)->p_fourmi_garde = NULL;
+        free(p_fourmiliere);
+		p_fourmiliere = NULL;
     }
     free(p_fourmiliere);
     p_fourmiliere = NULL;
