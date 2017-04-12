@@ -154,7 +154,7 @@ int fourmiliere_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere,
 
 int fourmiliere_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde,
 							   double x_garde, double y_garde) {
-    int distance = sqrt(pow(x_garde - (p_fourmiliere+num_fourmiliere)->x,2) +
+    double distance = sqrt(pow(x_garde - (p_fourmiliere+num_fourmiliere)->x,2) +
                         pow(y_garde - (p_fourmiliere+num_fourmiliere)->y,2));
     if (distance > (p_fourmiliere+num_fourmiliere)->rayon -
         RAYON_FOURMI){

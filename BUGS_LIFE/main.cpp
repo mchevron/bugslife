@@ -9,11 +9,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <GL/glui.h>
-//#include <GL/glut.h>
-//#include <GL/glu.h>
-#include <GLUI/glui.h>
-#include <GLUT/glut.h>
+#include <GL/glui.h>
+#include <GL/glut.h>
+#include <GL/glu.h>
+//#include <GLUI/glui.h>
+//#include <GLUT/glut.h>
 
 extern "C"
 {
@@ -43,13 +43,12 @@ void control_cb(int control){
         case (OPEN): 
             printf( "Open file: %s\n", entree->get_text());
             modele_cleanup();
-            main_cleanup();
+            //main_cleanup();
             /*char file[100];
-             sprintf(file, "%s", "/Users/maxchevron/Google\ Drive/05.-\ EPFL/2.\ Semestre\ II/6.\ Programmation\ II/Bug\'s\ life/bugslife/BUGS_LIFE/E01.txt");
+             sprintf(file, "%s", "/Users/maxchevron/Google\ Drive/05.-\ EPFL/2.\ Semestre\ II/6.\ Programmation\ II/Bug\'s\ life/bugslife/BUGS_LIFE/G02.txt");
              printf( "text: %s\n", file);
              modele_lecture("Verification", (char*)file);*/
             modele_lecture(mode, (char*)entree->get_text());
-            glutPostRedisplay();
             break;
         case (SAVE):
             printf("Save file: %s\n", sortie->get_text());
