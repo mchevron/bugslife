@@ -38,17 +38,19 @@ namespace {
 }
 
 void control_cb(int control){
-    char mode[] = "Verification";
+    char mode[] = "Graphic";
     switch (control){
         case (OPEN): 
             printf( "Open file: %s\n", entree->get_text());
             modele_cleanup();
+            printf("juste après cleanup\n");
             //main_cleanup();
             /*char file[100];
              sprintf(file, "%s", "/Users/maxchevron/Google\ Drive/05.-\ EPFL/2.\ Semestre\ II/6.\ Programmation\ II/Bug\'s\ life/bugslife/BUGS_LIFE/G02.txt");
              printf( "text: %s\n", file);
              modele_lecture("Verification", (char*)file);*/
-            modele_lecture(mode, (char*)entree->get_text());
+            if(modele_lecture(mode, (char*)entree->get_text())) modele_cleanup();
+            glutPostRedisplay();
             break;
         case (SAVE):
             printf("Save file: %s\n", sortie->get_text());

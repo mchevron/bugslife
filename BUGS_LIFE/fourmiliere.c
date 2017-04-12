@@ -55,6 +55,8 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE]){
             return L_EXIT;
         }
     }
+    (p_fourmiliere+i)->p_fourmi_ouvriere = NULL;
+	(p_fourmiliere+i)->p_fourmi_garde = NULL;
     if (sscanf(tab, "%*[ \t]%lf %lf %d %d %d %lf", &(p_fourmiliere+i)->x,
                &(p_fourmiliere+i)->y,
                &(p_fourmiliere+i)->nbO,
@@ -293,22 +295,23 @@ void fourmiliere_save(FILE *f_sortie) {
 }
 
 void fourmiliere_free(void){
+	printf("dans fourmillière\n");
     unsigned i;
     for (i = 0; i < nb_fourmiliere; i++){
         fourmi_free(&(p_fourmiliere+i)->p_fourmi_ouvriere);
+         printf("fourmi ouvriere free OK\n");
         fourmi_free(&(p_fourmiliere+i)->p_fourmi_garde);
-        
+
         free((p_fourmiliere+i)->p_fourmi_ouvriere);
         free((p_fourmiliere+i)->p_fourmi_garde);
         (p_fourmiliere+i)->p_fourmi_ouvriere = NULL;
         (p_fourmiliere+i)->p_fourmi_garde = NULL;
-        free(p_fourmiliere);
-		p_fourmiliere = NULL;
     }
     free(p_fourmiliere);
     p_fourmiliere = NULL;
     nb_fourmiliere = 0;
     char empty[EMPTY] = "";
     sprintf(info_glui, "%s", empty);
+    printf("fin fourmillière free\n");
 }
 
