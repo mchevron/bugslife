@@ -1,12 +1,20 @@
+/*!
+ \file graphic.c
+ \brief Programme Bug's life
+ \author Diane Remmy & Max Chevron
+ \version 2.0
+ \date Avril 2017
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 //#include <GL/glu.h>
 //#include <GL/glut.h>
 #include <GLUT/glut.h>
-#include "graphic.h"
-#include <math.h>
 #include "constantes.h"
+#include "graphic.h"
 
 void graphic_draw_circle (float xc,
                           float yc,
@@ -14,7 +22,7 @@ void graphic_draw_circle (float xc,
                           int   filled)
 
 { int i;
-    const int SIDES = 50;
+    const int SIDES = SIDES_COUNT;
     
     if (filled == GRAPHIC_FILLED)
         glBegin (GL_POLYGON);

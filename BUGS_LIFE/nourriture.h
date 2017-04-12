@@ -2,8 +2,8 @@
  \file nourriture.c
  \brief Module qui gère les données liées à la nourriture
  \author Diane Remmy & Max Chevron
- \version 1.0
- \date Mars 2017
+ \version 2.0
+ \date Avril 2017
  */
 
 #include "constantes.h"

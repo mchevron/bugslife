@@ -2,14 +2,24 @@
  \file constantes.h
  \brief Constantes utilisées par le programme
  \author PROG II
- \version 0.9
- \date fevrier 2017
+ \version 2.0
+ \date Avril 2017
  */
 
 #ifndef CONSTANTES_H
 #define CONSTANTES_H
 
 #include "tolerance.h"
+
+typedef enum etape_lecture {
+    L_NB_FOURMILIERE, L_FOURMILIERE, L_OUVRIERE, L_GARDE, L_NB_NOURRITURE,
+    L_NOURRITURE, L_EXIT, L_COMPLETE, L_CONTINUE,
+} ETAPE_LECTURE;
+
+typedef enum get_info {
+    COLOR, NB_FOURMI, NB_OUVRIERE, NB_GARDE, NB_NOURRITURE, NBT_FOURMI,
+    NBT_OUVRIERE, NBT_GARDE, NBT_NOURRITURE
+} GET_INFO;
 
 #define DELTA_T         		0.25
 #define BUG_SPEED       		4
@@ -39,6 +49,7 @@
 #define EMPTY           		1
 #define FAUX					0
 #define VRAI					1
+#define SIDES_COUNT				50
 
 /********** User IDs pour les fonctions callback ********/
 #define FILE_NAME_OPEN  01

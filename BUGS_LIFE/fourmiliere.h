@@ -2,13 +2,11 @@
  \file fourmilere.h
  \brief Module qui gère les données liées aux fourmilieres
  \author Diane Remmy & Max Chevron
- \version 1.0
- \date Mars 2017
+ \version 2.0
+ \date Avril 2017
  */
 
 #include "constantes.h"
-#include "error.h"
-#include "utilitaire.h"
 
 typedef struct fourmiliere FOURMILIERE;
 

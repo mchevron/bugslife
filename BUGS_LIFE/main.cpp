@@ -2,8 +2,8 @@
  \file main.cpp
  \brief Programme Bug's life
  \author Diane Remmy & Max Chevron
- \version 1.0
- \date Mars 2017
+ \version 2.0
+ \date Avril 2017
  */
 
 #include <stdio.h>
@@ -37,19 +37,12 @@ namespace {
     GLUI_RadioGroup* auto_man_radio;
 }
 
-/*------------------------------------------------------------------*/
-/*
- * GLUI control callback
- */
 void control_cb(int control){
     switch (control){
         case (OPEN): 
             printf( "text: %s\n", entree->get_text());
-            modele_update((char*)entree->get_text());
-            /*char file[100];
-            sprintf(file, "%s", "/Users/maxchevron/Google\ Drive/05.-\ EPFL/2.\ Semestre\ II/6.\ Programmation\ II/Bug\'s\ life/bugslife/BUGS_LIFE/E12.txt");
-            printf( "text: %s\n", file);
-            modele_update((char*)file);*/
+            modele_cleanup();
+            modele_lecture("Verification", (char*)entree->get_text());
             glutPostRedisplay();
             break;
         case (SAVE):
@@ -81,10 +74,6 @@ void control_cb(int control){
     }
 }
 
-/*------------------------------------------------------------------*/
-/*
- * widget display callback.
- */
 void display_cb(){
     /*Efface le contenu de la fenetre*/
     glClearColor (1.,1.,1.,1.); // spécifie la couleur
@@ -103,10 +92,6 @@ void display_cb(){
     glutSwapBuffers();
 }
 
-/*------------------------------------------------------------------*/
-/*
- * widget reshape callback.
- */
 void  reshape_cb ( int  x,  int  y){
     width = x;
     height = y;
@@ -115,10 +100,6 @@ void  reshape_cb ( int  x,  int  y){
     glutPostRedisplay();
 }
 
-/*------------------------------------------------------------------*/
-/*
- * Clique souris pour nourriture en mode manuel
- */
 void processMouse(int button, int state, int x, int y){
     float pos_x, pos_y;
     if (state == GLUT_DOWN && auto_man_radio->get_int_val() != AUTOMATIC) {
@@ -145,23 +126,14 @@ void processMouse(int button, int state, int x, int y){
     }
 }
 
-/*------------------------------------------------------------------*/
-/*
- *idle
- */
-
 void idle_cb(){
     if (run == RUN){
         if (glutGetWindow() != main_window) glutSetWindow( main_window);
-        printf("Modele update\n");
+        modele_update();
         glutPostRedisplay();
     }
 }
 
-/*------------------------------------------------------------------*/
-/*
- *panels and rollout
- */
 void add_file_panel(GLUI* glui) {
     GLUI_Panel *File_panel = glui->add_panel( "File" );
     entree = glui->add_edittext_to_panel(File_panel, "FileName:");
@@ -189,7 +161,6 @@ void add_simulation_panel(GLUI* glui) {
                                            RECORD, control_cb);
 }
 
-
 void add_rollout(GLUI* glui) {
     GLUI_Panel *info_rollout = glui->add_rollout( "Information");
     //header
@@ -206,7 +177,8 @@ void add_rollout(GLUI* glui) {
     //info
     int i = 0;
     for(i=0; i<10; i=i+1) {
-        GLUI_Panel *info = glui->add_panel_to_panel(info_rollout, "", GLUI_PANEL_NONE);
+        GLUI_Panel *info = glui->add_panel_to_panel(info_rollout, "",
+                                                    GLUI_PANEL_NONE);
         glui->add_statictext_to_panel(info, modele_get_info_glui(COLOR, i));
         glui->add_column_to_panel(info, BLANK);
         glui->add_statictext_to_panel(info, modele_get_info_glui(NB_FOURMI, i));
@@ -228,10 +200,10 @@ void add_rollout(GLUI* glui) {
     glui->add_column_to_panel(total, BLANK);
     glui->add_statictext_to_panel(total, modele_get_info_glui(NBT_GARDE, BLANK));
     glui->add_column_to_panel(total, BLANK);
-    glui->add_statictext_to_panel(total, modele_get_info_glui(NBT_NOURRITURE, BLANK));
+    glui->add_statictext_to_panel(total, modele_get_info_glui(NBT_NOURRITURE,
+                                                              BLANK));
 }
 
-/*------------------------------------------------------------------*/
 int main(int argc, char *argv[]){
     switch (argc) {
         case MODE_SIMPLE:
@@ -244,7 +216,7 @@ int main(int argc, char *argv[]){
                 if (modele_lecture(argv[1], argv[2])) return EXIT_FAILURE;
             }
             if (strcmp(argv[1], "Graphic") == 0) {
-                if (modele_lecture(argv[1], argv[2])) cleanup();
+                if (modele_lecture(argv[1], argv[2])) modele_cleanup();
             }
             break;
         default:
@@ -269,9 +241,7 @@ int main(int argc, char *argv[]){
     glui->add_button( "Exit", 0, exit);
     glui->add_column();
     add_rollout(glui);
-
     glui->set_main_gfx_window(main_window);
-    
     //Callbacks
     GLUI_Master.set_glutIdleFunc(idle_cb);
     glui->set_main_gfx_window(main_window);

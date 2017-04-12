@@ -2,12 +2,11 @@
  \file fourmi.h
  \brief Module qui gère les données liées aux fourmis
  \author Diane Remmy & Max Chevron
- \version 1.0
- \date Mars 2017
+ \version 2.0
+ \date Avril 2017
  */
 
 #include "constantes.h"
-#include "utilitaire.h"
 
 typedef struct ouvriere OUVRIERE;
 typedef struct garde GARDE;

@@ -2,8 +2,8 @@
  \file fourmilere.c
  \brief Module qui gère les données liées aux fourmilieres
  \author Diane Remmy & Max Chevron
- \version 1.0
- \date Mars 2017
+ \version 2.0
+ \date Avril 2017
  */
 
 #include <stdio.h>
@@ -13,16 +13,16 @@
 #include "error.h"
 #include "constantes.h"
 #include "fourmi.h"
-#include "modele.h"
 #include "graphic.h"
+#include "utilitaire.h"
 #include "fourmiliere.h"
+
 
 #define NB_ELEMENTS_FOURMILIERE 6
 #define WORD_LENGTH_COMPARE 	9
 
 struct fourmiliere
 {
-    unsigned id;
     double x;
     double y;
     int nbO;
@@ -68,7 +68,6 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE]){
     }
     fourmi_recoit(&(p_fourmiliere+i)->p_fourmi_ouvriere,
                   &(p_fourmiliere+i)->p_fourmi_garde);
-    (p_fourmiliere+i)->id = i;
     (p_fourmiliere+i)->nbF = (p_fourmiliere+i)->nbO + (p_fourmiliere+i)->nbG;
     if (fourmiliere_test_rayon(i,(p_fourmiliere+i)->nbF,
                                (p_fourmiliere+i)->total_food,
@@ -198,7 +197,7 @@ int fourmiliere_test_superposition(void){
 void fourmiliere_dessine(void) {
     unsigned i = 0;
     for(i=0; i<nb_fourmiliere; i=i+1) {
-        graphic_find_color ((p_fourmiliere+i)->id);
+        graphic_find_color (i);
         graphic_draw_circle ((p_fourmiliere+i)->x, (p_fourmiliere+i)->y,
                              (p_fourmiliere+i)->rayon, GRAPHIC_EMPTY);
     }
@@ -206,18 +205,17 @@ void fourmiliere_dessine(void) {
 }
 
 char* fourmiliere_get_info_rollout(unsigned info, unsigned i) {
+    char color_name[MAX_FOURMILIERE][MAX_LENGTH] = {"Red", "Green",
+        "Blue", "Yellow", "Cyan", "Magenta", "Grey", "Orange",
+        "Dark_green", "Purple"};
+    char* color = color_name[i];
     char empty[EMPTY] = "";
     if(i<nb_fourmiliere) {
         switch(info)
         {
-            case COLOR:{
-                char color_name[MAX_FOURMILIERE][MAX_LENGTH] = {"Red", "Green",
-                    "Blue", "Yellow", "Cyan", "Magenta", "Grey", "Orange",
-                    "Dark_green", "Purple"};
-                char* color = color_name[i];
+            case COLOR:
                 sprintf(info_glui, "%s", color);
                 break;
-			}
             case NB_FOURMI:
                 sprintf(info_glui, "%d", (p_fourmiliere+i)->nbF);
                 nbF_T = nbF_T + (p_fourmiliere+i)->nbF;

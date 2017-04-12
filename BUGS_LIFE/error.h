@@ -2,8 +2,8 @@
  \file error.h
  \brief Module qui gère les messages d'erreur. NE PAS MODIFIER
  \author PROG II
- \version 1.0
- \date 10 mars 2017
+ \version 2.0
+ \date Avril 2017
  */
 
 #ifndef ERROR_H

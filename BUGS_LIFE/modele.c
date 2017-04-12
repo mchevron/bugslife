@@ -2,8 +2,8 @@
  \file modele.c
  \brief Module qui gère la lecture des données
  \author Diane Remmy & Max Chevron
- \version 1.0
- \date Mars 2017
+ \version 2.0
+ \date Avril 2017
  */
 
 #include <stdio.h>
@@ -92,12 +92,11 @@ int modele_verification_rendu2(void) {
     return COMPLETE;
 }
 
-int modele_update(char *fentree){
-    cleanup();
-    return modele_lecture("Verification", fentree);
+void modele_update(void){
+    printf("modele_update\n");
 }
 
-void cleanup() {
+void modele_cleanup(void) {
     fourmiliere_free();
     nourriture_free();
 }
@@ -106,7 +105,7 @@ void modele_new_food(float pos_x, float pos_y) {
     nourriture_clique(pos_x, pos_y);
 }
 
-void modele_dessine_complet() {
+void modele_dessine_complet(void) {
     fourmiliere_dessine();
     nourriture_dessine();
 }

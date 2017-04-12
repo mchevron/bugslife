@@ -2,8 +2,8 @@
  \file fourmi.h
  \brief Module qui gère les données liées aux fourmis
  \author Diane Remmy & Max Chevron
- \version 1.0
- \date Mars 2017
+ \version 2.0
+ \date Avril 2017
  */
 
 #include <stdio.h>
@@ -12,9 +12,9 @@
 #include <string.h>
 #include "error.h"
 #include "fourmiliere.h"
-#include "modele.h"
 #include "graphic.h"
 #include "constantes.h"
+#include "utilitaire.h"
 #include "fourmi.h"
 
 
@@ -51,7 +51,6 @@ struct fourmi
 
 struct fourmiliere
 {
-    unsigned id;
     double x;
     double y;
     int nbO;
@@ -247,7 +246,7 @@ int fourmi_test_superposition_gg( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
 void fourmi_dessine(unsigned nb_fourmiliere, FOURMILIERE * p_fourmiliere) {
     int i = 0, j = 0;
     for(i=0; i<nb_fourmiliere; i=i+1) {
-        graphic_find_color ((p_fourmiliere+i)->id);
+        graphic_find_color (i);
         if((p_fourmiliere+i)->nbO != 0) {
             FOURMI * courant_o = (p_fourmiliere+i)->p_fourmi_ouvriere;
             for(j=0; j<(p_fourmiliere+i)->nbO; j=j+1) {
@@ -268,7 +267,7 @@ void fourmi_dessine(unsigned nb_fourmiliere, FOURMILIERE * p_fourmiliere) {
                                      courant_g->garde.y,
                                      RAYON_FOURMI, GRAPHIC_EMPTY);
                 courant_g = courant_g->next;
-                graphic_find_color ((p_fourmiliere+i)->id);
+                graphic_find_color (i);
             }
         }
     }
