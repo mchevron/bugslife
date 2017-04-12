@@ -21,8 +21,6 @@ extern "C"
 #include "constantes.h"
 }
 
-void main_cleanup(void);
-
 namespace {
     //GLUT
     int main_window;

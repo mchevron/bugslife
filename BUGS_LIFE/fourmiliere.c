@@ -166,6 +166,7 @@ int fourmiliere_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere,
 	return FAUX;
 }
 
+
 int fourmiliere_test_superposition(void){
     unsigned i = 0;
     unsigned j = 0;

@@ -19,10 +19,10 @@
 #define ZERO_NOURRITURE 		0
 #define NB_ELEMENTS_NOURRITURE	2
 #define NB_NOURRITURE_PAR_LIGNE 3
+#define	REUSSI					1
 
 struct nourriture
 {
-    unsigned id;
     double x;
     double y;
     NOURRITURE * next;
@@ -34,7 +34,7 @@ static unsigned l = 0;
 
 int nourriture_nb_nourriture(char tab[MAX_LINE]) {
     unsigned test = 0;
-    if(sscanf(tab, " %u", &test) == VRAI){
+    if(sscanf(tab, " %u", &test) == REUSSI){
         sscanf(tab, " %u", &nb_nourriture);
         if (nb_nourriture == 0) return L_COMPLETE;
         return L_NOURRITURE;
@@ -50,7 +50,8 @@ int nourriture_lecture(char tab[MAX_LINE]) {
     char check[MAX_LINE];
     sscanf(tab, " %s", check);
     if((strcmp(check, "FIN_LISTE") == ECHEC)
-       && (l < nb_nourriture)){
+       && (l < nb_nourriture))
+    {
         error_lecture_elements_nourriture(ERR_PAS_ASSEZ);
         return L_EXIT;
     }
@@ -76,10 +77,12 @@ int nourriture_lecture(char tab[MAX_LINE]) {
     return L_NOURRITURE;
 }
 
-NOURRITURE * nourriture_ajouter ( NOURRITURE ** p_tete ){
+NOURRITURE * nourriture_ajouter ( NOURRITURE ** p_tete )
+{
     NOURRITURE * nour = NULL;
     
-    if (!(nour = (NOURRITURE *) malloc (sizeof(NOURRITURE)))){
+    if (!(nour = (NOURRITURE *) malloc (sizeof(NOURRITURE))))
+    {
         printf ("Pb d'allocation dans %s\n", __func__);
         return nour;
     }
@@ -117,7 +120,7 @@ void nourriture_save(FILE *f_sortie) {
 	unsigned i = 0;
 	NOURRITURE * nour = p_nourriture;
 	while (nour != NULL){
-		fprintf(f_sortie, "    %lf", nour->x);		
+		fprintf(f_sortie, "		%lf", nour->x);		
 		fprintf(f_sortie, " %lf", nour->y);
 		nour = nour->next;
 		i = i + 1;
@@ -127,7 +130,6 @@ void nourriture_save(FILE *f_sortie) {
 		}
 	}
 	if (nb_nourriture != 0)
-		fputs("\n", f_sortie);
 		fputs("FIN_LISTE\n", f_sortie);
 }
 
