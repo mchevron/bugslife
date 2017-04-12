@@ -23,6 +23,7 @@
 
 struct fourmiliere
 {
+    int ID_test;
     double x;
     double y;
     int nbO;
@@ -66,6 +67,7 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE]){
         error_lecture_elements_fourmiliere(i, ERR_FOURMILIERE, ERR_PAS_ASSEZ);
         return L_EXIT;
     }
+    int test = (p_fourmiliere+5)->nbO;
     fourmi_recoit(&(p_fourmiliere+i)->p_fourmi_ouvriere,
                   &(p_fourmiliere+i)->p_fourmi_garde);
     (p_fourmiliere+i)->nbF = (p_fourmiliere+i)->nbO + (p_fourmiliere+i)->nbG;

@@ -247,6 +247,7 @@ void fourmi_dessine(unsigned nb_fourmiliere, FOURMILIERE * p_fourmiliere) {
     int i = 0, j = 0;
     for(i=0; i<nb_fourmiliere; i=i+1) {
         graphic_find_color (i);
+        int test = (p_fourmiliere+5)->nbO;
         if((p_fourmiliere+i)->nbO != 0) {
             FOURMI * courant_o = (p_fourmiliere+i)->p_fourmi_ouvriere;
             for(j=0; j<(p_fourmiliere+i)->nbO; j=j+1) {

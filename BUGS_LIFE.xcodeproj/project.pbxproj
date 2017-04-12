@@ -286,6 +286,7 @@
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
+				OTHER_CFLAGS = "-Wno-deprecated-declarations";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -297,6 +298,7 @@
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
+				OTHER_CFLAGS = "-Wno-deprecated-declarations";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
