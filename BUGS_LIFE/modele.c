@@ -97,7 +97,6 @@ void modele_update(void){
 }
 
 void modele_cleanup(void) {
-	printf("juste dans cleanup\n");
     fourmiliere_free();
     nourriture_free();
 }

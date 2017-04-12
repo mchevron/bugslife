@@ -295,11 +295,9 @@ void fourmiliere_save(FILE *f_sortie) {
 }
 
 void fourmiliere_free(void){
-	printf("dans fourmillière\n");
     unsigned i;
     for (i = 0; i < nb_fourmiliere; i++){
         fourmi_free(&(p_fourmiliere+i)->p_fourmi_ouvriere);
-         printf("fourmi ouvriere free OK\n");
         fourmi_free(&(p_fourmiliere+i)->p_fourmi_garde);
 
         free((p_fourmiliere+i)->p_fourmi_ouvriere);
@@ -312,6 +310,5 @@ void fourmiliere_free(void){
     nb_fourmiliere = 0;
     char empty[EMPTY] = "";
     sprintf(info_glui, "%s", empty);
-    printf("fin fourmillière free\n");
 }
 

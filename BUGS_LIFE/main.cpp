@@ -43,12 +43,6 @@ void control_cb(int control){
         case (OPEN): 
             printf( "Open file: %s\n", entree->get_text());
             modele_cleanup();
-            printf("juste après cleanup\n");
-            //main_cleanup();
-            /*char file[100];
-             sprintf(file, "%s", "/Users/maxchevron/Google\ Drive/05.-\ EPFL/2.\ Semestre\ II/6.\ Programmation\ II/Bug\'s\ life/bugslife/BUGS_LIFE/G02.txt");
-             printf( "text: %s\n", file);
-             modele_lecture("Verification", (char*)file);*/
             if(modele_lecture(mode, (char*)entree->get_text())) modele_cleanup();
             glutPostRedisplay();
             break;
@@ -211,23 +205,6 @@ void add_rollout(GLUI* glui) {
     glui->add_statictext_to_panel(total, modele_get_info_glui(NBT_NOURRITURE,
                                                               BLANK));
 }
-
-void main_cleanup(void) {
-    main_window = 0;
-    width = 0;
-    height = 0;
-    aspect_ratio = 0;
-    run = 0;
-    free(entree);
-    entree = NULL;
-    free(sortie);
-    sortie = NULL;
-    free(record);
-    record = NULL;
-    free(auto_man_radio);
-    auto_man_radio = NULL;
-}
-
 
 int main(int argc, char *argv[]){
     switch (argc) {
