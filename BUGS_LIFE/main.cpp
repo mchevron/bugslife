@@ -9,11 +9,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <GL/glui.h>
-//#include <GL/glut.h>
-//#include <GL/glu.h>
-#include <GLUI/glui.h>
-#include <GLUT/glut.h>
+#include <GL/glui.h>
+#include <GL/glut.h>
+#include <GL/glu.h>
+//#include <GLUI/glui.h>
+//#include <GLUT/glut.h>
 
 
 extern "C"
@@ -204,10 +204,10 @@ void add_rollout(GLUI* glui) {
 }
 
 int main(int argc, char *argv[]){
-    int status = 0;
     switch (argc) {
         case MODE_SIMPLE:
-            status = system("./demo.x");
+            system("./demo.x");
+            return EXIT_SUCCESS;
             break;
         case MODE_SPECIFIQUE:
             if ((strcmp(argv[1], "Error") == 0) ||
@@ -224,6 +224,7 @@ int main(int argc, char *argv[]){
                    ,argv[0],argv[0]);
             return EXIT_FAILURE;
     }
+    
     /**********************/ /* GLUT */ /**********************/
     glutInit(&argc, argv);
     glutInitDisplayMode( GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA );
