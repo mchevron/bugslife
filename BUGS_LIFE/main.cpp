@@ -12,14 +12,35 @@
 #include <GL/glui.h>
 #include <GL/glut.h>
 #include <GL/glu.h>
-//#include <GLUI/glui.h>
-//#include <GLUT/glut.h>
 
 extern "C"
 {
 #include "modele.h"
 #include "constantes.h"
 }
+
+#define R_T_LINE				11
+#define R_T_COL                 4
+#define TOTAL_ROLLOUT           11
+#define ENUM_INCREMENT          5
+#define MODE_SIMPLE				1		
+#define MODE_SPECIFIQUE 		3
+#define INFO_COLONNES   		4
+#define INFO            		5
+#define BLANK           		0
+#define RUN             		1
+#define AUTOMATIC       		0
+/********** User IDs pour les fonctions callback ********/
+#define FILE_NAME_OPEN  		01
+#define OPEN           			02
+#define FILE_NAME_SAVE  		03
+#define SAVE            		04
+#define START           		05
+#define STEP            		06
+#define RECORD         		 	11
+#define AUTO_MAN        		12
+
+void main_rollout_update(void);
 
 namespace {
     //GLUT
@@ -33,6 +54,7 @@ namespace {
     GLUI_EditText* sortie;
     GLUI_Checkbox* record;
     GLUI_RadioGroup* auto_man_radio;
+    GLUI_StaticText* rollout[R_T_LINE][R_T_COL];
 }
 
 void control_cb(int control){
@@ -89,7 +111,7 @@ void display_cb(){
         glOrtho(-DMAX*aspect_ratio, DMAX*aspect_ratio, -DMAX, DMAX, -1.0, 1.0);
     
     modele_dessine_complet();
-
+    main_rollout_update();
     glutSwapBuffers();
 }
 
@@ -176,32 +198,44 @@ void add_rollout(GLUI* glui) {
     glui->add_statictext_to_panel(titles, "Nourriture");
     //info
     int i = 0;
-    for(i=0; i<10; i=i+1) {
+    for(i=0; i<MAX_FOURMILIERE; i=i+1) {
         GLUI_Panel *info = glui->add_panel_to_panel(info_rollout, "",
                                                     GLUI_PANEL_NONE);
         glui->add_statictext_to_panel(info, modele_get_info_glui(COLOR, i));
         glui->add_column_to_panel(info, BLANK);
-        glui->add_statictext_to_panel(info, modele_get_info_glui(NB_FOURMI, i));
+        rollout[i][NB_FOURMI] = glui->add_statictext_to_panel(info, "");
         glui->add_column_to_panel(info, BLANK);
-        glui->add_statictext_to_panel(info, modele_get_info_glui(NB_OUVRIERE, i));
+        rollout[i][NB_OUVRIERE] = glui->add_statictext_to_panel(info, "");
         glui->add_column_to_panel(info, BLANK);
-        glui->add_statictext_to_panel(info, modele_get_info_glui(NB_GARDE, i));
+        rollout[i][NB_GARDE] = glui->add_statictext_to_panel(info, "");
         glui->add_column_to_panel(info, BLANK);
-        glui->add_statictext_to_panel(info, modele_get_info_glui(NB_NOURRITURE, i));
+        rollout[i][NB_NOURRITURE] = glui->add_statictext_to_panel(info, "");
     }
     //total
     glui->add_separator_to_panel(info_rollout);
     GLUI_Panel *total = glui->add_panel_to_panel(info_rollout, "", GLUI_PANEL_NONE);
     glui->add_statictext_to_panel(total, "Total");
     glui->add_column_to_panel(total, BLANK);
-    glui->add_statictext_to_panel(total, modele_get_info_glui(NBT_FOURMI, BLANK));
+    rollout[TOTAL_ROLLOUT][NB_FOURMI] = glui->add_statictext_to_panel(total, "");
     glui->add_column_to_panel(total, BLANK);
-    glui->add_statictext_to_panel(total, modele_get_info_glui(NBT_OUVRIERE, BLANK));
+    rollout[TOTAL_ROLLOUT][NB_OUVRIERE] = glui->add_statictext_to_panel(total, "");
     glui->add_column_to_panel(total, BLANK);
-    glui->add_statictext_to_panel(total, modele_get_info_glui(NBT_GARDE, BLANK));
+    rollout[TOTAL_ROLLOUT][NB_GARDE] = glui->add_statictext_to_panel(total, "");
     glui->add_column_to_panel(total, BLANK);
-    glui->add_statictext_to_panel(total, modele_get_info_glui(NBT_NOURRITURE,
-                                                              BLANK));
+    rollout[TOTAL_ROLLOUT][NB_NOURRITURE] = glui->add_statictext_to_panel(total, "");
+}
+
+void main_rollout_update(void) {
+    int i, c;
+    for(i=0; i<MAX_FOURMILIERE; i=i+1) {
+        for(c=0; c<R_T_COL; c=c+1) {
+            rollout[i][c]->set_text(modele_get_info_glui(c, i));
+        }
+    }
+    for(c=0; c<R_T_COL; c=c+1) {
+        rollout[TOTAL_ROLLOUT][c]->set_text(modele_get_info_glui(c+ENUM_INCREMENT, 
+																 BLANK));
+    }
 }
 
 int main(int argc, char *argv[]){
@@ -243,7 +277,6 @@ int main(int argc, char *argv[]){
     glui->add_column();
     add_rollout(glui);
     glui->set_main_gfx_window(main_window);
-    //Callbacks
     GLUI_Master.set_glutIdleFunc(idle_cb);
     glui->set_main_gfx_window(main_window);
     glutMainLoop();

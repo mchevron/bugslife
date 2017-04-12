@@ -68,8 +68,8 @@ clean:
 # -- Regles de dependances generees par "make depend"
 #####################################################
 # DO NOT DELETE THIS LINE
-modele.o: modele.c fourmiliere.h constantes.h tolerance.h nourriture.h \
- fourmi.h error.h modele.h
+modele.o: modele.c fourmiliere.h constantes.h tolerance.h error.h \
+ nourriture.h fourmi.h modele.h
 error.o: error.c error.h constantes.h tolerance.h
 fourmi.o: fourmi.c error.h fourmiliere.h constantes.h tolerance.h \
  graphic.h utilitaire.h fourmi.h
@@ -77,7 +77,7 @@ fourmiliere.o: fourmiliere.c error.h constantes.h tolerance.h fourmi.h \
  graphic.h utilitaire.h fourmiliere.h
 nourriture.o: nourriture.c error.h constantes.h tolerance.h graphic.h \
  nourriture.h
-utilitaire.o: utilitaire.c fourmiliere.h constantes.h tolerance.h \
- nourriture.h fourmi.h error.h utilitaire.h
+utilitaire.o: utilitaire.c fourmiliere.h constantes.h tolerance.h error.h \
+ nourriture.h fourmi.h utilitaire.h
 main.o: main.cpp modele.h constantes.h tolerance.h
 graphic.o: graphic.c constantes.h tolerance.h graphic.h
