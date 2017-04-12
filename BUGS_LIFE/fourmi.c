@@ -119,7 +119,7 @@ int fourmi_garde_lecture(unsigned i, char tab[MAX_LINE]) {
         if((fourmi_test_age(i, j, guard->garde.age))
            || (fourmiliere_test_pos_garde(i, j, guard->garde.x, guard->garde.y)))
             return L_EXIT;
-        if (utilitaire_test_pos_domaine(ERR_FOURMILIERE, i, guard->garde.x,
+        if (fourmi_test_pos_domaine(ERR_GARDE, i, guard->garde.x,
                                         guard->garde.y))
             return L_EXIT;
         j=j+1;
@@ -134,6 +134,15 @@ int fourmi_test_age(unsigned num_fourmiliere, unsigned num_fourmi,
         return VRAI;
     }
     return FAUX;
+}
+
+int fourmi_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere, 
+								double x, double y){
+	if ((x < -DMAX) || (x > DMAX) || (y < -DMAX) || (y > DMAX)) {
+		error_pos_domaine(origine, num_fourmiliere, x, y);
+		return VRAI;	
+	}
+	return FAUX;
 }
 
 void fourmi_recoit( FOURMI **p_ouvriere, FOURMI ** p_garde){
@@ -247,7 +256,6 @@ void fourmi_dessine(unsigned nb_fourmiliere, FOURMILIERE * p_fourmiliere) {
     int i = 0, j = 0;
     for(i=0; i<nb_fourmiliere; i=i+1) {
         graphic_find_color (i);
-        int test = (p_fourmiliere+5)->nbO;
         if((p_fourmiliere+i)->nbO != 0) {
             FOURMI * courant_o = (p_fourmiliere+i)->p_fourmi_ouvriere;
             for(j=0; j<(p_fourmiliere+i)->nbO; j=j+1) {

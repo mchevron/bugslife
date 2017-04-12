@@ -70,7 +70,7 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE]){
     if (fourmiliere_test_rayon(i,(p_fourmiliere+i)->nbF,
                                (p_fourmiliere+i)->total_food,
                                (p_fourmiliere+i)->rayon)) return L_EXIT;
-    if (utilitaire_test_pos_domaine(ERR_FOURMILIERE, i, (p_fourmiliere+i)->x,
+    if (fourmiliere_test_pos_domaine(ERR_FOURMILIERE, i, (p_fourmiliere+i)->x,
                                     (p_fourmiliere+i)->y)) return L_EXIT;
     if((p_fourmiliere+i)->nbO > 0) return L_OUVRIERE;
     if((p_fourmiliere+i)->nbG > 0) return L_GARDE;
@@ -139,6 +139,15 @@ int fourmiliere_test_lecture_elements(unsigned nb_fourmiliere_fichier){
 		error_lecture_elements_fourmiliere(nb_fourmiliere,
                                            ERR_FOURMILIERE, ERR_TROP);
 		return L_EXIT;
+	}
+	return FAUX;
+}
+
+int fourmiliere_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere, 
+								double x, double y){
+	if ((x < -DMAX) || (x > DMAX) || (y < -DMAX) || (y > DMAX)) {
+		error_pos_domaine(origine, num_fourmiliere, x, y);
+		return VRAI;	
 	}
 	return FAUX;
 }
