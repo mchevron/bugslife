@@ -36,7 +36,6 @@ int nourriture_nb_nourriture(char tab[MAX_LINE]) {
     unsigned test = 0;
     if(sscanf(tab, " %u", &test) == VRAI){
         sscanf(tab, " %u", &nb_nourriture);
-        printf("%u\n",nb_nourriture);
         if (nb_nourriture == 0) return L_COMPLETE;
         return L_NOURRITURE;
     }
@@ -70,8 +69,6 @@ int nourriture_lecture(char tab[MAX_LINE]) {
         }
         l=l+1;
     }
-    printf("%u\n",l);
-    printf("%u\n",nb_nourriture);
     if (l > nb_nourriture) {
         error_lecture_elements_nourriture(ERR_TROP);
         return L_EXIT;
