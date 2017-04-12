@@ -172,7 +172,7 @@ int fourmiliere_test_superposition(void){
     unsigned j = 0;
     if(nb_fourmiliere<=1) return FAUX;
     for (i = 0; i < nb_fourmiliere; i++){
-        for (j = i+ 1; j < nb_fourmiliere; j++){
+        for (j = i+ 1; j <= nb_fourmiliere; j++){
             double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
                                                          (p_fourmiliere+j)->x,
                                                          (p_fourmiliere+i)->y,
@@ -183,7 +183,7 @@ int fourmiliere_test_superposition(void){
                 error_superposition_fourmiliere(i, j);
                 return  VRAI;
             }
-			if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbO != 0)
+            if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbO != 0)
 	            if(fourmi_test_superposition_oo((p_fourmiliere+i)->p_fourmi_ouvriere,
 	                                    (p_fourmiliere+j)->p_fourmi_ouvriere,  i, j))
 	                return VRAI;

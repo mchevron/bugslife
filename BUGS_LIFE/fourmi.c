@@ -168,7 +168,7 @@ int fourmi_test_superposition_oo( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
                                  unsigned i, unsigned j ){
     FOURMI * frm1 = p_frm_frml1;
     FOURMI * frm2 = NULL;
-    while (frm1 != NULL && frm2 != NULL){
+    while (frm1 != NULL){
         frm2 = p_frm_frml2;
         while (frm2 != NULL){
             double distance = utilitaire_calcul_distance(frm1->ouvriere.posx,
@@ -191,7 +191,7 @@ int fourmi_test_superposition_go( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
                                  unsigned i, unsigned j ){
     FOURMI * frm1 = p_frm_frml1;
     FOURMI * frm2 = NULL;
-    while (frm1 != NULL && frm2 != NULL){
+    while (frm1 != NULL){
         while (frm2 != NULL){
             double distance = utilitaire_calcul_distance(frm1->garde.x,
                                                          frm2->ouvriere.posx,
@@ -212,7 +212,7 @@ int fourmi_test_superposition_og( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
                                  unsigned i, unsigned j ){
     FOURMI * frm1 = p_frm_frml1;
     FOURMI * frm2 = NULL;
-    while (frm1 != NULL && frm2 != NULL){
+    while (frm1 != NULL){
         while (frm2 != NULL){
             double distance = utilitaire_calcul_distance(frm1->ouvriere.posx,
                                                          frm2->garde.x,
@@ -234,7 +234,7 @@ int fourmi_test_superposition_gg( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
                                  unsigned i, unsigned j ){
     FOURMI * frm1 = p_frm_frml1;
     FOURMI * frm2 = NULL;
-    while (frm1 != NULL && frm2 != NULL){
+    while (frm1 != NULL){
         while (frm2 != NULL){
             double distance = utilitaire_calcul_distance(frm1->garde.x, 
                                                          frm2->garde.x,
