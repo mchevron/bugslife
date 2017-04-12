@@ -10,7 +10,6 @@
 		4B8D9C9D1E8CDF190065A67D /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B8D9C8D1E8CDF190065A67D /* error.c */; };
 		4B8D9C9E1E8CDF190065A67D /* fourmi.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B8D9C8F1E8CDF190065A67D /* fourmi.c */; };
 		4B8D9C9F1E8CDF190065A67D /* fourmiliere.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B8D9C911E8CDF190065A67D /* fourmiliere.c */; };
-		4B8D9CA01E8CDF190065A67D /* graphic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B8D9C931E8CDF190065A67D /* graphic.cpp */; };
 		4B8D9CA11E8CDF190065A67D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B8D9C951E8CDF190065A67D /* main.cpp */; };
 		4B8D9CA21E8CDF190065A67D /* modele.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B8D9C961E8CDF190065A67D /* modele.c */; };
 		4B8D9CA31E8CDF190065A67D /* nourriture.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B8D9C981E8CDF190065A67D /* nourriture.c */; };
@@ -18,6 +17,7 @@
 		4B8D9CA71E8CDF300065A67D /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8D9CA61E8CDF300065A67D /* GLUT.framework */; };
 		4B8D9CA91E8CDF350065A67D /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8D9CA81E8CDF350065A67D /* OpenGL.framework */; };
 		4B8D9CAB1E8CDF460065A67D /* GLUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8D9CAA1E8CDF460065A67D /* GLUI.framework */; };
+		4BC5220F1E9E48ED002A7940 /* graphic.c in Sources */ = {isa = PBXBuildFile; fileRef = 4BC5220E1E9E48ED002A7940 /* graphic.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,7 +41,6 @@
 		4B8D9C901E8CDF190065A67D /* fourmi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fourmi.h; sourceTree = "<group>"; };
 		4B8D9C911E8CDF190065A67D /* fourmiliere.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fourmiliere.c; sourceTree = "<group>"; };
 		4B8D9C921E8CDF190065A67D /* fourmiliere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fourmiliere.h; sourceTree = "<group>"; };
-		4B8D9C931E8CDF190065A67D /* graphic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = graphic.cpp; sourceTree = "<group>"; };
 		4B8D9C941E8CDF190065A67D /* graphic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graphic.h; sourceTree = "<group>"; };
 		4B8D9C951E8CDF190065A67D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		4B8D9C961E8CDF190065A67D /* modele.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = modele.c; sourceTree = "<group>"; };
@@ -54,6 +53,7 @@
 		4B8D9CA61E8CDF300065A67D /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		4B8D9CA81E8CDF350065A67D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		4B8D9CAA1E8CDF460065A67D /* GLUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUI.framework; path = ../../../../../../../../../Library/Frameworks/GLUI.framework; sourceTree = "<group>"; };
+		4BC5220E1E9E48ED002A7940 /* graphic.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = graphic.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +97,7 @@
 				4B8D9C901E8CDF190065A67D /* fourmi.h */,
 				4B8D9C911E8CDF190065A67D /* fourmiliere.c */,
 				4B8D9C921E8CDF190065A67D /* fourmiliere.h */,
-				4B8D9C931E8CDF190065A67D /* graphic.cpp */,
+				4BC5220E1E9E48ED002A7940 /* graphic.c */,
 				4B8D9C941E8CDF190065A67D /* graphic.h */,
 				4B8D9C951E8CDF190065A67D /* main.cpp */,
 				4B8D9C961E8CDF190065A67D /* modele.c */,
@@ -178,6 +178,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BC5220F1E9E48ED002A7940 /* graphic.c in Sources */,
 				4B8D9C9E1E8CDF190065A67D /* fourmi.c in Sources */,
 				4B8D9C9F1E8CDF190065A67D /* fourmiliere.c in Sources */,
 				4B8D9CA41E8CDF190065A67D /* utilitaire.c in Sources */,
@@ -185,7 +186,6 @@
 				4B8D9C9D1E8CDF190065A67D /* error.c in Sources */,
 				4B8D9CA31E8CDF190065A67D /* nourriture.c in Sources */,
 				4B8D9CA21E8CDF190065A67D /* modele.c in Sources */,
-				4B8D9CA01E8CDF190065A67D /* graphic.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +320,7 @@
 				4B8D9C8B1E8CDE8D0065A67D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
