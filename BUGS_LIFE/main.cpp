@@ -12,15 +12,16 @@
 #include <GL/glui.h>
 #include <GL/glut.h>
 #include <GL/glu.h>
-//~ #include <GLUI/glui.h>
-//~ #include <GLUT/glut.h>
-
+//#include <GLUI/glui.h>
+//#include <GLUT/glut.h>
 
 extern "C"
 {
 #include "modele.h"
 #include "constantes.h"
 }
+
+void main_cleanup(void);
 
 namespace {
     //GLUT
@@ -37,12 +38,26 @@ namespace {
 }
 
 void control_cb(int control){
+<<<<<<< HEAD
 	char mode[] = "Verification";
     switch (control){
         case (OPEN): 
             printf( "Open file: %s\n", entree->get_text());
             modele_lecture(mode, (char*)entree->get_text());
             glutPostRedisplay();
+=======
+    char mode[] = "Verification";
+    switch (control){
+        case (OPEN): 
+            printf( "Open file: %s\n", entree->get_text());
+            modele_cleanup();
+            //main_cleanup();
+            /*char file[100];
+             sprintf(file, "%s", "/Users/maxchevron/Google\ Drive/05.-\ EPFL/2.\ Semestre\ II/6.\ Programmation\ II/Bug\'s\ life/bugslife/BUGS_LIFE/G02.txt");
+             printf( "text: %s\n", file);
+             modele_lecture("Verification", (char*)file);*/
+            modele_lecture(mode, (char*)entree->get_text());
+>>>>>>> e94095f706e282405ca94bdb48b6286e5e313b72
             break;
         case (SAVE):
             printf("Save file: %s\n", sortie->get_text());
@@ -204,11 +219,35 @@ void add_rollout(GLUI* glui) {
                                                               BLANK));
 }
 
+void main_cleanup(void) {
+    main_window = 0;
+    width = 0;
+    height = 0;
+    aspect_ratio = 0;
+    run = 0;
+    free(entree);
+    entree = NULL;
+    free(sortie);
+    sortie = NULL;
+    free(record);
+    record = NULL;
+    free(auto_man_radio);
+    auto_man_radio = NULL;
+}
+
+
 int main(int argc, char *argv[]){
     switch (argc) {
+<<<<<<< HEAD
         case MODE_SIMPLE:          
 			system("./demo.x");
 			return EXIT_SUCCESS;
+=======
+        case MODE_SIMPLE:
+            system("./demo.x");
+            return EXIT_SUCCESS;
+            break;
+>>>>>>> e94095f706e282405ca94bdb48b6286e5e313b72
         case MODE_SPECIFIQUE:
             if ((strcmp(argv[1], "Error") == 0) ||
                 (strcmp(argv[1] , "Verification") == 0)
@@ -224,6 +263,7 @@ int main(int argc, char *argv[]){
                    ,argv[0],argv[0]);
             return EXIT_FAILURE;
     }
+    
     /**********************/ /* GLUT */ /**********************/
     glutInit(&argc, argv);
     glutInitDisplayMode( GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA );
