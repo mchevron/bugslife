@@ -240,10 +240,9 @@ void main_rollout_update(void) {
 
 int main(int argc, char *argv[]){
     switch (argc) {
-        case MODE_SIMPLE:
-            system("./demo.x");
-            return EXIT_SUCCESS;
-            break;
+        case MODE_SIMPLE:          
+			system("./demo.x");
+			return EXIT_SUCCESS;
         case MODE_SPECIFIQUE:
             if ((strcmp(argv[1], "Error") == 0) ||
                 (strcmp(argv[1] , "Verification") == 0)

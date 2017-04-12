@@ -96,9 +96,9 @@ void modele_update(void){
     printf("modele_update\n");
 }
 
-void modele_cleanup(void) {
-    fourmiliere_free();
-    nourriture_free();
+void modele_cleanup(void){
+	fourmiliere_free();
+	nourriture_free();
 }
 
 void modele_new_food(float pos_x, float pos_y) {
