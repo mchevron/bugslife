@@ -23,7 +23,7 @@
 
 struct fourmiliere
 {
-    int test;
+    int test_1;
     double x;
     double y;
     int nbO;
