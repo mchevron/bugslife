@@ -18,7 +18,7 @@ int fourmi_garde_lecture(unsigned i, char tab[MAX_LINE]);
 int fourmi_test_age(unsigned num_fourmiliere, unsigned num_fourmi,
                     unsigned age);
 void fourmi_recoit( FOURMI **p_ouvriere, FOURMI ** p_garde);
-FOURMI * ajouter_fourmi ( FOURMI ** p_tete );
+FOURMI * fourmi_ajouter ( FOURMI ** p_tete );
 int fourmi_test_superposition_oo( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
                                  unsigned i, unsigned j );
 int fourmi_test_superposition_go( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,

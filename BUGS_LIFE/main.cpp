@@ -204,9 +204,10 @@ void add_rollout(GLUI* glui) {
 }
 
 int main(int argc, char *argv[]){
+    int status = 0;
     switch (argc) {
         case MODE_SIMPLE:
-            
+            status = system("./demo.x");
             break;
         case MODE_SPECIFIQUE:
             if ((strcmp(argv[1], "Error") == 0) ||

@@ -83,7 +83,7 @@ int fourmi_ouvriere_lecture(unsigned i, char tab[MAX_LINE]) {
         error_lecture_elements_fourmiliere(i, ERR_OUVRIERE, ERR_PAS_ASSEZ);
         return L_EXIT;
     }
-    ouvri = ajouter_fourmi(p_fourmi_ouvriere);
+    ouvri = fourmi_ajouter(p_fourmi_ouvriere);
     if (ouvri == NULL) return L_EXIT;
     ouvri->ouvriere.age = age;
     ouvri->ouvriere.posx = posx;
@@ -106,7 +106,7 @@ int fourmi_garde_lecture(unsigned i, char tab[MAX_LINE]) {
     if(etape_lecture != L_CONTINUE) return etape_lecture;
     char *deb = tab, *fin = NULL;
     while(sscanf(deb, "%*[ \t]%u %lf %lf", &age, &x, &y) == NB_ELEMENTS_GARDE) {
-        guard = ajouter_fourmi(p_fourmi_garde);
+        guard = fourmi_ajouter(p_fourmi_garde);
         if (guard == NULL) return L_EXIT;
         guard->garde.age = age;
         guard->garde.x = x;
@@ -141,7 +141,7 @@ void fourmi_recoit( FOURMI **p_ouvriere, FOURMI ** p_garde){
     p_fourmi_garde = p_garde;
 }
 
-FOURMI * ajouter_fourmi ( FOURMI ** p_tete ){
+FOURMI * fourmi_ajouter ( FOURMI ** p_tete ){
     FOURMI * four = NULL;
     
     if (!(four = (FOURMI *) malloc (sizeof(FOURMI))))
