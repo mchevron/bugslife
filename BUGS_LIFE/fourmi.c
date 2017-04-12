@@ -321,7 +321,7 @@ void fourmi_save_garde(FILE *f_sortie, FOURMI *p_garde){
 void fourmi_free ( FOURMI ** p_liste ){
     /* Retire un à un les elements en tete de la liste */
     FOURMI *four;
-    while ( * p_liste != NULL ){
+    while (* p_liste){
         four = * p_liste;
         fourmi_retirer ( p_liste, four );
     }
@@ -330,8 +330,8 @@ void fourmi_free ( FOURMI ** p_liste ){
 }
 
 void fourmi_retirer ( FOURMI ** p_tete, FOURMI *four ){
-    FOURMI* courant=* p_tete;
-    FOURMI* precedent=* p_tete;
+    FOURMI* courant= *p_tete;
+    FOURMI* precedent= *p_tete;
     while ( courant != four && courant != NULL ){
         precedent=courant;
         courant=courant->next;
@@ -347,5 +347,3 @@ void fourmi_retirer ( FOURMI ** p_tete, FOURMI *four ){
         }
     }
 }
-
-

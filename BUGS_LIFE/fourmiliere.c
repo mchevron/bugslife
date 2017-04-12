@@ -55,6 +55,8 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE]){
             return L_EXIT;
         }
     }
+    (p_fourmiliere+i)->p_fourmi_ouvriere = NULL;
+	(p_fourmiliere+i)->p_fourmi_garde = NULL;
     if (sscanf(tab, "%*[ \t]%lf %lf %d %d %d %lf", &(p_fourmiliere+i)->x,
                &(p_fourmiliere+i)->y,
                &(p_fourmiliere+i)->nbO,
@@ -162,17 +164,6 @@ int fourmiliere_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere,
 		return VRAI;	
 	}
 	return FAUX;
-}
-
-int fourmiliere_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde,
-							   double x_garde, double y_garde) {
-    double distance = sqrt(pow(x_garde - (p_fourmiliere+num_fourmiliere)->x,2) +
-                        pow(y_garde - (p_fourmiliere+num_fourmiliere)->y,2));
-    if (distance > (p_fourmiliere+num_fourmiliere)->rayon - RAYON_FOURMI){
-        error_pos_garde(num_fourmiliere, num_garde);
-        return VRAI;
-    }
-    return FAUX;
 }
 
 int fourmiliere_test_superposition(void){
@@ -308,13 +299,11 @@ void fourmiliere_free(void){
     for (i = 0; i < nb_fourmiliere; i++){
         fourmi_free(&(p_fourmiliere+i)->p_fourmi_ouvriere);
         fourmi_free(&(p_fourmiliere+i)->p_fourmi_garde);
-        
+
         free((p_fourmiliere+i)->p_fourmi_ouvriere);
         free((p_fourmiliere+i)->p_fourmi_garde);
         (p_fourmiliere+i)->p_fourmi_ouvriere = NULL;
         (p_fourmiliere+i)->p_fourmi_garde = NULL;
-        free(p_fourmiliere);
-		p_fourmiliere = NULL;
     }
     free(p_fourmiliere);
     p_fourmiliere = NULL;
