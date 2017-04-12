@@ -15,12 +15,13 @@
 //#include <GLUI/glui.h>
 //#include <GLUT/glut.h>
 
-
 extern "C"
 {
 #include "modele.h"
 #include "constantes.h"
 }
+
+void main_cleanup(void);
 
 namespace {
     //GLUT
@@ -37,11 +38,17 @@ namespace {
 }
 
 void control_cb(int control){
+    char mode[] = "Verification";
     switch (control){
         case (OPEN): 
             printf( "Open file: %s\n", entree->get_text());
             modele_cleanup();
-            modele_lecture("Verification", (char*)entree->get_text());
+            main_cleanup();
+            /*char file[100];
+             sprintf(file, "%s", "/Users/maxchevron/Google\ Drive/05.-\ EPFL/2.\ Semestre\ II/6.\ Programmation\ II/Bug\'s\ life/bugslife/BUGS_LIFE/E01.txt");
+             printf( "text: %s\n", file);
+             modele_lecture("Verification", (char*)file);*/
+            modele_lecture(mode, (char*)entree->get_text());
             glutPostRedisplay();
             break;
         case (SAVE):
@@ -66,6 +73,8 @@ void control_cb(int control){
             break;
         case (RECORD):
             // record simulation
+            if(record->get_int_val() == 1) printf("Record\n");
+            else printf("Stop record\n");
             break;
         default:
             printf("\n Unknown command\n");
@@ -201,6 +210,23 @@ void add_rollout(GLUI* glui) {
     glui->add_statictext_to_panel(total, modele_get_info_glui(NBT_NOURRITURE,
                                                               BLANK));
 }
+
+void main_cleanup(void) {
+    main_window = 0;
+    width = 0;
+    height = 0;
+    aspect_ratio = 0;
+    run = 0;
+    free(entree);
+    entree = NULL;
+    free(sortie);
+    sortie = NULL;
+    free(record);
+    record = NULL;
+    free(auto_man_radio);
+    auto_man_radio = NULL;
+}
+
 
 int main(int argc, char *argv[]){
     switch (argc) {

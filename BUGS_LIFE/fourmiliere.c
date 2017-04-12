@@ -17,9 +17,7 @@
 #include "utilitaire.h"
 #include "fourmiliere.h"
 
-
 #define NB_ELEMENTS_FOURMILIERE 6
-#define WORD_LENGTH_COMPARE 	9
 
 struct fourmiliere
 {
@@ -66,14 +64,13 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE]){
         error_lecture_elements_fourmiliere(i, ERR_FOURMILIERE, ERR_PAS_ASSEZ);
         return L_EXIT;
     }
-    int test = (p_fourmiliere+5)->nbO;
     fourmi_recoit(&(p_fourmiliere+i)->p_fourmi_ouvriere,
                   &(p_fourmiliere+i)->p_fourmi_garde);
     (p_fourmiliere+i)->nbF = (p_fourmiliere+i)->nbO + (p_fourmiliere+i)->nbG;
     if (fourmiliere_test_rayon(i,(p_fourmiliere+i)->nbF,
                                (p_fourmiliere+i)->total_food,
                                (p_fourmiliere+i)->rayon)) return L_EXIT;
-    if (utilitaire_test_pos_domaine(ERR_FOURMILIERE, i, (p_fourmiliere+i)->x,
+    if (fourmiliere_test_pos_domaine(ERR_FOURMILIERE, i, (p_fourmiliere+i)->x,
                                     (p_fourmiliere+i)->y)) return L_EXIT;
     if((p_fourmiliere+i)->nbO > 0) return L_OUVRIERE;
     if((p_fourmiliere+i)->nbG > 0) return L_GARDE;
@@ -142,6 +139,15 @@ int fourmiliere_test_lecture_elements(unsigned nb_fourmiliere_fichier){
 		error_lecture_elements_fourmiliere(nb_fourmiliere,
                                            ERR_FOURMILIERE, ERR_TROP);
 		return L_EXIT;
+	}
+	return FAUX;
+}
+
+int fourmiliere_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere, 
+								double x, double y){
+	if ((x < -DMAX) || (x > DMAX) || (y < -DMAX) || (y > DMAX)) {
+		error_pos_domaine(origine, num_fourmiliere, x, y);
+		return VRAI;	
 	}
 	return FAUX;
 }
@@ -299,6 +305,10 @@ void fourmiliere_free(void){
         free(p_fourmiliere);
 		p_fourmiliere = NULL;
     }
-    nb_fourmiliere = 0;	
+    free(p_fourmiliere);
+    p_fourmiliere = NULL;
+    nb_fourmiliere = 0;
+    char empty[EMPTY] = "";
+    sprintf(info_glui, "%s", empty);
 }
 
