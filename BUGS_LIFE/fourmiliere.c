@@ -18,6 +18,7 @@
 #include "fourmiliere.h"
 
 #define NB_ELEMENTS_FOURMILIERE 6
+#define EMPTY           		1
 
 struct fourmiliere
 {

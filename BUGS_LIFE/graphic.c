@@ -12,9 +12,11 @@
 #include <math.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-//#include <GLUT/glut.h>
 #include "constantes.h"
 #include "graphic.h"
+
+#define SIDES_COUNT				50
+#define RGB             		3
 
 void graphic_draw_circle (float xc,
                           float yc,
