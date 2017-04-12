@@ -23,7 +23,6 @@
 
 struct fourmiliere
 {
-    int test_1;
     double x;
     double y;
     int nbO;
@@ -208,8 +207,8 @@ void fourmiliere_dessine(void) {
 
 char* fourmiliere_get_info_rollout(unsigned info, unsigned i) {
     char color_name[MAX_FOURMILIERE][MAX_LENGTH] = {"Red", "Green",
-        "Blue", "Yellow", "Cyan", "Magenta", "Grey", "Orange",
-        "Dark_green", "Purple"};
+        "Blue", "Yellow", "Cyan", "Purple", "Grey", "Orange",
+        "Brown", "Khaki"};
     char* color = color_name[i];
     char empty[EMPTY] = "";
     if(i<nb_fourmiliere) {

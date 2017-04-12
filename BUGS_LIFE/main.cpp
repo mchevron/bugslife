@@ -20,7 +20,6 @@ extern "C"
 {
 #include "modele.h"
 #include "constantes.h"
-#include "graphic.h"
 }
 
 namespace {
