@@ -70,8 +70,8 @@ void control_cb(int control){
             break;
         case (RECORD):
             // record simulation
-            printf("Record\n");
-            printf("Stop record\n");
+            if(record->get_int_val() == 1) printf("Record\n");
+            else printf("Stop record\n");
             break;
         default:
             printf("\n Unknown command\n");
