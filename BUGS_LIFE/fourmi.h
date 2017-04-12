@@ -7,6 +7,7 @@
  */
 
 #include "constantes.h"
+#include "error.h"
 
 typedef struct ouvriere OUVRIERE;
 typedef struct garde GARDE;
@@ -15,9 +16,18 @@ typedef struct fourmiliere FOURMILIERE;
 
 int fourmi_ouvriere_lecture(unsigned i, char tab[MAX_LINE]);
 int fourmi_garde_lecture(unsigned i, char tab[MAX_LINE]);
+int fourmi_ouvriere_lecture_precontrol(unsigned i, unsigned j,
+											char tab[MAX_LINE]);
+int fourmi_garde_lecture_precontrol(unsigned i, unsigned j,
+										 char tab[MAX_LINE]);
 int fourmi_test_age(unsigned num_fourmiliere, unsigned num_fourmi,
                     unsigned age);
+int fourmi_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde, 
+							   double x_garde, double y_garde);
+int fourmi_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere, 
+								double x, double y);
 void fourmi_recoit( FOURMI **p_ouvriere, FOURMI ** p_garde);
+void fourmi_recoit_frml( FOURMILIERE *p_fmlr);
 FOURMI * fourmi_ajouter ( FOURMI ** p_tete );
 int fourmi_test_superposition_oo( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
                                  unsigned i, unsigned j );
