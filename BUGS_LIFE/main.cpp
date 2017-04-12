@@ -9,11 +9,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <GL/glui.h>
-//#include <GL/glut.h>
-//#include <GL/glu.h>
-#include <GLUI/glui.h>
-#include <GLUT/glut.h>
+#include <GL/glui.h>
+#include <GL/glut.h>
+#include <GL/glu.h>
+//~ #include <GLUI/glui.h>
+//~ #include <GLUT/glut.h>
 
 
 extern "C"
@@ -38,11 +38,12 @@ namespace {
 }
 
 void control_cb(int control){
+	char mode[] = "Verification";
     switch (control){
         case (OPEN): 
             printf( "text: %s\n", entree->get_text());
             modele_cleanup();
-            modele_lecture("Verification", (char*)entree->get_text());
+            modele_lecture(mode, (char*) entree->get_text());
             glutPostRedisplay();
             break;
         case (SAVE):

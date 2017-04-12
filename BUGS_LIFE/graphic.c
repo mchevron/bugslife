@@ -10,9 +10,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-//#include <GL/glu.h>
-//#include <GL/glut.h>
-#include <GLUT/glut.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
+//~ #include <GLUT/glut.h>
 #include "constantes.h"
 #include "graphic.h"
 
