@@ -317,6 +317,7 @@ void fourmi_free ( FOURMI ** p_liste ){
         four = * p_liste;
         fourmi_retirer ( p_liste, four );
     }
+    etape_lecture = 0;
     j = 0; 
 }
 

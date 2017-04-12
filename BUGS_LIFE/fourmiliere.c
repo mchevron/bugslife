@@ -17,9 +17,7 @@
 #include "utilitaire.h"
 #include "fourmiliere.h"
 
-
 #define NB_ELEMENTS_FOURMILIERE 6
-#define WORD_LENGTH_COMPARE 	9
 
 struct fourmiliere
 {
@@ -66,7 +64,6 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE]){
         error_lecture_elements_fourmiliere(i, ERR_FOURMILIERE, ERR_PAS_ASSEZ);
         return L_EXIT;
     }
-    int test = (p_fourmiliere+5)->nbO;
     fourmi_recoit(&(p_fourmiliere+i)->p_fourmi_ouvriere,
                   &(p_fourmiliere+i)->p_fourmi_garde);
     (p_fourmiliere+i)->nbF = (p_fourmiliere+i)->nbO + (p_fourmiliere+i)->nbG;
@@ -299,6 +296,8 @@ void fourmiliere_free(void){
     }
     free(p_fourmiliere);
     p_fourmiliere = NULL;
-    nb_fourmiliere = 0;	
+    nb_fourmiliere = 0;
+    char empty[EMPTY] = "";
+    sprintf(info_glui, "%s", empty);
 }
 

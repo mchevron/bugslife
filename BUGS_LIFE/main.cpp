@@ -41,8 +41,12 @@ void control_cb(int control){
         case (OPEN): 
             printf( "Open file: %s\n", entree->get_text());
             modele_cleanup();
-            modele_lecture("Verification", (char*)entree->get_text());
-            glutPostRedisplay();
+            char file[100];
+             sprintf(file, "%s", "/Users/maxchevron/Google\ Drive/05.-\ EPFL/2.\ Semestre\ II/6.\ Programmation\ II/Bug\'s\ life/bugslife/BUGS_LIFE/G02.txt");
+             printf( "text: %s\n", file);
+             modele_lecture("Verification", (char*)file);
+            //modele_lecture("Verification", (char*)entree->get_text());
+            //glutPostRedisplay();
             break;
         case (SAVE):
             printf("Save file: %s\n", sortie->get_text());
@@ -66,6 +70,8 @@ void control_cb(int control){
             break;
         case (RECORD):
             // record simulation
+            printf("Record\n");
+            printf("Stop record\n");
             break;
         default:
             printf("\n Unknown command\n");
