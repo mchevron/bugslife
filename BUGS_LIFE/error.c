@@ -8,8 +8,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "error.h"
 #include "constantes.h"
+#include "error.h"
 
 // chaînes prédéfinies pour composer les messages d'erreur
 

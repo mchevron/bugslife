@@ -9,11 +9,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <GL/glui.h>
-//#include <GL/glut.h>
-//#include <GL/glu.h>
-#include <GLUI/glui.h>
-#include <GLUT/glut.h>
+#include <GL/glui.h>
+#include <GL/glut.h>
+#include <GL/glu.h>
+//~ #include <GLUI/glui.h>
+//~ #include <GLUT/glut.h>
 
 
 extern "C"
@@ -37,16 +37,12 @@ namespace {
 }
 
 void control_cb(int control){
+	char mode[] = "Verification";
     switch (control){
         case (OPEN): 
             printf( "Open file: %s\n", entree->get_text());
-            modele_cleanup();
-            char file[100];
-             sprintf(file, "%s", "/Users/maxchevron/Google\ Drive/05.-\ EPFL/2.\ Semestre\ II/6.\ Programmation\ II/Bug\'s\ life/bugslife/BUGS_LIFE/G02.txt");
-             printf( "text: %s\n", file);
-             modele_lecture("Verification", (char*)file);
-            //modele_lecture("Verification", (char*)entree->get_text());
-            //glutPostRedisplay();
+            modele_lecture(mode, (char*)entree->get_text());
+            glutPostRedisplay();
             break;
         case (SAVE):
             printf("Save file: %s\n", sortie->get_text());
@@ -209,11 +205,10 @@ void add_rollout(GLUI* glui) {
 }
 
 int main(int argc, char *argv[]){
-    int status = 0;
     switch (argc) {
-        case MODE_SIMPLE:
-            status = system("./demo.x");
-            break;
+        case MODE_SIMPLE:          
+			system("./demo.x");
+			return EXIT_SUCCESS;
         case MODE_SPECIFIQUE:
             if ((strcmp(argv[1], "Error") == 0) ||
                 (strcmp(argv[1] , "Verification") == 0)

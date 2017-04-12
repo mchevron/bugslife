@@ -143,6 +143,18 @@ int fourmiliere_test_lecture_elements(unsigned nb_fourmiliere_fichier){
 	return FAUX;
 }
 
+int fourmiliere_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde,
+							   double x_garde, double y_garde) {
+    int distance = sqrt(pow(x_garde - (p_fourmiliere+num_fourmiliere)->x,2) +
+                        pow(y_garde - (p_fourmiliere+num_fourmiliere)->y,2));
+    if (distance > (p_fourmiliere+num_fourmiliere)->rayon -
+        (RAYON_FOURMI + EPSIL_ZERO)){
+        error_pos_garde(num_fourmiliere, num_garde);
+        return VRAI;
+    }
+    return FAUX;
+}
+
 int fourmiliere_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere, 
 								double x, double y){
 	if ((x < -DMAX) || (x > DMAX) || (y < -DMAX) || (y > DMAX)) {
@@ -154,10 +166,9 @@ int fourmiliere_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere,
 
 int fourmiliere_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde,
 							   double x_garde, double y_garde) {
-    int distance = sqrt(pow(x_garde - (p_fourmiliere+num_fourmiliere)->x,2) +
+    double distance = sqrt(pow(x_garde - (p_fourmiliere+num_fourmiliere)->x,2) +
                         pow(y_garde - (p_fourmiliere+num_fourmiliere)->y,2));
-    if (distance > (p_fourmiliere+num_fourmiliere)->rayon -
-        RAYON_FOURMI){
+    if (distance > (p_fourmiliere+num_fourmiliere)->rayon - RAYON_FOURMI){
         error_pos_garde(num_fourmiliere, num_garde);
         return VRAI;
     }
