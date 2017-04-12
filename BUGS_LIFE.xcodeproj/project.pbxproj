@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B1B45E21E9E497E00EF7170 /* graphic.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B1B45E11E9E497E00EF7170 /* graphic.c */; };
 		4B8D9C9D1E8CDF190065A67D /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B8D9C8D1E8CDF190065A67D /* error.c */; };
 		4B8D9C9E1E8CDF190065A67D /* fourmi.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B8D9C8F1E8CDF190065A67D /* fourmi.c */; };
 		4B8D9C9F1E8CDF190065A67D /* fourmiliere.c in Sources */ = {isa = PBXBuildFile; fileRef = 4B8D9C911E8CDF190065A67D /* fourmiliere.c */; };
@@ -32,6 +33,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4B1B45E11E9E497E00EF7170 /* graphic.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = graphic.c; sourceTree = "<group>"; };
 		4B8D9C821E8CDE8D0065A67D /* BUGS_LIFE */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BUGS_LIFE; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B8D9C8C1E8CDF190065A67D /* constantes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constantes.h; sourceTree = "<group>"; };
 		4B8D9C8D1E8CDF190065A67D /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				4B8D9C901E8CDF190065A67D /* fourmi.h */,
 				4B8D9C911E8CDF190065A67D /* fourmiliere.c */,
 				4B8D9C921E8CDF190065A67D /* fourmiliere.h */,
+				4B1B45E11E9E497E00EF7170 /* graphic.c */,
 				4B8D9C941E8CDF190065A67D /* graphic.h */,
 				4B8D9C951E8CDF190065A67D /* main.cpp */,
 				4B8D9C961E8CDF190065A67D /* modele.c */,
@@ -175,6 +178,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B1B45E21E9E497E00EF7170 /* graphic.c in Sources */,
 				4B8D9C9E1E8CDF190065A67D /* fourmi.c in Sources */,
 				4B8D9C9F1E8CDF190065A67D /* fourmiliere.c in Sources */,
 				4B8D9CA41E8CDF190065A67D /* utilitaire.c in Sources */,

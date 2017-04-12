@@ -2,13 +2,16 @@
  \file modele.h
  \brief Module qui gère la lecture des données
  \author Diane Remmy & Max Chevron
- \version 1.0
- \date Mars 2017
+ \version 2.0
+ \date Avril 2017
  */
 
-typedef enum etape_lecture {
-    L_NB_FOURMILIERE, L_FOURMILIERE, L_OUVRIERE, L_GARDE, L_NB_NOURRITURE,
-    L_NOURRITURE, L_EXIT, L_COMPLETE, L_CONTINUE,
-} ETAPE_LECTURE;
-
-int modele_lecture(int argc, char *argv[]);
+int modele_lecture(char mode[], char nom_fichier[]);
+int modele_lecture_fichier(char nom_fichier[]);
+int modele_verification_rendu2(void);
+void modele_update(void);
+void modele_cleanup(void);
+void modele_new_food(float pos_x, float pos_y);
+void modele_dessine_complet(void);
+char* modele_get_info_glui(unsigned info, unsigned i);
+void modele_sauvegarde(char *fsortie);

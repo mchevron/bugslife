@@ -2,8 +2,8 @@
  \file error.h
  \brief Module qui gère les messages d'erreur. NE PAS MODIFIER
  \author PROG II
- \version 0.9
- \date fevrier 2017
+ \version 2.0
+ \date Avril 2017
  */
 
 #ifndef ERROR_H
@@ -49,17 +49,17 @@ void error_msg(char * msg);
 void error_success(void);
 
 //---------------------------------------------------------------------
-// Rendu1 en mode Error:impossible d'ouvrir le fichier, fichier inexistant
+// impossible d'ouvrir le fichier, fichier inexistant
 void error_fichier_inexistant(void);
 
 //---------------------------------------------------------------------
-// Rendu1 en mode Error:si la lecture d'une ligne du fichier échoue (on reçoit EOF)
+// si la lecture d'une ligne du fichier échoue (on reçoit EOF)
 // alors que la lecture des entités n'est pas terminée
 void error_fichier_incomplet(void);
 
 
 //---------------------------------------------------------------------
-// Rendu1 en mode Error:si le nombre de fourmiliere dépasse MAX_FOURMILIERE 
+// si le nombre de fourmiliere dépasse MAX_FOURMILIERE 
 void error_nb_fourmiliere(int nb_fourmiliere);
 
 //---------------------------------------------------------------------
@@ -71,7 +71,8 @@ void error_nb_fourmiliere(int nb_fourmiliere);
 void error_pos_domaine(ERREUR_ORIG origine,unsigned indice, double x, double y);
 
 //---------------------------------------------------------------------
-// Rendu1 en mode Error: le rayon de la fourmiliere est trop grand 
+// Rendu1 en mode Error: le rayon de la fourmiliere est "trop grand"
+//     "trop grand" <=> rayon_lu > rayon_max donné par equ.(1) + EPSIL_ZERO 
 // IMPORTANT: la valeur de l'entier fourmiliere est de type "indice de
 //            tableau". Elle est comprise entre 0 et (nb_element-1).
 //            0 désigne le premier élément apparaissant dans le fichier etc...
@@ -110,17 +111,18 @@ void error_lecture_elements_nourriture(ERREUR_TYPE type);
 
 //---------------------------------------------------------------------
 // Rendu2 en mode Vérification: cas de superposition interdit pour
-//           les combinaisons entre fourmiliere et nourriture
+//           2 fourmilieres 
+//           La section 3.3 décrit le test à effectuer
 // IMPORTANT: la valeur des indices est de type "indice de tableau". 
 //            Elle est comprise entre 0 et (nb_element-1).
 //            0 désigne le premier élément apparaissant dans le fichier etc...
 //
-void error_superposition(ERREUR_ORIG origine1, unsigned id1,
-						 ERREUR_ORIG origine2, unsigned id2);
+void error_superposition_fourmiliere(unsigned id1, unsigned id2);
 
 //---------------------------------------------------------------------
 // Rendu2 en mode Vérification: cas de superposition interdit pour
 //           les combinaisons entre fourmis (if= indice fourmiliere)
+//           La section 3.3 décrit le test à effectuer
 // IMPORTANT: la valeur des indices est de type "indice de tableau". 
 //            Elle est comprise entre 0 et (nb_element-1).
 //            0 désigne le premier élément apparaissant dans le fichier etc...
