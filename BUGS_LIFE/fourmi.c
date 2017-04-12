@@ -63,8 +63,7 @@ struct fourmiliere
 };
 
 static unsigned etape_lecture;
-static unsigned j = 0;  
-static FOURMILIERE * p_fourmiliere;                        //indice fourmi
+static unsigned j = 0;                          //indice fourmi
 static FOURMI ** p_fourmi_ouvriere;
 static FOURMI ** p_fourmi_garde;
 
@@ -76,7 +75,7 @@ int fourmi_ouvriere_lecture(unsigned i, char tab[MAX_LINE]) {
     double butx = 0.;
     double buty = 0.;
     unsigned bool_nourriture = 0;
-    etape_lecture = fourmi_ouvriere_lecture_precontrol(i, j, tab);
+    etape_lecture = fourmiliere_ouvriere_lecture_precontrol(i, j, tab);
     if(etape_lecture != L_CONTINUE && etape_lecture != L_OUVRIERE) j = 0;
     if(etape_lecture != L_CONTINUE) return etape_lecture;
     if (sscanf(tab, "%*[ \t]%u %lf %lf %lf %lf %d", &age, &posx, &posy, &butx, &buty,
@@ -95,7 +94,6 @@ int fourmi_ouvriere_lecture(unsigned i, char tab[MAX_LINE]) {
     ouvri->ouvriere.id = j;
     if(fourmi_test_age(i, j, ouvri->ouvriere.age)) return L_EXIT;
     j = j+1;
-    
     return L_OUVRIERE;
 }
 
@@ -103,7 +101,7 @@ int fourmi_garde_lecture(unsigned i, char tab[MAX_LINE]) {
     unsigned 	k = 0, age = 0;
     double 		x = 0., y = 0.;
     FOURMI * guard;
-    etape_lecture = fourmi_garde_lecture_precontrol(i, j, tab);
+    etape_lecture = fourmiliere_garde_lecture_precontrol(i, j, tab);
     if(etape_lecture != L_CONTINUE && etape_lecture != L_GARDE) j=0;
     if(etape_lecture != L_CONTINUE) return etape_lecture;
     char *deb = tab, *fin = NULL;
@@ -118,62 +116,15 @@ int fourmi_garde_lecture(unsigned i, char tab[MAX_LINE]) {
             strtod(deb,&fin);
             deb = fin;
         }
-        if((fourmi_test_age(i, j, guard->garde.age)))
-           //|| (fourmi_test_pos_garde(i, j, guard->garde.x, guard->garde.y)))
+        if((fourmi_test_age(i, j, guard->garde.age))
+           || (fourmiliere_test_pos_garde(i, j, guard->garde.x, guard->garde.y)))
             return L_EXIT;
-        if (fourmi_test_pos_domaine(ERR_GARDE, i, guard->garde.x,
+        if (utilitaire_test_pos_domaine(ERR_FOURMILIERE, i, guard->garde.x,
                                         guard->garde.y))
             return L_EXIT;
         j=j+1;
     }
-    
     return L_GARDE;
-}
-
-int fourmi_ouvriere_lecture_precontrol(unsigned i, unsigned j, 
-											char tab[MAX_LINE]) {
-    char check[MAX_LINE];
-    double test = 0.;
-    sscanf(tab, " %s", check);
-    if((strcmp(check, "FIN_LISTE") == ECHEC)
-       && (j < (p_fourmiliere+i)->nbO)) {
-        error_lecture_elements_fourmiliere(i, ERR_OUVRIERE, ERR_PAS_ASSEZ);
-        return L_EXIT;
-    }
-    if ((strcmp(check, "FIN_LISTE") == ECHEC) && ((p_fourmiliere+i)->nbF == 0))
-        return L_COMPLETE;
-    if(strcmp(check, "FIN_LISTE") == ECHEC) {
-        return L_GARDE;
-    }
-    if(j == (p_fourmiliere+i)->nbO && (p_fourmiliere+i)->nbO > 0) {
-        error_lecture_elements_fourmiliere(i, ERR_OUVRIERE, ERR_TROP);
-        return L_EXIT;
-    }
-    if((p_fourmiliere+i)->nbF == 0) return L_FOURMILIERE;
-    if((p_fourmiliere+i)->nbO == 0) {
-        j = 0;
-        return fourmi_garde_lecture(i, tab);
-    }
-    if(sscanf(tab, " %lf", &test) == ECHEC) return L_OUVRIERE;
-    return L_CONTINUE;
-}
-
-int fourmi_garde_lecture_precontrol(unsigned i, unsigned j, char tab[MAX_LINE]){
-    char check[MAX_LINE];
-    double test = 0.;
-    sscanf(tab, " %s", check);
-    if((strcmp(check, "FIN_LISTE") == ECHEC)
-       && (j < (p_fourmiliere+i)->nbG)) {
-        error_lecture_elements_fourmiliere(i, ERR_GARDE, ERR_PAS_ASSEZ);
-        return L_EXIT;
-    }
-    if (j > (p_fourmiliere+i)->nbG) {
-        error_lecture_elements_fourmiliere(i, ERR_GARDE, ERR_TROP);
-        return L_EXIT;
-    }
-    if(strcmp(check, "FIN_LISTE") == ECHEC) return L_FOURMILIERE;
-    if(sscanf(tab, " %lf", &test)==ECHEC) return L_GARDE;
-    return L_CONTINUE;
 }
 
 int fourmi_test_age(unsigned num_fourmiliere, unsigned num_fourmi,
@@ -185,33 +136,9 @@ int fourmi_test_age(unsigned num_fourmiliere, unsigned num_fourmi,
     return FAUX;
 }
 
-int fourmi_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere, 
-								double x, double y){
-	if ((x < -DMAX) || (x > DMAX) || (y < -DMAX) || (y > DMAX)) {
-		error_pos_domaine(origine, num_fourmiliere, x, y);
-		return VRAI;	
-	}
-	return FAUX;
-}
-
-int fourmi_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde,
-							   double x_garde, double y_garde) {
-    int distance = sqrt(pow(x_garde - (p_fourmiliere+num_fourmiliere)->x,2) +
-                        pow(y_garde - (p_fourmiliere+num_fourmiliere)->y,2));
-    if (distance > ((p_fourmiliere+num_fourmiliere)->rayon - RAYON_FOURMI)){
-        error_pos_garde(num_fourmiliere, num_garde);
-        return VRAI;
-    }
-    return FAUX;
-}
-
 void fourmi_recoit( FOURMI **p_ouvriere, FOURMI ** p_garde){
     p_fourmi_ouvriere = p_ouvriere;
     p_fourmi_garde = p_garde;
-}
-
-void fourmi_recoit_frml( FOURMILIERE *p_fmlr){
-    p_fourmiliere = p_fmlr;
 }
 
 FOURMI * fourmi_ajouter ( FOURMI ** p_tete ){
@@ -320,6 +247,7 @@ void fourmi_dessine(unsigned nb_fourmiliere, FOURMILIERE * p_fourmiliere) {
     int i = 0, j = 0;
     for(i=0; i<nb_fourmiliere; i=i+1) {
         graphic_find_color (i);
+        int test = (p_fourmiliere+5)->nbO;
         if((p_fourmiliere+i)->nbO != 0) {
             FOURMI * courant_o = (p_fourmiliere+i)->p_fourmi_ouvriere;
             for(j=0; j<(p_fourmiliere+i)->nbO; j=j+1) {
