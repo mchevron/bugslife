@@ -36,7 +36,6 @@ int nourriture_nb_nourriture(char tab[MAX_LINE]) {
     unsigned test = 0;
     if(sscanf(tab, " %u", &test) == VRAI){
         sscanf(tab, " %u", &nb_nourriture);
-        printf("%u\n",nb_nourriture);
         if (nb_nourriture == 0) return L_COMPLETE;
         return L_NOURRITURE;
     }
@@ -60,7 +59,7 @@ int nourriture_lecture(char tab[MAX_LINE]) {
     if(sscanf(tab, " %lf", &test) == ECHEC) return L_NOURRITURE;
     char *deb=tab, *fin=NULL;
     while(sscanf(deb, "%*[ \t]%lf %lf", &x, &y) == NB_ELEMENTS_NOURRITURE) {
-        nourri = ajouter_nourriture(&p_nourriture);
+        nourri = nourriture_ajouter(&p_nourriture);
         if (nourri == NULL) return L_EXIT;
         nourri->x = x;
         nourri->y = y;
@@ -70,8 +69,6 @@ int nourriture_lecture(char tab[MAX_LINE]) {
         }
         l=l+1;
     }
-    printf("%u\n",l);
-    printf("%u\n",nb_nourriture);
     if (l > nb_nourriture) {
         error_lecture_elements_nourriture(ERR_TROP);
         return L_EXIT;
@@ -79,7 +76,7 @@ int nourriture_lecture(char tab[MAX_LINE]) {
     return L_NOURRITURE;
 }
 
-NOURRITURE * ajouter_nourriture ( NOURRITURE ** p_tete ){
+NOURRITURE * nourriture_ajouter ( NOURRITURE ** p_tete ){
     NOURRITURE * nour = NULL;
     
     if (!(nour = (NOURRITURE *) malloc (sizeof(NOURRITURE)))){
@@ -95,7 +92,7 @@ NOURRITURE * ajouter_nourriture ( NOURRITURE ** p_tete ){
 
 void nourriture_clique(float pos_x, float pos_y) {
     NOURRITURE* nourri;
-    nourri = ajouter_nourriture(&p_nourriture);
+    nourri = nourriture_ajouter(&p_nourriture);
     nourri->x = pos_x;
     nourri->y = pos_y;
     nb_nourriture++;

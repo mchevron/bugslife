@@ -28,7 +28,7 @@ int fourmi_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere,
 								double x, double y);
 void fourmi_recoit( FOURMI **p_ouvriere, FOURMI ** p_garde);
 void fourmi_recoit_frml( FOURMILIERE *p_fmlr);
-FOURMI * ajouter_fourmi ( FOURMI ** p_tete );
+FOURMI * fourmi_ajouter ( FOURMI ** p_tete );
 int fourmi_test_superposition_oo( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
                                  unsigned i, unsigned j );
 int fourmi_test_superposition_go( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,

@@ -12,7 +12,7 @@ typedef struct nourriture NOURRITURE;
 
 int nourriture_nb_nourriture(char tab[MAX_LINE]);
 int nourriture_lecture(char tab[MAX_LINE]);
-NOURRITURE * ajouter_nourriture ( NOURRITURE ** p_tete );
+NOURRITURE * nourriture_ajouter ( NOURRITURE ** p_tete );
 void nourriture_clique(float pos_x, float pos_y);
 void nourriture_dessine();
 void nourriture_save(FILE *f_sortie);

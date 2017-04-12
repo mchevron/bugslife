@@ -20,7 +20,6 @@ extern "C"
 {
 #include "modele.h"
 #include "constantes.h"
-#include "graphic.h"
 }
 
 namespace {
@@ -41,13 +40,13 @@ void control_cb(int control){
 	char mode[] = "Verification";
     switch (control){
         case (OPEN): 
-            printf( "text: %s\n", entree->get_text());
+            printf( "Open file: %s\n", entree->get_text());
             modele_cleanup();
             modele_lecture(mode, (char*) entree->get_text());
             glutPostRedisplay();
             break;
         case (SAVE):
-            printf("text: %s\n", sortie->get_text());
+            printf("Save file: %s\n", sortie->get_text());
             modele_sauvegarde((char*)sortie->get_text());
             break;
         case (AUTO_MAN):
@@ -138,7 +137,6 @@ void idle_cb(){
 void add_file_panel(GLUI* glui) {
     GLUI_Panel *File_panel = glui->add_panel( "File" );
     entree = glui->add_edittext_to_panel(File_panel, "FileName:");
-    printf( "text: %s\n", entree->get_text());
     glui->add_button_to_panel(File_panel,  "Open", OPEN, control_cb);
     sortie = glui->add_edittext_to_panel(File_panel, "FileName:");
     glui->add_button_to_panel(File_panel, "Save", SAVE, control_cb);
@@ -206,9 +204,10 @@ void add_rollout(GLUI* glui) {
 }
 
 int main(int argc, char *argv[]){
+    int status = 0;
     switch (argc) {
         case MODE_SIMPLE:
-            
+            status = system("./demo.x");
             break;
         case MODE_SPECIFIQUE:
             if ((strcmp(argv[1], "Error") == 0) ||
