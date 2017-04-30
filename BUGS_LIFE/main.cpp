@@ -9,9 +9,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <GL/glui.h>
-#include <GL/glut.h>
-#include <GL/glu.h>
+//#include <GL/glui.h>
+//#include <GL/glut.h>
+//#include <GL/glu.h>
+#include <GLUT/GLUT.h>
+#include <GLUI/GLUI.h>
 
 extern "C"
 {

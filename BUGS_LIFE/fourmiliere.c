@@ -173,7 +173,7 @@ int fourmiliere_test_superposition(void){
     unsigned j = 0;
     if(nb_fourmiliere<=1) return FAUX;
     for (i = 0; i < nb_fourmiliere; i++){
-        for (j = i+ 1; j <= nb_fourmiliere; j++){
+        for (j = i+ 1; j < nb_fourmiliere; j++){
             double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
                                                          (p_fourmiliere+j)->x,
                                                          (p_fourmiliere+i)->y,
