@@ -70,7 +70,7 @@ clean:
 # DO NOT DELETE THIS LINE
 modele.o: modele.c fourmiliere.h constantes.h tolerance.h error.h \
  nourriture.h fourmi.h modele.h
-error.o: error.c error.h constantes.h tolerance.h
+error.o: error.c constantes.h tolerance.h error.h
 fourmi.o: fourmi.c error.h fourmiliere.h constantes.h tolerance.h \
  graphic.h utilitaire.h fourmi.h
 fourmiliere.o: fourmiliere.c error.h constantes.h tolerance.h fourmi.h \

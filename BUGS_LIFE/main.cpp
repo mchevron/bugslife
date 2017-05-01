@@ -9,11 +9,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <GL/glui.h>
-//#include <GL/glut.h>
-//#include <GL/glu.h>
-#include <GLUT/GLUT.h>
-#include <GLUI/GLUI.h>
+#ifdef __APPLE__
+#  include <GLUT/GLUT.h>
+#  include <GLUI/GLUI.h>
+#else
+#  include <GL/glu.h>
+#  include <GL/glut.h>
+#  include <GL/glui.h>
+#endif
 
 extern "C"
 {

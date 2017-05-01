@@ -10,9 +10,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-//#include <GL/glu.h>
-//#include <GL/glut.h>
-#include <GLUT/GLUT.h>
+#ifdef __APPLE__
+#  include <GLUT/GLUT.h>
+#else
+#  include <GL/glu.h>
+#  include <GL/glut.h>
+#endif
 #include "constantes.h"
 #include "graphic.h"
 

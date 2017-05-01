@@ -21,19 +21,20 @@ typedef enum get_info {
     NBT_OUVRIERE, NBT_GARDE, NBT_NOURRITURE
 } GET_INFO;
 
-#define DELTA_T         		0.25
-#define BUG_SPEED       		4
-#define BUG_LIFE        		1000
-#define DMAX		    		20
-#define RAYON_FOURMI    		1
-#define RAYON_FOOD      		0.25
-#define VAL_FOOD        		1
-#define FOOD_RATE       		0.1
-#define FEED_RATE       		0.0625
-#define BIRTH_RATE     		 	0.01
-#define MAX_RENDU1      		5 
-#define	MAX_FOURMILIERE 		10
-#define MAX_LINE        		120
+
+#define DELTA_T                 0.25
+#define BUG_SPEED               1
+#define BUG_LIFE                1000
+#define DMAX                    20
+#define RAYON_FOURMI            1
+#define RAYON_FOOD              0.25
+#define VAL_FOOD                1
+#define FOOD_RATE               0.2
+#define FEED_RATE               0.002
+#define BIRTH_RATE              0.0005
+#define MAX_RENDU1              5
+#define MAX_FOURMILIERE         10
+#define MAX_LINE                120
 #define ECHEC           		0
 #define MAX_LENGTH      		20
 #define FAUX					0
