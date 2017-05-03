@@ -22,7 +22,6 @@ extern "C"
 {
 #include "modele.h"
 #include "constantes.h"
-#include "nourriture.h"
 }
 
 #define R_T_LINE				12
