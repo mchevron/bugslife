@@ -22,9 +22,10 @@ extern "C"
 {
 #include "modele.h"
 #include "constantes.h"
+#include "nourriture.h"
 }
 
-#define R_T_LINE				11
+#define R_T_LINE				12
 #define R_T_COL                 4
 #define TOTAL_ROLLOUT           11
 #define ENUM_INCREMENT          5
@@ -265,6 +266,7 @@ int main(int argc, char *argv[]){
     }
     
     /**********************/ /* GLUT */ /**********************/
+
     glutInit(&argc, argv);
     glutInitDisplayMode( GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA );
     glutInitWindowPosition( 50, 50 );
@@ -273,7 +275,7 @@ int main(int argc, char *argv[]){
     glutDisplayFunc(display_cb);
     glutReshapeFunc(reshape_cb);
     glutMouseFunc(processMouse);
-    
+
     /**********************/ /* GLUI */ /**********************/
     GLUI *glui = GLUI_Master.create_glui( "Bug's Life", 0, 600, 50 );
     add_file_panel(glui);
@@ -284,6 +286,7 @@ int main(int argc, char *argv[]){
     glui->set_main_gfx_window(main_window);
     GLUI_Master.set_glutIdleFunc(idle_cb);
     glui->set_main_gfx_window(main_window);
+
     glutMainLoop();
     
     return EXIT_SUCCESS;
