@@ -28,8 +28,8 @@ struct nourriture
     NOURRITURE * next;
 };
 
-static NOURRITURE * p_nourriture = NULL;
 static unsigned nb_nourriture = 0;
+static NOURRITURE * p_nourriture = NULL;
 static unsigned l = 0;
 
 int nourriture_nb_nourriture(char tab[MAX_LINE]) {

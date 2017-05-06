@@ -14,14 +14,15 @@ CFLAGS = -g
 # LIBS: toutes les librairies qu'il faut intégrer
 #########################
 
+UNAME := $(shell uname)
+
+ifeq ($(UNAME), Linux)
 # LINUX LIBS:
-#LIBS   = -lglut -lGL -lGLU -lm -Llib -lglui -L/usr/X11R6/lib -lX11 -lXext -lXmu -lXi
-
 LIBS   = -lglui -lglut -lGL -lGLU -lm  -L/usr/X11R6/lib -lX11 -lXext -lXmu -lXi -L/usr/lib64 -lstdc++
- 
-
+else
 # MAC LIBS:
-#LIBS   = -framework OpenGL -framework GLUT -framework GLUI -lm -lstdc++
+LIBS   = -framework OpenGL -framework GLUT -framework GLUI -lm -lstdc++
+endif
 
 # Liste de fichiers source (.c) a compiler :
 ############################################
@@ -69,15 +70,15 @@ clean:
 #####################################################
 # DO NOT DELETE THIS LINE
 modele.o: modele.c fourmiliere.h constantes.h tolerance.h error.h \
- nourriture.h fourmi.h modele.h
+  nourriture.h fourmi.h modele.h
 error.o: error.c constantes.h tolerance.h error.h
 fourmi.o: fourmi.c error.h fourmiliere.h constantes.h tolerance.h \
- graphic.h utilitaire.h fourmi.h
+  graphic.h utilitaire.h fourmi.h
 fourmiliere.o: fourmiliere.c error.h constantes.h tolerance.h fourmi.h \
- graphic.h utilitaire.h fourmiliere.h
+  graphic.h utilitaire.h fourmiliere.h
 nourriture.o: nourriture.c error.h constantes.h tolerance.h graphic.h \
- nourriture.h
+  nourriture.h
 utilitaire.o: utilitaire.c fourmiliere.h constantes.h tolerance.h error.h \
- nourriture.h fourmi.h utilitaire.h
+  nourriture.h fourmi.h utilitaire.h
 main.o: main.cpp modele.h constantes.h tolerance.h
 graphic.o: graphic.c constantes.h tolerance.h graphic.h
