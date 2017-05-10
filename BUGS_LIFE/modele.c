@@ -17,7 +17,6 @@
 #include "modele.h"
 
 #define DEBUT		0
-#define COMPLETE	0
 #define EXIT		1
 
 int modele_lecture(char mode[], char nom_fichier[]){
@@ -39,20 +38,26 @@ int modele_lecture_fichier(char nom_fichier[]){
     unsigned etape_lecture=0;
     char test;
     FILE *fentree;
-    
     fentree = fopen(nom_fichier, "r");
     if (fentree==NULL) {
         error_fichier_inexistant();
         return EXIT_FAILURE;
     }
-    
     while((fgets(tab, MAX_LINE, fentree) != NULL)||
           (etape_lecture == L_COMPLETE)||
           (etape_lecture == L_EXIT)) {
         if((tab[DEBUT]=='#')||(tab[DEBUT]=='\n')||(tab[DEBUT]=='\r'))
             continue;
-        if (sscanf(tab, " %c", &test), test == '#')
-            continue;
+        if (sscanf(tab, " %c", &test), test == '#') continue;
+        /*
+         int test_i;
+        double test_d;
+        char check[MAX_LINE];
+        sscanf(tab, " %s", check);
+        if((sscanf(tab, " %c", &test) == ECHEC) &&
+           (sscanf(tab, " %d", &test_i) == ECHEC) &&
+           (sscanf(tab, " %lf", &test_d) == ECHEC)) continue;
+        */
         switch(etape_lecture){
             case L_NB_FOURMILIERE:
                 etape_lecture = fourmiliere_nb_fourmiliere(tab);

@@ -93,7 +93,10 @@ int fourmiliere_ouvriere_lecture_precontrol(unsigned i, unsigned j,
     }
     if ((strcmp(check, "FIN_LISTE") == ECHEC) && ((p_fourmiliere+i)->nbF == 0))
         return L_COMPLETE;
+    if ((strcmp(check, "FIN_LISTE") == ECHEC) && ((p_fourmiliere+i)->nbG == 0))
+        return L_FOURMILIERE;
     if(strcmp(check, "FIN_LISTE") == ECHEC) {
+        j=0;
         return L_GARDE;
     }
     if(j == (p_fourmiliere+i)->nbO && (p_fourmiliere+i)->nbO > 0) {
@@ -108,6 +111,14 @@ int fourmiliere_ouvriere_lecture_precontrol(unsigned i, unsigned j,
     if(sscanf(tab, " %lf", &test) == ECHEC) return L_OUVRIERE;
     return L_CONTINUE;
 }
+
+/*
+int fourmiliere_test_nbO(int i, int j) {
+    printf("%d\n", (p_fourmiliere+i)->nbO);
+    if((p_fourmiliere+i)->nbO==j+1) return COMPLETE;
+    return INCOMPLETE;
+}
+ */
 
 int fourmiliere_garde_lecture_precontrol(unsigned i, unsigned j, char tab[MAX_LINE]){
     char check[MAX_LINE];
@@ -361,13 +372,15 @@ void fourmiliere_free(void){
 }
 
 void fourmiliere_update(void) {
-    fourmiliere_naissance_fourmi();
-    fourmiliere_consommation();
+    //fourmiliere_naissance_fourmi(); //PROBLEME DE DEPLACEMENT DE FOURMI P-E DU AUX INDICES
+    //fourmiliere_consommation();      //PROBLEME: MET LE DECOMPTE NOURRITURE A 0 DES QU'IL PASSE A 1
     fourmiliere_rayon();
     fourmiliere_test_superposition(SIMULATION);
     int i = 0;
     for (i = 0; i < nb_fourmiliere; i++){
-        fourmi_ouvriere_update((p_fourmiliere+i)->p_fourmi_ouvriere, i);
+        if((p_fourmiliere+i)->nbO!=0)
+            fourmi_ouvriere_update((p_fourmiliere+i)->p_fourmi_ouvriere, i);
+        if((p_fourmiliere+i)->nbG!=0)
         fourmi_garde_update((p_fourmiliere+i)->p_fourmi_garde, i);
     }
 }
@@ -451,7 +464,7 @@ int fourmiliere_nourriture_test_superposition(double x, double y){
 }
 
 void fourmiliere_new_food(int i) {
-    (p_fourmiliere+i)->x+=1;
+    (p_fourmiliere+i)->total_food+=1;
 }
 
 void fourmiliere_retour(double *posx, double *posy, double *butx, double *buty, int i) {

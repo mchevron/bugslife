@@ -54,6 +54,8 @@ typedef enum get_info {
 #define CARRY                   1
 #define EMPTY                   0
 #define AUTOMATIC       		0
+#define COMPLETE                0
+#define INCOMPLETE       		1
 
 
 #endif

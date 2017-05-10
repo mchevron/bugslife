@@ -68,8 +68,8 @@ struct fourmiliere
 
 static unsigned etape_lecture;
 static unsigned j = 0;                          //indice fourmi
-static FOURMI ** p_fourmi_ouvriere;
-static FOURMI ** p_fourmi_garde;
+static FOURMI ** p_fourmi_ouvriere = NULL;
+static FOURMI ** p_fourmi_garde = NULL;
 
 int fourmi_ouvriere_lecture(unsigned i, char tab[MAX_LINE]) {
     FOURMI * ouvri;
@@ -97,6 +97,11 @@ int fourmi_ouvriere_lecture(unsigned i, char tab[MAX_LINE]) {
     ouvri->ouvriere.bool_nourriture = bool_nourriture;
     ouvri->ouvriere.id = j;
     if(fourmi_test_age(i, j, ouvri->ouvriere.age)) return L_EXIT;
+    /*if(fourmiliere_test_nbO(i, j)==COMPLETE) {
+        j=0;
+        return L_GARDE;
+     }
+     */
     j = j+1;
     return L_OUVRIERE;
 }
@@ -497,8 +502,10 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, int i) {
     if(distance > RAYON_FOURMI) {
         double Vn_x = (p_ouvriere->ouvriere.butx - p_ouvriere->ouvriere.posx) / distance;
         double Vn_y = (p_ouvriere->ouvriere.buty - p_ouvriere->ouvriere.posy) / distance;
+        printf("%lf\n",p_ouvriere->ouvriere.posx);
         p_ouvriere->ouvriere.posx += BUG_SPEED*DELTA_T*Vn_x;
         p_ouvriere->ouvriere.posy += BUG_SPEED*DELTA_T*Vn_y;
+        printf("%lf\n",p_ouvriere->ouvriere.posx);
     }
     else {
         if(p_ouvriere->ouvriere.bool_nourriture==1) {
@@ -528,7 +535,7 @@ void fourmi_garde_deplacement(FOURMI *p_garde, int i) {
         double Vn_x = (p_garde->garde.butx - p_garde->garde.posx) / distance;
         double Vn_y = (p_garde->garde.buty - p_garde->garde.posy) / distance;
         p_garde->garde.posx += BUG_SPEED*DELTA_T*Vn_x;
-        p_garde->ouvriere.posy += BUG_SPEED*DELTA_T*Vn_y;
+        p_garde->garde.posy += BUG_SPEED*DELTA_T*Vn_y;
     }
 }
 
