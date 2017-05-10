@@ -9,7 +9,7 @@
 int modele_lecture(char mode[], char nom_fichier[]);
 int modele_lecture_fichier(char nom_fichier[]);
 int modele_verification_rendu2(void);
-void modele_update(void);
+void modele_update(int radiobutton_nourriture);
 void modele_cleanup(void);
 void modele_new_food(float pos_x, float pos_y);
 void modele_dessine_complet(void);

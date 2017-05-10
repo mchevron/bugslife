@@ -34,7 +34,6 @@ extern "C"
 #define INFO            		5
 #define BLANK           		0
 #define RUN             		1
-#define AUTOMATIC       		0
 /********** User IDs pour les fonctions callback ********/
 #define FILE_NAME_OPEN  		01
 #define OPEN           			02
@@ -77,9 +76,6 @@ void control_cb(int control){
             break;
         case (AUTO_MAN):
             printf("radio group: %d\n", auto_man_radio->get_int_val() );
-            if (auto_man_radio->get_int_val() == AUTOMATIC) {
-                // automatic food creation
-            }
             break;
         case (START):
             // start ! simulation
@@ -90,7 +86,7 @@ void control_cb(int control){
             // step simulation
             printf("modele_update\n one step\n");
             if (glutGetWindow() != main_window) glutSetWindow( main_window);
-            modele_update();
+            modele_update(auto_man_radio->get_int_val());
             glutPostRedisplay();
             run = STEP;
             break;
@@ -159,8 +155,8 @@ void processMouse(int button, int state, int x, int y){
 
 void idle_cb(){
     if (run == RUN){
-        if (glutGetWindow() != main_window) glutSetWindow( main_window);
-        modele_update();
+        if (glutGetWindow() != main_window) glutSetWindow(main_window);
+        modele_update(auto_man_radio->get_int_val());
         glutPostRedisplay();
     }
 }

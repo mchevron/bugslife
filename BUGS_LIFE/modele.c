@@ -92,9 +92,11 @@ int modele_verification_rendu2(void) {
     return COMPLETE;
 }
 
-void modele_update(void){
+void modele_update(int radiobutton_nourriture){
 	fourmiliere_update();
-    nourriture_creation();
+    if (radiobutton_nourriture == AUTOMATIC) {
+        nourriture_creation();
+    }
 }
 
 void modele_cleanup(void){

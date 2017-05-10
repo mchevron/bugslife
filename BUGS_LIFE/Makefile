@@ -72,12 +72,12 @@ clean:
 modele.o: modele.c fourmiliere.h constantes.h tolerance.h error.h \
   nourriture.h fourmi.h modele.h
 error.o: error.c constantes.h tolerance.h error.h
-fourmi.o: fourmi.c error.h fourmiliere.h constantes.h tolerance.h \
-  graphic.h utilitaire.h fourmi.h
-fourmiliere.o: fourmiliere.c error.h constantes.h tolerance.h fourmi.h \
-  graphic.h utilitaire.h fourmiliere.h
-nourriture.o: nourriture.c error.h constantes.h tolerance.h graphic.h \
-  nourriture.h
+fourmi.o: fourmi.c nourriture.h constantes.h tolerance.h error.h \
+  fourmiliere.h graphic.h utilitaire.h fourmi.h
+fourmiliere.o: fourmiliere.c nourriture.h constantes.h tolerance.h \
+  error.h fourmi.h graphic.h utilitaire.h fourmiliere.h
+nourriture.o: nourriture.c fourmiliere.h constantes.h tolerance.h error.h \
+  graphic.h utilitaire.h nourriture.h
 utilitaire.o: utilitaire.c fourmiliere.h constantes.h tolerance.h error.h \
   nourriture.h fourmi.h utilitaire.h
 main.o: main.cpp modele.h constantes.h tolerance.h

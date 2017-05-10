@@ -215,7 +215,7 @@ void nourriture_choix(double *posx, double *posy, double *butx, double *buty) {
     float risque_mort = 1;                         // 1 = risque certain
     float risque_mort_new = 1;
     NOURRITURE* nourri = p_nourriture;
-    while(nourri->next!=NULL) {
+    while(nourri) {
         distance_new = utilitaire_calcul_distance(*posx, nourri->x, *posy, nourri->y);
         //risque_mort_new = nourriture_risque();
         if((distance_new <= distance) && (risque_mort_new <= risque_mort)) {
@@ -223,16 +223,17 @@ void nourriture_choix(double *posx, double *posy, double *butx, double *buty) {
             distance = distance_new;
             *butx = nourri->x;
             *buty = nourri->y;
-            printf("%f\n", *butx);
         }
         nourri = nourri->next;
     }
 }
 
 void nourriture_cherche_retire(double x, double y) {
-    NOURRITURE *nourri = p_nourriture;
-    while(nourri->x!=x || nourri->y!=y) {
-        nourri = nourri->next;
+    if(nb_nourriture!=0) {
+        NOURRITURE *nourri = p_nourriture;
+        while(nourri->x!=x || nourri->y!=y) {
+            nourri = nourri->next;
+        }
+        nourriture_retirer (&p_nourriture, nourri);
     }
-    nourriture_retirer (&p_nourriture, nourri);
 }

@@ -53,6 +53,7 @@ typedef enum get_info {
 #define GRAPHIC_FILLED  		1
 #define CARRY                   1
 #define EMPTY                   0
+#define AUTOMATIC       		0
 
 
 #endif

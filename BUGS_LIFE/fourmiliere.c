@@ -122,6 +122,7 @@ int fourmiliere_garde_lecture_precontrol(unsigned i, unsigned j, char tab[MAX_LI
         error_lecture_elements_fourmiliere(i, ERR_GARDE, ERR_TROP);
         return L_EXIT;
     }
+    if(strcmp(check, "FIN_LISTE") == ECHEC && i==nb_fourmiliere-1) return L_NB_NOURRITURE;
     if(strcmp(check, "FIN_LISTE") == ECHEC) return L_FOURMILIERE;
     if(sscanf(tab, " %lf", &test)==ECHEC) return L_GARDE;
     return L_CONTINUE;
@@ -146,13 +147,24 @@ int fourmiliere_test_lecture_elements(unsigned nb_fourmiliere_fichier){
 	return FAUX;
 }
 
-int fourmiliere_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde,
+int fourmiliere_test_pos_garde_lecture(unsigned num_fourmiliere, unsigned num_garde,
 							   double x_garde, double y_garde) {
     int distance = sqrt(pow(x_garde - (p_fourmiliere+num_fourmiliere)->x,2) +
                         pow(y_garde - (p_fourmiliere+num_fourmiliere)->y,2));
     if (distance > (p_fourmiliere+num_fourmiliere)->rayon -
         (RAYON_FOURMI + EPSIL_ZERO)){
         error_pos_garde(num_fourmiliere, num_garde);
+        return VRAI;
+    }
+    return FAUX;
+}
+
+int fourmiliere_test_pos_garde(unsigned num_fourmiliere,
+                               double x_garde, double y_garde) {
+    int distance = sqrt(pow(x_garde - (p_fourmiliere+num_fourmiliere)->x,2) +
+                        pow(y_garde - (p_fourmiliere+num_fourmiliere)->y,2));
+    if (distance > (p_fourmiliere+num_fourmiliere)->rayon -
+        (RAYON_FOURMI + EPSIL_ZERO)){
         return VRAI;
     }
     return FAUX;
@@ -355,8 +367,8 @@ void fourmiliere_update(void) {
     fourmiliere_test_superposition(SIMULATION);
     int i = 0;
     for (i = 0; i < nb_fourmiliere; i++){
-        fourmi_ouvriere_update((p_fourmiliere+i)->p_fourmi_ouvriere);
-        fourmi_garde_update((p_fourmiliere+i)->p_fourmi_garde);
+        fourmi_ouvriere_update((p_fourmiliere+i)->p_fourmi_ouvriere, i);
+        fourmi_garde_update((p_fourmiliere+i)->p_fourmi_garde, i);
     }
 }
     
@@ -436,4 +448,14 @@ int fourmiliere_nourriture_test_superposition(double x, double y){
                 return VRAI;
 	}
 	return FAUX;
+}
+
+void fourmiliere_new_food(int i) {
+    (p_fourmiliere+i)->x+=1;
+}
+
+void fourmiliere_retour(double *posx, double *posy, double *butx, double *buty, int i) {
+    *butx = (p_fourmiliere+i)->x;
+    *buty = (p_fourmiliere+i)->y;
+                                            //A FAIRE: ADAPTER LA TRAJECTOIRE EN FONCTION DES OBSTACLES
 }

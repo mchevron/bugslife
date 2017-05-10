@@ -121,7 +121,7 @@ int fourmi_garde_lecture(unsigned i, char tab[MAX_LINE]) {
             deb = fin;
         }
         if((fourmi_test_age(i, j, guard->garde.age))
-         || (fourmiliere_test_pos_garde(i, j, guard->garde.posx, guard->garde.posy)))
+         || (fourmiliere_test_pos_garde_lecture(i, j, guard->garde.posx, guard->garde.posy)))
             return L_EXIT;
         if (fourmi_test_pos_domaine(ERR_GARDE, i, guard->garde.posx,
                                         guard->garde.posy))
@@ -314,6 +314,12 @@ void fourmi_dessine(unsigned nb_fourmiliere, FOURMILIERE * p_fourmiliere) {
                 graphic_draw_circle (courant_o->ouvriere.posx,
                                      courant_o->ouvriere.posy,
                                      RAYON_FOURMI, GRAPHIC_EMPTY);
+                if(courant_o->ouvriere.bool_nourriture==CARRY) {
+                    graphic_set_color3f (0., 0., 0.);
+                    graphic_draw_circle (courant_o->ouvriere.posx,
+                                         courant_o->ouvriere.posy,
+                                         RAYON_FOOD, GRAPHIC_EMPTY);
+                }
                 courant_o = courant_o->next;
             }
         }
@@ -400,19 +406,21 @@ void fourmi_retirer ( FOURMI ** p_tete, FOURMI *four ){
     }
 }
 
-void fourmi_ouvriere_update(FOURMI *p_ouvriere) {
-    while (p_ouvriere->next != NULL){
+void fourmi_ouvriere_update(FOURMI *p_ouvriere, int i) {
+    while (p_ouvriere){
         fourmi_age(p_ouvriere);
-        fourmi_ouvriere_deplacement(p_ouvriere);
+        fourmi_ouvriere_deplacement(p_ouvriere, i);
         p_ouvriere = p_ouvriere->next;
     }
 }
 
-void fourmi_garde_update(FOURMI *p_garde){
-    while (p_garde->next != NULL){
+void fourmi_garde_update(FOURMI *p_garde, int i){
+    int j = 0;
+    while (p_garde){
         fourmi_age(p_garde);
-        fourmi_garde_deplacement(p_garde);
+        fourmi_garde_deplacement(p_garde, i);
         p_garde = p_garde->next;
+        j+=1;
     }
 }
 
@@ -472,20 +480,16 @@ int fourmi_nourriture_test_superposition_g(FOURMI *p_four, double x, double y){
     return FAUX;
 }
 
-void fourmi_ouvriere_statut(FOURMI *p_ouvriere, int statut) {
-    if(statut==CARRY) {
-        graphic_dessine_fourmi_ouvriere(CARRY);
-        p_ouvriere->ouvriere.bool_nourriture = 1;
+void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, int i) {
+    if(p_ouvriere->ouvriere.bool_nourriture==EMPTY) {
+        nourriture_choix(&p_ouvriere->ouvriere.posx, &p_ouvriere->ouvriere.posy,
+                         &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty);
+        //cette fonction met à jour le but de la fourmi vide
     }
-    else {
-        graphic_dessine_fourmi_ouvriere(EMPTY);
-        p_ouvriere->ouvriere.bool_nourriture = 0;
-    }
-}
-
-void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere) {
-    nourriture_choix(&p_ouvriere->ouvriere.posx, &p_ouvriere->ouvriere.posy,
-                     &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty);
+    else fourmiliere_retour(&p_ouvriere->ouvriere.posx, &p_ouvriere->ouvriere.posy,
+                            &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i);
+        //cette fonction adapte le but en ligne droite en fonction des obstacles
+    
     double distance = utilitaire_calcul_distance(p_ouvriere->ouvriere.posx,
                                                  p_ouvriere->ouvriere.butx,
                                                  p_ouvriere->ouvriere.posy,
@@ -493,32 +497,39 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere) {
     if(distance > RAYON_FOURMI) {
         double Vn_x = (p_ouvriere->ouvriere.butx - p_ouvriere->ouvriere.posx) / distance;
         double Vn_y = (p_ouvriere->ouvriere.buty - p_ouvriere->ouvriere.posy) / distance;
-        printf("%f\n", p_ouvriere->ouvriere.posy);
         p_ouvriere->ouvriere.posx += BUG_SPEED*DELTA_T*Vn_x;
         p_ouvriere->ouvriere.posy += BUG_SPEED*DELTA_T*Vn_y;
-        printf("%f\n", p_ouvriere->ouvriere.posy);
     }
     else {
         if(p_ouvriere->ouvriere.bool_nourriture==1) {
-            //Fourmiliere-totalfood += 1
-            fourmi_ouvriere_statut(p_ouvriere, EMPTY);
+            fourmiliere_new_food(i);
+            p_ouvriere->ouvriere.bool_nourriture = 0;;
         }
         else {
-            //Fourmiliere-totalfood -= 1
-            fourmi_ouvriere_statut(p_ouvriere, CARRY);
+            p_ouvriere->ouvriere.bool_nourriture = 1;
             nourriture_cherche_retire(p_ouvriere->ouvriere.butx,
                                       p_ouvriere->ouvriere.buty);
         }
     }
 }
 
-void fourmi_garde_deplacement(FOURMI *p_garde) {
-    //if(fourmiliere_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde, double x_garde, double y_garde) == VRAI) {
-            //Construire vecteur (pos_x, pos_y, pos_x_fourmilière, pos_y_fourmilière)
-            //Deplacement : Vd = BUG_SPEED*DELTA_T*Vn
+void fourmi_garde_deplacement(FOURMI *p_garde, int i) {
+    if(fourmiliere_test_pos_garde(i, p_garde->garde.posx, p_garde->garde.posy) == VRAI) {
+        fourmiliere_retour(&p_garde->garde.posx, &p_garde->garde.posy,
+                                    &p_garde->garde.butx, &p_garde->garde.buty, i);
+    }
     //Si une fourmi ouvrière d’une autre fourmilière distance < rayon fourmilière
-        //Construire vecteur (pos_x, pos_y, pos_x_ouvriere, pos_y_ouvriere)
-        //Deplacement : Vd = BUG_SPEED*DELTA_T*Vn
+        //changer le but de la garde vers l'ouvrière intrusive
+    double distance = utilitaire_calcul_distance(p_garde->garde.posx,
+                                                 p_garde->garde.butx,
+                                                 p_garde->garde.posy,
+                                                 p_garde->garde.buty);
+    if(distance > EPSIL_ZERO) {
+        double Vn_x = (p_garde->garde.butx - p_garde->garde.posx) / distance;
+        double Vn_y = (p_garde->garde.buty - p_garde->garde.posy) / distance;
+        p_garde->garde.posx += BUG_SPEED*DELTA_T*Vn_x;
+        p_garde->ouvriere.posy += BUG_SPEED*DELTA_T*Vn_y;
+    }
 }
 
 void fourmi_meure(FOURMI *p_fourmi) {
