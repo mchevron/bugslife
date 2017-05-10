@@ -217,7 +217,7 @@ void nourriture_choix(double *posx, double *posy, double *butx, double *buty) {
     NOURRITURE* nourri = p_nourriture;
     while(nourri) {
         distance_new = utilitaire_calcul_distance(*posx, nourri->x, *posy, nourri->y);
-        //risque_mort_new = nourriture_risque();
+        //risque_mort_new = nourriture_risque(); // A FAIRE
         if((distance_new <= distance) && (risque_mort_new <= risque_mort)) {
             risque_mort = risque_mort_new;
             distance = distance_new;
