@@ -40,4 +40,7 @@ void fourmi_ouvriere_update(void);
 void fourmi_garde_update(void);
 int fourmi_nourriture_test_superposition_o(FOURMI *p_four, double x, double y);
 int fourmi_nourriture_test_superposition_g(FOURMI *p_four, double x, double y);
+void fourmi_age(void);
+void fourmi_ouvriere_statut(int statut);
+void fourmi_ouvriere_deplacement(void);
 

@@ -68,3 +68,12 @@ void graphic_find_color (unsigned i) {
                                          {0.6,0.7,0.3}};
     graphic_set_color3f(color[i][0], color[i][1], color[i][2]);
 }
+
+void graphic_dessine_fourmi_ouvriere(int statut) {
+    if(statut==CARRY) {
+        
+    }
+    else {
+        
+    }
+}
