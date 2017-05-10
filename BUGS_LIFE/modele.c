@@ -88,12 +88,15 @@ int modele_lecture_fichier(char nom_fichier[]){
 }
 
 int modele_verification_rendu2(void) {
-    if (fourmiliere_test_superposition()) return EXIT;
+    if (fourmiliere_test_superposition(LECTURE)) return EXIT;
     return COMPLETE;
 }
 
 void modele_update(void){
-    printf("modele_update\n");
+	fourmiliere_update();
+	fourmi_ouvriere_update();
+	fourmi_garde_update();
+    nourriture_creation();
 }
 
 void modele_cleanup(void){

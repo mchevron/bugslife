@@ -10,7 +10,11 @@
 
 typedef struct nourriture NOURRITURE;
 
-void nourriture_dessine();
+typedef enum EtatNour{
+	VIDE, PLEIN
+} ETAT_NOUR;
+
+void nourriture_dessine(void);
 int nourriture_nb_nourriture(char tab[MAX_LINE]);
 int nourriture_lecture(char tab[MAX_LINE]);
 NOURRITURE * nourriture_ajouter ( NOURRITURE ** p_tete );
@@ -19,3 +23,7 @@ void nourriture_save(FILE *f_sortie);
 void nourriture_free(void);
 void nourriture_vider ( NOURRITURE ** p_liste );
 void nourriture_retirer ( NOURRITURE ** p_tete, NOURRITURE *nour );
+unsigned nourriture_get_nb(void);
+void nourriture_centre_dessine(ETAT_NOUR etat, double x, double y);
+void nourriture_ajouter_fixe(double x, double y);
+void nourriture_creation(void);

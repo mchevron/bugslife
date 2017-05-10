@@ -11,9 +11,18 @@
 
 #include "tolerance.h"
 
+typedef enum type_fourmi {
+	T_OUVRIERE, T_GARDE
+} TYPE_FOURMI;
+
+
+typedef enum ModeLS{
+	LECTURE, SIMULATION
+} MODE_LS;
+
 typedef enum etape_lecture {
     L_NB_FOURMILIERE, L_FOURMILIERE, L_OUVRIERE, L_GARDE, L_NB_NOURRITURE,
-    L_NOURRITURE, L_EXIT, L_COMPLETE, L_CONTINUE,
+    L_NOURRITURE, L_EXIT, L_COMPLETE, L_CONTINUE
 } ETAPE_LECTURE;
 
 typedef enum get_info {
@@ -26,6 +35,7 @@ typedef enum get_info {
 #define BUG_SPEED               1
 #define BUG_LIFE                1000
 #define DMAX                    20
+#define DMIN					-20
 #define RAYON_FOURMI            1
 #define RAYON_FOOD              0.25
 #define VAL_FOOD                1

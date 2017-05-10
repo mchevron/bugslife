@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "fourmiliere.h"
 #include "error.h"
 #include "constantes.h"
 #include "graphic.h"
@@ -168,3 +169,37 @@ void nourriture_retirer ( NOURRITURE ** p_tete, NOURRITURE *nour ){
         }
     }
 }
+
+unsigned nourriture_get_nb(void){
+	return nb_nourriture;
+}
+
+void nourriture_centre_dessine(ETAT_NOUR etat, double x, double y){
+	if (etat == PLEIN){
+		graphic_set_color3f (0., 0., 0.);
+		graphic_draw_circle (x, y, RAYON_FOOD, GRAPHIC_EMPTY);
+	}
+	else {}// à completer	
+}
+
+void nourriture_ajouter_fixe(double x, double y){
+	NOURRITURE* nourri = NULL;
+    nourri = nourriture_ajouter(&p_nourriture);
+	if (nourri != NULL) {
+		nourri->x = x;
+		nourri->y = y;
+	}
+}
+
+void nourriture_creation(void){
+	double x = (rand()/RAND_MAX)*(DMAX*2) + DMIN;;
+	double y = (rand()/RAND_MAX)*(DMAX*2) + DMIN;;
+	if (rand()/RAND_MAX <= FOOD_RATE){
+		while (fourmiliere_nourriture_test_superposition(x,y)){ 
+			x = (rand()/RAND_MAX)*(DMAX*2) + DMIN;
+			y = (rand()/RAND_MAX)*(DMAX*2) + DMIN;
+		}
+	nourriture_ajouter_fixe(x, y);
+	}
+}
+
