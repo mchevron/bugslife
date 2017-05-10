@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include "nourriture.h"
 #include "error.h"
 #include "constantes.h"
 #include "fourmi.h"
@@ -18,7 +19,6 @@
 #include "fourmiliere.h"
 
 #define NB_ELEMENTS_FOURMILIERE 6
-#define EMPTY           		1
 
 struct fourmiliere
 {
@@ -168,38 +168,72 @@ int fourmiliere_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere,
 }
 
 
-int fourmiliere_test_superposition(void){
+int fourmiliere_test_superposition(MODE_LS mode){
     unsigned i = 0;
     unsigned j = 0;
     if(nb_fourmiliere<=1) return FAUX;
     for (i = 0; i < nb_fourmiliere; i++){
         for (j = i+ 1; j < nb_fourmiliere; j++){
-            double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
-                                                         (p_fourmiliere+j)->x,
-                                                         (p_fourmiliere+i)->y,
-                                                         (p_fourmiliere+j)->y);
-            double r1 = (p_fourmiliere+i)->rayon;
-            double r2 = (p_fourmiliere+j)->rayon;
-            if (distance - (r1+ r2) <= 0){
-                error_superposition_fourmiliere(i, j);
-                return  VRAI;
-            }
+			if (mode == LECTURE){
+	            double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
+	                                                         (p_fourmiliere+j)->x,
+	                                                         (p_fourmiliere+i)->y,
+	                                                         (p_fourmiliere+j)->y);
+	            double r1 = (p_fourmiliere+i)->rayon;
+	            double r2 = (p_fourmiliere+j)->rayon;
+	            if (distance - (r1+ r2) <= 0){
+	                error_superposition_fourmiliere(i, j);
+	                return  VRAI;
+	            }
+			}
             if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbO != 0)
 	            if(fourmi_test_superposition_oo((p_fourmiliere+i)->p_fourmi_ouvriere,
-	                                    (p_fourmiliere+j)->p_fourmi_ouvriere,  i, j))
+												(p_fourmiliere+j)->p_fourmi_ouvriere,
+												i, j, mode)){
+					if (mode == SIMULATION){
+						(p_fourmiliere+i)->nbO -= 1;
+						(p_fourmiliere+j)->nbO -= 1;
+						(p_fourmiliere+i)->nbF -= 1;
+						(p_fourmiliere+j)->nbF -= 1;
+					}	
 	                return VRAI;
+				}
 	        if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbO != 0)
 	            if(fourmi_test_superposition_go((p_fourmiliere+i)->p_fourmi_garde,
-	                                    (p_fourmiliere+j)->p_fourmi_ouvriere, i, j)) 
+												(p_fourmiliere+j)->p_fourmi_ouvriere,
+												i, j, mode)) {
+					if (mode == SIMULATION){
+						(p_fourmiliere+i)->nbG -= 1;
+						(p_fourmiliere+j)->nbO -= 1;
+						(p_fourmiliere+i)->nbF -= 1;
+						(p_fourmiliere+j)->nbF -= 1;
+					}	
 	                return VRAI;
+				}
 	        if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbG != 0)
 	            if(fourmi_test_superposition_og((p_fourmiliere+i)->p_fourmi_ouvriere,
-	                                      (p_fourmiliere+j)->p_fourmi_garde, i, j)) 
+												(p_fourmiliere+j)->p_fourmi_garde, 
+												i, j, mode)){
+					if (mode == SIMULATION){
+						(p_fourmiliere+i)->nbO -= 1;
+						(p_fourmiliere+j)->nbG -= 1;
+						(p_fourmiliere+i)->nbF -= 1;
+						(p_fourmiliere+j)->nbF -= 1;
+					}	
 	                return VRAI;
+				}
 	        if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbG != 0)
 	            if(fourmi_test_superposition_gg((p_fourmiliere+i)->p_fourmi_garde,
-	                                      (p_fourmiliere+j)->p_fourmi_garde, i, j)) 
+												(p_fourmiliere+j)->p_fourmi_garde,
+												i, j, mode)) {
+					if (mode == SIMULATION){
+						(p_fourmiliere+i)->nbG -= 1;
+						(p_fourmiliere+j)->nbG -= 1;
+						(p_fourmiliere+i)->nbF -= 1;
+						(p_fourmiliere+j)->nbF -= 1;
+					}	
 	                return VRAI;
+				}
         }
     }
     return FAUX;
@@ -313,6 +347,77 @@ void fourmiliere_free(void){
     char empty[EMPTY] = "";
     sprintf(info_glui, "%s", empty);
 }
+
+void fourmiliere_update(void){
+	fourmiliere_naissance_fourmi();
+	fourmiliere_consommation();
+	fourmiliere_rayon();
+}
+
+void fourmiliere_naissance_fourmi(void){
+	unsigned i;
+	for (i = 0; i < nb_fourmiliere; i++){
+		int p = ((p_fourmiliere+i)->total_food) * BIRTH_RATE;
+		if (rand()/RAND_MAX <= p) {
+			if ((p_fourmiliere+i)->nbO < nourriture_get_nb())
+				fourmi_naissance(T_OUVRIERE, (p_fourmiliere+i)->x,
+								(p_fourmiliere+i)->y);
+			else
+				fourmi_naissance(T_GARDE, (p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
+			}			
+	}
+}
+
+void fourmiliere_consommation(void){
+	unsigned i;
+	for (i = 0; i < nb_fourmiliere; i++){
+		(p_fourmiliere+i)->total_food = (p_fourmiliere+i)->total_food -
+										(p_fourmiliere+i)->nbF*FEED_RATE;
+		if ((p_fourmiliere+i)->total_food < VAL_FOOD){
+			(p_fourmiliere+i)->total_food = 0;
+			nourriture_centre_dessine(VIDE, (p_fourmiliere+i)->x,
+									 (p_fourmiliere+i)->y);
+			if ((p_fourmiliere+i)->nbF == 0)
+				fourmiliere_destruction(i);
+		}
+	}
+}
+
+void fourmiliere_destruction(unsigned i){
+	(p_fourmiliere+i)->x = 0.;
+	(p_fourmiliere+i)->y = 0.;
+    (p_fourmiliere+i)->nbO = 0;
+    (p_fourmiliere+i)->nbG = 0;
+    (p_fourmiliere+i)->nbF = 0;
+    (p_fourmiliere+i)->total_food = 0;
+    (p_fourmiliere+i)->rayon = 0.;
+	fourmi_free(&(p_fourmiliere+i)->p_fourmi_ouvriere);
+	fourmi_free(&(p_fourmiliere+i)->p_fourmi_garde);
+
+	free((p_fourmiliere+i)->p_fourmi_ouvriere);
+	free((p_fourmiliere+i)->p_fourmi_garde);
+	(p_fourmiliere+i)->p_fourmi_ouvriere = NULL;
+	(p_fourmiliere+i)->p_fourmi_garde = NULL;
+	
+	nb_fourmiliere -= 1;
+}
+
+void fourmiliere_rayon(void){
+	unsigned i;
+	for (i = 0; i < nb_fourmiliere; i++){
+		(p_fourmiliere+i)->rayon = (1 + sqrt((p_fourmiliere+i)->nbF) + 
+								   sqrt((p_fourmiliere+i)->total_food))*RAYON_FOURMI;
+	}
+}
+
+int fourmiliere_nourriture_test_superposition(double x, double y){
+	unsigned i = 0;
+    for (i = 0; i < nb_fourmiliere; i++){
+		double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x, x,
+                                                     (p_fourmiliere+i)->y, y);
+        double r1 = (p_fourmiliere+i)->rayon;
+        if (distance - (r1 + RAYON_FOOD) <= EPSIL_ZERO)
+            return  VRAI;
 
 void fourmiliere_update(void) {
     int i = 0;

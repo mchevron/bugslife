@@ -24,10 +24,14 @@ int fourmiliere_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere,
 								double x, double y);
 int fourmiliere_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde, 
 							   double x_garde, double y_garde);
-int fourmiliere_test_superposition(void);
+int fourmiliere_test_superposition(MODE_LS mode);
 void fourmiliere_dessine(void);
 char* fourmiliere_get_info_rollout(unsigned info, unsigned i);
 void fourmiliere_save(FILE *f_sortie);
 void fourmiliere_free(void);
 void fourmiliere_update(void);
-
+void fourmiliere_naissance_fourmi(void);
+void fourmiliere_consommation(void);
+void fourmiliere_destruction(unsigned i);
+void fourmiliere_rayon(void);
+int fourmiliere_nourriture_test_superposition(double x, double y);
