@@ -35,9 +35,13 @@ void fourmi_save_ouvriere( FILE *f_sortie, FOURMI *p_ouvriere);
 void fourmi_save_garde( FILE *f_sortie, FOURMI *p_garde);
 void fourmi_free ( FOURMI ** p_liste );
 void fourmi_retirer ( FOURMI ** p_tete, FOURMI *four );
+void fourmi_naissance(TYPE_FOURMI type, double posx, double posy);
+int fourmi_nourriture_test_superposition_o(FOURMI *p_four, double x, double y);
+int fourmi_nourriture_test_superposition_g(FOURMI *p_four, double x, double y);
 void fourmi_ouvriere_update(FOURMI *p_ouvriere);
+void fourmi_garde_update(FOURMI *p_garde);
 void fourmi_age(FOURMI *p_fourmi);
 void fourmi_ouvriere_statut(FOURMI *p_ouvriere, int statut);
 void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere);
 void fourmi_meure(FOURMI *p_ouvriere);
-void fourmi_algo_bon_choix(FOURMI *p_fourmi);
+

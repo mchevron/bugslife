@@ -400,6 +400,22 @@ void fourmi_retirer ( FOURMI ** p_tete, FOURMI *four ){
     }
 }
 
+void fourmi_ouvriere_update(FOURMI *p_ouvriere) {
+    while (p_ouvriere != NULL){
+        fourmi_age(p_ouvriere);
+        fourmi_ouvriere_deplacement(p_ouvriere);
+        p_ouvriere = p_ouvriere->next;
+    }
+}
+
+void fourmi_garde_update(FOURMI *p_garde){
+    while (p_garde != NULL){
+        fourmi_age(p_garde);
+        fourmi_ouvriere_deplacement(p_garde);
+        p_garde = p_garde->next;
+    }
+}
+
 void fourmi_naissance(TYPE_FOURMI type, double posx, double posy){
 	FOURMI * four = NULL;
 	if (type == T_OUVRIERE){
@@ -427,23 +443,33 @@ void fourmi_naissance(TYPE_FOURMI type, double posx, double posy){
 	}
 }
 
-void fourmi_ouvriere_update(void){
-	fourmi_age();
-	fourmiliere_test_superposition(SIMULATION);
-	fourmi_ouvriere_deplacement();
-}
-
-void fourmi_ouvriere_update(FOURMI *p_ouvriere) {
-    while (p_ouvriere != NULL){
-        fourmi_age(p_ouvriere);
-        fourmi_ouvriere_deplacement(p_ouvriere);
-        p_ouvriere = p_ouvriere->next;
-    }
-}
-
 void fourmi_age(FOURMI *p_fourmi) {
     p_fourmi->ouvriere.age+=1;
     if(p_fourmi->ouvriere.age==BUG_LIFE) fourmi_meure(p_fourmi);
+}
+
+int fourmi_nourriture_test_superposition_o(FOURMI *p_four, double x, double y){
+	FOURMI * four = p_four;
+    while (four != NULL){
+		double distance = utilitaire_calcul_distance(four->ouvriere.posx, x,
+													 four->ouvriere.posy, y);
+		if (distance - (RAYON_FOURMI + RAYON_FOOD) <= EPSIL_ZERO)
+			return  VRAI;
+		four = four->next;
+	}
+    return FAUX;
+}
+
+int fourmi_nourriture_test_superposition_g(FOURMI *p_four, double x, double y){
+	FOURMI * four = p_four;
+    while (four != NULL){
+		double distance = utilitaire_calcul_distance(four->garde.posx, x,
+													 four->garde.posy, y);
+		if (distance - (RAYON_FOURMI + RAYON_FOOD) <= EPSIL_ZERO)
+			return  VRAI;
+		four = four->next;
+	}
+    return FAUX;
 }
 
 void fourmi_ouvriere_statut(FOURMI *p_ouvriere, int statut) {
@@ -458,25 +484,45 @@ void fourmi_ouvriere_statut(FOURMI *p_ouvriere, int statut) {
 }
 
 void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere) {
-    fourmi_algo_bon_choix(p_ouvriere);
-    //fourmi_ouvrière_but(utiliser les positions en pointeurs);
-    //Construire vecteur V (pos_x, pos_y, but_x, but_y)
-    //Si la norme > rayon_fourmi
-        //Normaliser le vecteur (Vn = V / norme)
-        //Deplacement : Vd = BUG_SPEED*DELTA_T*Vn
-    //Sinon
-        //Si ouvrière porteuse
+    nourriture_choix(&p_ouvriere->ouvriere.posx, &p_ouvriere->ouvriere.posy,
+                     &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty);
+    double distance = utilitaire_calcul_distance(p_ouvriere->ouvriere.posx,
+                                                 p_ouvriere->ouvriere.butx,
+                                                 p_ouvriere->ouvriere.posy,
+                                                 p_ouvriere->ouvriere.buty);
+    if(distance > RAYON_FOURMI) {
+        p_ouvriere->ouvriere.posx = BUG_SPEED*DELTA_T*
+                                    utilitaire_calcul_distance(p_ouvriere->ouvriere.posx,
+                                                               p_ouvriere->ouvriere.butx,
+                                                               0, 0);
+        p_ouvriere->ouvriere.posx = BUG_SPEED*DELTA_T*
+                                    utilitaire_calcul_distance(0, 0,
+                                                               p_ouvriere->ouvriere.posy,
+                                                               p_ouvriere->ouvriere.buty);
+    }
+    else {
+        if(p_ouvriere->ouvriere.bool_nourriture==1) {
             //Fourmiliere-totalfood += 1
-            //Fourmi_ouvriere_statut(vide)
-        //Sinon prendre nourriture
-            //Fourmi_ouvriere_statut(pleine)
-            //Nourriture_retirer(nourriture_recherche(pos_x, pos_y))
+            fourmi_ouvriere_statut(p_ouvriere, EMPTY);
+        }
+        else {
+            //Fourmiliere-totalfood -= 1
+            fourmi_ouvriere_statut(p_ouvriere, CARRY);
+            nourriture_cherche_retire(p_ouvriere->ouvriere.butx,
+                                      p_ouvriere->ouvriere.buty);
+        }
+    }
+}
+
+void fourmi_garde_deplacement(FOURMI *p_garde) {
+    //if(fourmiliere_test_pos_garde(unsigned num_fourmiliere, unsigned num_garde, double x_garde, double y_garde) == VRAI) {
+            //Construire vecteur (pos_x, pos_y, pos_x_fourmilière, pos_y_fourmilière)
+            //Deplacement : Vd = BUG_SPEED*DELTA_T*Vn
+    //Si une fourmi ouvrière d’une autre fourmilière distance < rayon fourmilière
+        //Construire vecteur (pos_x, pos_y, pos_x_ouvriere, pos_y_ouvriere)
+        //Deplacement : Vd = BUG_SPEED*DELTA_T*Vn
 }
 
 void fourmi_meure(FOURMI *p_fourmi) {
-    
-}
-
-void fourmi_algo_bon_choix(FOURMI *p_fourmi) {
     
 }

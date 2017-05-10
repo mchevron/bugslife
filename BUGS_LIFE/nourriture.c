@@ -14,6 +14,7 @@
 #include "error.h"
 #include "constantes.h"
 #include "graphic.h"
+#include "utilitaire.h"
 #include "nourriture.h"
 
 #define WORD_LENGTH_COMPARE 	9
@@ -203,3 +204,31 @@ void nourriture_creation(void){
 	}
 }
 
+void nourriture_choix(double *posx, double *posy, double *butx, double *buty) {
+    //Chercher la nourriture la plus proche
+    double distance = utilitaire_calcul_distance(DMAX, DMIN, DMAX, DMIN);
+            // distance max entre fourmi et nourriture
+    double distance_new = utilitaire_calcul_distance(DMAX, DMIN, DMAX, DMIN);
+    float risque_mort = 1;                         // 1 = risque certain
+    float risque_mort_new = 1;
+    NOURRITURE* nourri = p_nourriture;
+    while(nourri!=NULL) {
+        distance_new = utilitaire_calcul_distance(*posx, nourri->x, *posy, nourri->y);
+        //risque_mort_new = nourriture_risque();
+        if((distance_new <= distance) && (risque_mort_new <= risque_mort)) {
+            risque_mort = risque_mort_new;
+            distance = distance_new;
+            *butx = nourri->x;
+            *buty = nourri->y;
+            nourri = nourri->next;
+        }
+    }
+}
+
+void nourriture_cherche_retire(double x, double y) {
+    NOURRITURE *nourri = p_nourriture;
+    while(p_nourriture->x!=x || p_nourriture->y!=y) {
+        nourri = nourri->next;
+    }
+    nourriture_retirer (&p_nourriture, nourri);
+}

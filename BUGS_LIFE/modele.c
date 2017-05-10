@@ -94,8 +94,6 @@ int modele_verification_rendu2(void) {
 
 void modele_update(void){
 	fourmiliere_update();
-	fourmi_ouvriere_update();
-	fourmi_garde_update();
     nourriture_creation();
 }
 

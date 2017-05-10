@@ -348,12 +348,18 @@ void fourmiliere_free(void){
     sprintf(info_glui, "%s", empty);
 }
 
-void fourmiliere_update(void){
-	fourmiliere_naissance_fourmi();
-	fourmiliere_consommation();
-	fourmiliere_rayon();
+void fourmiliere_update(void) {
+    fourmiliere_naissance_fourmi();
+    fourmiliere_consommation();
+    fourmiliere_rayon();
+    fourmiliere_test_superposition(SIMULATION);
+    int i = 0;
+    for (i = 0; i < nb_fourmiliere; i++){
+        fourmi_ouvriere_update((p_fourmiliere+i)->p_fourmi_ouvriere);
+        fourmi_garde_update((p_fourmiliere+i)->p_fourmi_garde);
+    }
 }
-
+    
 void fourmiliere_naissance_fourmi(void){
 	unsigned i;
 	for (i = 0; i < nb_fourmiliere; i++){
@@ -419,9 +425,15 @@ int fourmiliere_nourriture_test_superposition(double x, double y){
         if (distance - (r1 + RAYON_FOOD) <= EPSIL_ZERO)
             return  VRAI;
 
-void fourmiliere_update(void) {
-    int i = 0;
-    for (i = 0; i < nb_fourmiliere; i++){
-        fourmi_ouvriere_update((p_fourmiliere+i)->p_fourmi_ouvriere);
-    }
+		if ((p_fourmiliere+i)->nbO != 0)
+	        if (fourmi_nourriture_test_superposition_o(
+				(p_fourmiliere+i)->p_fourmi_ouvriere, x, y))
+				return VRAI;
+				
+        if ((p_fourmiliere+i)->nbG != 0)
+            if (fourmi_nourriture_test_superposition_g(
+				(p_fourmiliere+i)->p_fourmi_garde, x, y))
+                return VRAI;
+	}
+	return FAUX;
 }
