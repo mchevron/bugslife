@@ -401,7 +401,7 @@ void fourmi_retirer ( FOURMI ** p_tete, FOURMI *four ){
 }
 
 void fourmi_ouvriere_update(FOURMI *p_ouvriere) {
-    while (p_ouvriere != NULL){
+    while (p_ouvriere->next != NULL){
         fourmi_age(p_ouvriere);
         fourmi_ouvriere_deplacement(p_ouvriere);
         p_ouvriere = p_ouvriere->next;
@@ -409,9 +409,9 @@ void fourmi_ouvriere_update(FOURMI *p_ouvriere) {
 }
 
 void fourmi_garde_update(FOURMI *p_garde){
-    while (p_garde != NULL){
+    while (p_garde->next != NULL){
         fourmi_age(p_garde);
-        fourmi_ouvriere_deplacement(p_garde);
+        fourmi_garde_deplacement(p_garde);
         p_garde = p_garde->next;
     }
 }
@@ -490,15 +490,20 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere) {
                                                  p_ouvriere->ouvriere.butx,
                                                  p_ouvriere->ouvriere.posy,
                                                  p_ouvriere->ouvriere.buty);
+    double distance_h = utilitaire_calcul_distance(p_ouvriere->ouvriere.posx,
+                                                   p_ouvriere->ouvriere.butx,
+                                                   0, 0);
+    double distance_v = utilitaire_calcul_distance(0, 0,
+                                                   p_ouvriere->ouvriere.posy,
+                                                   p_ouvriere->ouvriere.buty);
+    double norme_h = distance_h / distance;
+    double norme_v = distance_v / distance;
+    
     if(distance > RAYON_FOURMI) {
-        p_ouvriere->ouvriere.posx = BUG_SPEED*DELTA_T*
-                                    utilitaire_calcul_distance(p_ouvriere->ouvriere.posx,
-                                                               p_ouvriere->ouvriere.butx,
-                                                               0, 0);
-        p_ouvriere->ouvriere.posx = BUG_SPEED*DELTA_T*
-                                    utilitaire_calcul_distance(0, 0,
-                                                               p_ouvriere->ouvriere.posy,
-                                                               p_ouvriere->ouvriere.buty);
+        printf("%f\n", p_ouvriere->ouvriere.posy);
+        p_ouvriere->ouvriere.posx += BUG_SPEED*DELTA_T*norme_h;
+        p_ouvriere->ouvriere.posy += BUG_SPEED*DELTA_T*norme_v;
+        printf("%f\n", p_ouvriere->ouvriere.posy);
     }
     else {
         if(p_ouvriere->ouvriere.bool_nourriture==1) {

@@ -43,5 +43,6 @@ void fourmi_garde_update(FOURMI *p_garde);
 void fourmi_age(FOURMI *p_fourmi);
 void fourmi_ouvriere_statut(FOURMI *p_ouvriere, int statut);
 void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere);
+void fourmi_garde_deplacement(FOURMI *p_garde);
 void fourmi_meure(FOURMI *p_ouvriere);
 

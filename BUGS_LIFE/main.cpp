@@ -89,6 +89,9 @@ void control_cb(int control){
         case (STEP):
             // step simulation
             printf("modele_update\n one step\n");
+            if (glutGetWindow() != main_window) glutSetWindow( main_window);
+            modele_update();
+            glutPostRedisplay();
             run = STEP;
             break;
         case (RECORD):
