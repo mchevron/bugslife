@@ -490,19 +490,12 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere) {
                                                  p_ouvriere->ouvriere.butx,
                                                  p_ouvriere->ouvriere.posy,
                                                  p_ouvriere->ouvriere.buty);
-    double distance_h = utilitaire_calcul_distance(p_ouvriere->ouvriere.posx,
-                                                   p_ouvriere->ouvriere.butx,
-                                                   0, 0);
-    double distance_v = utilitaire_calcul_distance(0, 0,
-                                                   p_ouvriere->ouvriere.posy,
-                                                   p_ouvriere->ouvriere.buty);
-    double norme_h = distance_h / distance;
-    double norme_v = distance_v / distance;
-    
     if(distance > RAYON_FOURMI) {
+        double Vn_x = (p_ouvriere->ouvriere.butx - p_ouvriere->ouvriere.posx) / distance;
+        double Vn_y = (p_ouvriere->ouvriere.buty - p_ouvriere->ouvriere.posy) / distance;
         printf("%f\n", p_ouvriere->ouvriere.posy);
-        p_ouvriere->ouvriere.posx += BUG_SPEED*DELTA_T*norme_h;
-        p_ouvriere->ouvriere.posy += BUG_SPEED*DELTA_T*norme_v;
+        p_ouvriere->ouvriere.posx += BUG_SPEED*DELTA_T*Vn_x;
+        p_ouvriere->ouvriere.posy += BUG_SPEED*DELTA_T*Vn_y;
         printf("%f\n", p_ouvriere->ouvriere.posy);
     }
     else {

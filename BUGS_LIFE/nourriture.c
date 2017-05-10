@@ -169,6 +169,7 @@ void nourriture_retirer ( NOURRITURE ** p_tete, NOURRITURE *nour ){
             free ( courant );
         }
     }
+    nb_nourriture -= 1;
 }
 
 unsigned nourriture_get_nb(void){
@@ -193,14 +194,16 @@ void nourriture_ajouter_fixe(double x, double y){
 }
 
 void nourriture_creation(void){
-	double x = (rand()/RAND_MAX)*(DMAX*2) + DMIN;;
-	double y = (rand()/RAND_MAX)*(DMAX*2) + DMIN;;
-	if (rand()/RAND_MAX <= FOOD_RATE){
+    double rand_max = RAND_MAX;
+	double x = (rand()/rand_max)*(DMAX*2) + DMIN;
+	double y = (rand()/rand_max)*(DMAX*2) + DMIN;
+	if (rand()/rand_max <= FOOD_RATE){
 		while (fourmiliere_nourriture_test_superposition(x,y)){ 
-			x = (rand()/RAND_MAX)*(DMAX*2) + DMIN;
-			y = (rand()/RAND_MAX)*(DMAX*2) + DMIN;
+			x = (rand()/rand_max)*(DMAX*2) + DMIN;
+			y = (rand()/rand_max)*(DMAX*2) + DMIN;
 		}
 	nourriture_ajouter_fixe(x, y);
+    nb_nourriture += 1;
 	}
 }
 
