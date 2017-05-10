@@ -94,6 +94,7 @@ int modele_verification_rendu2(void) {
 
 void modele_update(void){
     printf("modele_update\n");
+    fourmiliere_update();
 }
 
 void modele_cleanup(void){

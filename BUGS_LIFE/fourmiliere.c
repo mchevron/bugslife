@@ -314,3 +314,6 @@ void fourmiliere_free(void){
     sprintf(info_glui, "%s", empty);
 }
 
+void fourmiliere_update(void) {
+    fourmi_ouvriere_update();
+}

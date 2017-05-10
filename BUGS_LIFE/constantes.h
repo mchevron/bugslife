@@ -41,6 +41,8 @@ typedef enum get_info {
 #define VRAI					1
 #define GRAPHIC_EMPTY   		0
 #define GRAPHIC_FILLED  		1
+#define CARRY                   1
+#define EMPTY                   0
 
 
 #endif

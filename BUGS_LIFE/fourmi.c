@@ -23,6 +23,7 @@
 #define NB_COORDONNEES			2
 #define NB_GARDE_PAR_LIGNE 		2
 
+
 struct ouvriere
 {
     unsigned id;
@@ -347,3 +348,40 @@ void fourmi_retirer ( FOURMI ** p_tete, FOURMI *four ){
         }
     }
 }
+
+void fourmi_ouvriere_update(void) {
+    fourmi_age();
+    fourmi_ouvriere_deplacement();
+}
+
+void fourmi_age(void) {
+    
+}
+
+void fourmi_ouvriere_statut(int statut) {
+    if(statut==CARRY) {
+        graphic_dessine_fourmi_ouvriere(CARRY);
+        //ouvri->ouvriere.bool_nourriture = 1
+    }
+    else {
+        graphic_dessine_fourmi_ouvriere(EMPTY);
+        //ouvri->ouvriere.bool_nourriture = 0
+    }
+}
+
+void fourmi_ouvriere_deplacement() {
+    //fourmi_algo_bon_choix();
+    //fourmi_ouvrière_but(utiliser les positions en pointeurs);
+    //Construire vecteur V (pos_x, pos_y, but_x, but_y)
+    //Si la norme > rayon_fourmi
+        //Normaliser le vecteur (Vn = V / norme)
+        //Deplacement : Vd = BUG_SPEED*DELTA_T*Vn
+    //Sinon
+        //Si ouvrière porteuse
+            //Fourmiliere-totalfood += 1
+            //Fourmi_ouvriere_statut(vide)
+        //Sinon prendre nourriture
+            //Fourmi_ouvriere_statut(pleine)
+            //Nourriture_retirer(nourriture_recherche(pos_x, pos_y))
+}
+

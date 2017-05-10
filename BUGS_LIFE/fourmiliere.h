@@ -29,4 +29,5 @@ void fourmiliere_dessine(void);
 char* fourmiliere_get_info_rollout(unsigned info, unsigned i);
 void fourmiliere_save(FILE *f_sortie);
 void fourmiliere_free(void);
+void fourmiliere_update(void);
 

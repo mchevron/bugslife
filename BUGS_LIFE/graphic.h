@@ -18,3 +18,5 @@ void graphic_set_color3f(float r,
                          float b);
 
 void graphic_find_color (unsigned i);
+
+void graphic_dessine_fourmi_ouvriere(int statut);

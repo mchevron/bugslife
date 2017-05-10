@@ -35,4 +35,7 @@ void fourmi_save_ouvriere( FILE *f_sortie, FOURMI *p_ouvriere);
 void fourmi_save_garde( FILE *f_sortie, FOURMI *p_garde);
 void fourmi_free ( FOURMI ** p_liste );
 void fourmi_retirer ( FOURMI ** p_tete, FOURMI *four );
-
+void fourmi_ouvriere_update(void);
+void fourmi_age(void);
+void fourmi_ouvriere_statut(int statut);
+void fourmi_ouvriere_deplacement(void);
