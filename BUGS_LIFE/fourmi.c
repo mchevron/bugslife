@@ -349,28 +349,32 @@ void fourmi_retirer ( FOURMI ** p_tete, FOURMI *four ){
     }
 }
 
-void fourmi_ouvriere_update(void) {
-    fourmi_age();
-    fourmi_ouvriere_deplacement();
+void fourmi_ouvriere_update(FOURMI *p_ouvriere) {
+    while (p_ouvriere != NULL){
+        fourmi_age(p_ouvriere);
+        fourmi_ouvriere_deplacement(p_ouvriere);
+        p_ouvriere = p_ouvriere->next;
+    }
 }
 
-void fourmi_age(void) {
-    
+void fourmi_age(FOURMI *p_fourmi) {
+    p_fourmi->ouvriere.age+=1;
+    if(p_fourmi->ouvriere.age==BUG_LIFE) fourmi_meure(p_fourmi);
 }
 
-void fourmi_ouvriere_statut(int statut) {
+void fourmi_ouvriere_statut(FOURMI *p_ouvriere, int statut) {
     if(statut==CARRY) {
         graphic_dessine_fourmi_ouvriere(CARRY);
-        //ouvri->ouvriere.bool_nourriture = 1
+        p_ouvriere->ouvriere.bool_nourriture = 1;
     }
     else {
         graphic_dessine_fourmi_ouvriere(EMPTY);
-        //ouvri->ouvriere.bool_nourriture = 0
+        p_ouvriere->ouvriere.bool_nourriture = 0;
     }
 }
 
-void fourmi_ouvriere_deplacement() {
-    //fourmi_algo_bon_choix();
+void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere) {
+    fourmi_algo_bon_choix(p_ouvriere);
     //fourmi_ouvrière_but(utiliser les positions en pointeurs);
     //Construire vecteur V (pos_x, pos_y, but_x, but_y)
     //Si la norme > rayon_fourmi
@@ -385,3 +389,10 @@ void fourmi_ouvriere_deplacement() {
             //Nourriture_retirer(nourriture_recherche(pos_x, pos_y))
 }
 
+void fourmi_meure(FOURMI *p_fourmi) {
+    
+}
+
+void fourmi_algo_bon_choix(FOURMI *p_fourmi) {
+    
+}

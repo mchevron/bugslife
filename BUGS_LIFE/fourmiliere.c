@@ -315,5 +315,8 @@ void fourmiliere_free(void){
 }
 
 void fourmiliere_update(void) {
-    fourmi_ouvriere_update();
+    int i = 0;
+    for (i = 0; i < nb_fourmiliere; i++){
+        fourmi_ouvriere_update((p_fourmiliere+i)->p_fourmi_ouvriere);
+    }
 }
