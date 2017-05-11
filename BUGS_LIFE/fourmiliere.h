@@ -6,6 +6,7 @@
  \date Avril 2017
  */
 
+#include "fourmi.h"
 #include "constantes.h"
 #include "error.h"
 
@@ -39,4 +40,5 @@ void fourmiliere_destruction(unsigned i);
 void fourmiliere_rayon(void);
 int fourmiliere_nourriture_test_superposition(double x, double y);
 void fourmiliere_new_food(int i);
-void fourmiliere_retour(double *posx, double *posy, double *butx, double *buty, int i);
+void fourmiliere_retour(double *butx, double *buty, int i);
+void fourmiliere_test_ouvri_intrustion(FOURMI *p_garde, unsigned i);

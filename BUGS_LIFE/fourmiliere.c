@@ -379,9 +379,9 @@ void fourmiliere_update(void) {
     int i = 0;
     for (i = 0; i < nb_fourmiliere; i++){
         if((p_fourmiliere+i)->nbO!=0)
-            fourmi_ouvriere_update((p_fourmiliere+i)->p_fourmi_ouvriere, i);
+            fourmi_ouvriere_update(&(p_fourmiliere+i)->p_fourmi_ouvriere, i);
         if((p_fourmiliere+i)->nbG!=0)
-        fourmi_garde_update((p_fourmiliere+i)->p_fourmi_garde, i);
+        fourmi_garde_update((p_fourmiliere+i)->p_fourmi_garde, i, nb_fourmiliere);
     }
 }
     
@@ -467,8 +467,17 @@ void fourmiliere_new_food(int i) {
     (p_fourmiliere+i)->total_food+=1;
 }
 
-void fourmiliere_retour(double *posx, double *posy, double *butx, double *buty, int i) {
+void fourmiliere_retour(double *butx, double *buty, int i) {
     *butx = (p_fourmiliere+i)->x;
     *buty = (p_fourmiliere+i)->y;
                                             //A FAIRE: ADAPTER LA TRAJECTOIRE EN FONCTION DES OBSTACLES
+}
+
+void fourmiliere_test_ouvri_intrustion(FOURMI *p_garde, unsigned i) {
+    unsigned k = 0;
+    for (k = 0; k < nb_fourmiliere; k++){
+        fourmi_ouvriere_intrusion(p_garde, (p_fourmiliere+k)->p_fourmi_ouvriere, i,
+                                            (p_fourmiliere+i)->x, (p_fourmiliere+i)->y,
+                                            (p_fourmiliere+i)->rayon);
+    }
 }
