@@ -40,3 +40,4 @@ void fourmiliere_rayon(void);
 int fourmiliere_nourriture_test_superposition(double x, double y);
 void fourmiliere_new_food(int i);
 void fourmiliere_retour(double *posx, double *posy, double *butx, double *buty, int i);
+void fourmiliere_diminuer_nbF(unsigned i, unsigned j, TYPE_FOURMI type1, TYPE_FOURMI type2);

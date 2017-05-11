@@ -431,6 +431,7 @@ void fourmi_garde_update(FOURMI *p_garde, int i){
 
 void fourmi_naissance(TYPE_FOURMI type, double posx, double posy){
 	FOURMI * four = NULL;
+	printf("fourmi\n");
 	if (type == T_OUVRIERE){
 		four = fourmi_ajouter(p_fourmi_ouvriere);
 		if (four != NULL){
@@ -458,7 +459,7 @@ void fourmi_naissance(TYPE_FOURMI type, double posx, double posy){
 
 void fourmi_age(FOURMI *p_fourmi) {
     p_fourmi->ouvriere.age+=1;
-    if(p_fourmi->ouvriere.age==BUG_LIFE) fourmi_meure(p_fourmi);
+    if(p_fourmi->ouvriere.age==BUG_LIFE) fourmi_retirer(p_fourmi, ;
 }
 
 int fourmi_nourriture_test_superposition_o(FOURMI *p_four, double x, double y){
@@ -502,10 +503,8 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, int i) {
     if(distance > RAYON_FOURMI) {
         double Vn_x = (p_ouvriere->ouvriere.butx - p_ouvriere->ouvriere.posx) / distance;
         double Vn_y = (p_ouvriere->ouvriere.buty - p_ouvriere->ouvriere.posy) / distance;
-        printf("%lf\n",p_ouvriere->ouvriere.posx);
         p_ouvriere->ouvriere.posx += BUG_SPEED*DELTA_T*Vn_x;
         p_ouvriere->ouvriere.posy += BUG_SPEED*DELTA_T*Vn_y;
-        printf("%lf\n",p_ouvriere->ouvriere.posx);
     }
     else {
         if(p_ouvriere->ouvriere.bool_nourriture==1) {
@@ -537,8 +536,4 @@ void fourmi_garde_deplacement(FOURMI *p_garde, int i) {
         p_garde->garde.posx += BUG_SPEED*DELTA_T*Vn_x;
         p_garde->garde.posy += BUG_SPEED*DELTA_T*Vn_y;
     }
-}
-
-void fourmi_meure(FOURMI *p_fourmi) {
-    
 }

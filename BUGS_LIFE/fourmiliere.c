@@ -19,6 +19,7 @@
 #include "fourmiliere.h"
 
 #define NB_ELEMENTS_FOURMILIERE 6
+#define DEAD					1
 
 struct fourmiliere
 {
@@ -197,64 +198,56 @@ int fourmiliere_test_superposition(MODE_LS mode){
     if(nb_fourmiliere<=1) return FAUX;
     for (i = 0; i < nb_fourmiliere; i++){
         for (j = i+ 1; j < nb_fourmiliere; j++){
-			if (mode == LECTURE){
+			if ((p_fourmiliere+i) && (p_fourmiliere+j)){
 	            double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
 	                                                         (p_fourmiliere+j)->x,
 	                                                         (p_fourmiliere+i)->y,
 	                                                         (p_fourmiliere+j)->y);
 	            double r1 = (p_fourmiliere+i)->rayon;
 	            double r2 = (p_fourmiliere+j)->rayon;
-	            if (distance - (r1+ r2) <= 0){
-	                error_superposition_fourmiliere(i, j);
-	                return  VRAI;
-	            }
+	            if (mode == LECTURE){
+					if (distance - (r1+ r2) <= 0){
+						error_superposition_fourmiliere(i, j);
+						return  VRAI;
+					}
+				}
+				else
+					if (distance - (r1+ r2) <= EPSIL_ZERO){
+						fourmiliere_destruction(i);
+						fourmiliere_destruction(j);
+						nb_fourmiliere -= 2*DEAD;
+					}
 			}
             if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbO != 0)
 	            if(fourmi_test_superposition_oo((p_fourmiliere+i)->p_fourmi_ouvriere,
 												(p_fourmiliere+j)->p_fourmi_ouvriere,
 												i, j, mode)){
-					if (mode == SIMULATION){
-						(p_fourmiliere+i)->nbO -= 1;
-						(p_fourmiliere+j)->nbO -= 1;
-						(p_fourmiliere+i)->nbF -= 1;
-						(p_fourmiliere+j)->nbF -= 1;
-					}	
+					if (mode == SIMULATION)
+						fourmiliere_diminuer_nbF(i,j, T_OUVRIERE, T_OUVRIERE);	
 	                return VRAI;
 				}
 	        if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbO != 0)
 	            if(fourmi_test_superposition_go((p_fourmiliere+i)->p_fourmi_garde,
 												(p_fourmiliere+j)->p_fourmi_ouvriere,
 												i, j, mode)) {
-					if (mode == SIMULATION){
-						(p_fourmiliere+i)->nbG -= 1;
-						(p_fourmiliere+j)->nbO -= 1;
-						(p_fourmiliere+i)->nbF -= 1;
-						(p_fourmiliere+j)->nbF -= 1;
-					}	
+					if (mode == SIMULATION)
+							fourmiliere_diminuer_nbF(i,j, T_GARDE, T_OUVRIERE);	
 	                return VRAI;
 				}
 	        if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbG != 0)
 	            if(fourmi_test_superposition_og((p_fourmiliere+i)->p_fourmi_ouvriere,
 												(p_fourmiliere+j)->p_fourmi_garde, 
 												i, j, mode)){
-					if (mode == SIMULATION){
-						(p_fourmiliere+i)->nbO -= 1;
-						(p_fourmiliere+j)->nbG -= 1;
-						(p_fourmiliere+i)->nbF -= 1;
-						(p_fourmiliere+j)->nbF -= 1;
-					}	
+					if (mode == SIMULATION)
+						fourmiliere_diminuer_nbF(i,j, T_OUVRIERE, T_GARDE);	
 	                return VRAI;
 				}
 	        if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbG != 0)
 	            if(fourmi_test_superposition_gg((p_fourmiliere+i)->p_fourmi_garde,
 												(p_fourmiliere+j)->p_fourmi_garde,
 												i, j, mode)) {
-					if (mode == SIMULATION){
-						(p_fourmiliere+i)->nbG -= 1;
-						(p_fourmiliere+j)->nbG -= 1;
-						(p_fourmiliere+i)->nbF -= 1;
-						(p_fourmiliere+j)->nbF -= 1;
-					}	
+					if (mode == SIMULATION)
+						fourmiliere_diminuer_nbF(i,j, T_GARDE, T_GARDE);
 	                return VRAI;
 				}
         }
@@ -372,7 +365,7 @@ void fourmiliere_free(void){
 }
 
 void fourmiliere_update(void) {
-    //fourmiliere_naissance_fourmi(); //PROBLEME DE DEPLACEMENT DE FOURMI P-E DU AUX INDICES
+    //fourmiliere_naissance_fourmi();
     //fourmiliere_consommation();      //PROBLEME: MET LE DECOMPTE NOURRITURE A 0 DES QU'IL PASSE A 1
     fourmiliere_rayon();
     fourmiliere_test_superposition(SIMULATION);
@@ -390,12 +383,18 @@ void fourmiliere_naissance_fourmi(void){
 	for (i = 0; i < nb_fourmiliere; i++){
 		int p = ((p_fourmiliere+i)->total_food) * BIRTH_RATE;
 		if (rand()/RAND_MAX <= p) {
-			if ((p_fourmiliere+i)->nbO < nourriture_get_nb())
+			if ((p_fourmiliere+i)->nbO < nourriture_get_nb()){
 				fourmi_naissance(T_OUVRIERE, (p_fourmiliere+i)->x,
 								(p_fourmiliere+i)->y);
-			else
+				printf("fourmilière\n");
+				(p_fourmiliere+i)->nbO += 1;
+			}
+			else{
 				fourmi_naissance(T_GARDE, (p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
-			}			
+				(p_fourmiliere+i)->nbG += 1;
+			}
+			(p_fourmiliere+i)->nbF += 1;
+		}				
 	}
 }
 
@@ -467,8 +466,40 @@ void fourmiliere_new_food(int i) {
     (p_fourmiliere+i)->total_food+=1;
 }
 
+void fourmiliere_diminuer_nbF(unsigned i, unsigned j, 
+							  TYPE_FOURMI type1, TYPE_FOURMI type2){
+	if ((type1 == T_OUVRIERE) && (type2 == T_OUVRIERE)){
+		(p_fourmiliere+i)->nbO -= DEAD;
+		(p_fourmiliere+j)->nbO -= DEAD;
+		(p_fourmiliere+i)->nbF -= DEAD;
+		(p_fourmiliere+j)->nbF -= DEAD;
+	}
+	if ((type1 == T_GARDE) && (type2 == T_OUVRIERE)){
+		(p_fourmiliere+i)->nbG -= DEAD;
+		(p_fourmiliere+j)->nbO -= DEAD;
+		(p_fourmiliere+i)->nbF -= DEAD;
+		(p_fourmiliere+j)->nbF -= DEAD;
+	}
+	if ((type1 == T_OUVRIERE) && (type2 == T_GARDE)){
+		(p_fourmiliere+i)->nbO -= DEAD;
+		(p_fourmiliere+j)->nbG -= DEAD;
+		(p_fourmiliere+i)->nbF -= DEAD;
+		(p_fourmiliere+j)->nbF -= DEAD;
+	}	
+	if ((type1 == T_GARDE) && (type2 == T_GARDE)){
+		(p_fourmiliere+i)->nbG -= DEAD;
+		(p_fourmiliere+j)->nbG -= DEAD;
+		(p_fourmiliere+i)->nbF -= DEAD;
+		(p_fourmiliere+j)->nbF -= DEAD;
+	}
+}
+
+
 void fourmiliere_retour(double *posx, double *posy, double *butx, double *buty, int i) {
     *butx = (p_fourmiliere+i)->x;
     *buty = (p_fourmiliere+i)->y;
                                             //A FAIRE: ADAPTER LA TRAJECTOIRE EN FONCTION DES OBSTACLES
 }
+
+
+
