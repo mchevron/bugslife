@@ -17,7 +17,7 @@ int fourmiliere_ouvriere_lecture_precontrol(unsigned i, unsigned j,
 											char tab[MAX_LINE]);
 int fourmiliere_garde_lecture_precontrol(unsigned i, unsigned j,
 										 char tab[MAX_LINE]);
-int fourmiliere_test_rayon(unsigned num_fourmiliere, int nbF, int total_food,
+int fourmiliere_test_rayon(unsigned num_fourmiliere, int nbF, double total_food,
 							double rayon_fourmiliere);
 int fourmiliere_test_lecture_elements(unsigned nb_fourmiliere_fichier);
 int fourmiliere_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere, 
