@@ -419,7 +419,7 @@ void fourmi_ouvriere_update(FOURMI **p_ouvriere, int i) {
         fourmi_ouvriere_deplacement(p_ouvri, i);
         p_ouvri->ouvriere.age+=1;
         printf("%d\n", p_ouvri->ouvriere.age);
-        if(p_ouvri->ouvriere.age==50) {
+        if(p_ouvri->ouvriere.age==BUG_LIFE) {
             fourmi_retirer(p_ouvriere, p_ouvri);
             //fourmiliere_diminuer_NBO
         }
