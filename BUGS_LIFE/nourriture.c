@@ -207,22 +207,26 @@ void nourriture_creation(void){
 	}
 }
 
-void nourriture_choix(double *posx, double *posy, double *butx, double *buty) {
+void nourriture_choix(double *posx, double *posy, double *butx, double *buty, int i) {
     //Chercher la nourriture la plus proche
     double distance = utilitaire_calcul_distance(DMAX, DMIN, DMAX, DMIN);
             // distance max entre fourmi et nourriture
     double distance_new = distance;
     float risque_mort = 1;                         // 1 = risque certain
     float risque_mort_new = 1;
+    float dispo = 1;
+    float dispo_new = dispo;
     NOURRITURE* nourri = p_nourriture;
     while(nourri) {
         distance_new = utilitaire_calcul_distance(*posx, nourri->x, *posy, nourri->y);
-        //risque_mort_new = nourriture_risque(); // A FAIRE
-        if((distance_new <= distance) && (risque_mort_new <= risque_mort)) {
-            risque_mort = risque_mort_new;
-            distance = distance_new;
-            *butx = nourri->x;
-            *buty = nourri->y;
+        risque_mort_new = fourmiliere_test_ouvri_competition(distance_new, i, nourri->x, nourri->y);
+        dispo_new = fourmiliere_test_nourri_dispo(i, nourri->x, nourri->y);
+        if((risque_mort_new < risque_mort) || (risque_mort_new <= risque_mort &&
+                                               distance_new <= distance && dispo_new <= dispo)) {
+                risque_mort = risque_mort_new;
+                distance = distance_new;
+                *butx = nourri->x;
+                *buty = nourri->y;
         }
         nourri = nourri->next;
     }
@@ -231,9 +235,9 @@ void nourriture_choix(double *posx, double *posy, double *butx, double *buty) {
 void nourriture_cherche_retire(double x, double y) {
     if(nb_nourriture!=0) {
         NOURRITURE *nourri = p_nourriture;
-        while(nourri->x!=x || nourri->y!=y) {
+        while((nourri->x!=x || nourri->y!=y)) {
             nourri = nourri->next;
         }
-        nourriture_retirer (&p_nourriture, nourri);
+            nourriture_retirer (&p_nourriture, nourri);
     }
 }

@@ -27,5 +27,5 @@ unsigned nourriture_get_nb(void);
 void nourriture_centre_dessine(ETAT_NOUR etat, double x, double y);
 void nourriture_ajouter_fixe(double x, double y);
 void nourriture_creation(void);
-void nourriture_choix(double *posx, double *posy, double *butx, double *buty);
+void nourriture_choix(double *posx, double *posy, double *butx, double *buty, int i);
 void nourriture_cherche_retire(double x, double y);
