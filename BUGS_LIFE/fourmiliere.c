@@ -492,7 +492,7 @@ void fourmiliere_test_ouvri_intrustion(FOURMI *p_garde, unsigned i) {
     }
 }
 
-float fourmiliere_test_ouvri_competition(double distance_new, unsigned i, double nourri_x, double nourri_y){
+double fourmiliere_test_ouvri_competition(double distance_new, unsigned i, double nourri_x, double nourri_y){
     unsigned k = 0;
     float risque_mort_new=0;
     for (k = 0; k < nb_fourmiliere; k++){
