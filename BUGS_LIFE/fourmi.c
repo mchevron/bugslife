@@ -567,9 +567,7 @@ float fourmi_test_ouvri_competition(double distance_new, FOURMI *p_ouvriere,
                                                      nourri_y,
                                                      p_ouvriere->ouvriere.posy);
         if(distance_comp <= distance_new &&
-           p_ouvriere->ouvriere.bool_nourriture == EMPTY &&
-           p_ouvriere->ouvriere.butx == nourri_x &&
-           p_ouvriere->ouvriere.buty == nourri_y){
+           p_ouvriere->ouvriere.bool_nourriture == EMPTY) {
             risque_mort_new = 1;
         }
         p_ouvriere = p_ouvriere->next;
