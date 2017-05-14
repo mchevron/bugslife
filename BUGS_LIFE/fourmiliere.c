@@ -435,8 +435,8 @@ void fourmiliere_consommation(void){
 		(p_fourmiliere+i)->total_food -= (p_fourmiliere+i)->nbF*FEED_RATE;
 		if ((p_fourmiliere+i)->total_food < VAL_FOOD){
 			(p_fourmiliere+i)->total_food = 0;
-			nourriture_centre_dessine(VIDE, (p_fourmiliere+i)->x,
-									 (p_fourmiliere+i)->y);
+			//nourriture_centre_dessine(VIDE, (p_fourmiliere+i)->x,
+			//						 (p_fourmiliere+i)->y);
 			if ((p_fourmiliere+i)->nbF == 0)
 				fourmiliere_destruction(i);
 		}
@@ -554,8 +554,12 @@ float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double 
         if(k!=i){
             fourmiliere_x = (p_fourmiliere+k)->x - ouvri_x;
             fourmiliere_y = (p_fourmiliere+k)->y - ouvri_y;
-            double distance = utilitaire_dist_proj_ortho(nourri_x, nourri_y, fourmiliere_x, fourmiliere_y);
-            if(distance <= (p_fourmiliere+k)->rayon) risque_fourmiliere_chemin = 1;
+            double distance_ortho = utilitaire_dist_proj_ortho(nourri_x, nourri_y, fourmiliere_x, fourmiliere_y);
+            double distance_ouvri_fourmiliere = utilitaire_dist_proj_ortho(nourri_x, nourri_y, ouvri_x, ouvri_y);
+            double distance_ouvri_nourriture = utilitaire_dist_proj_ortho(ouvri_x, ouvri_y, fourmiliere_x, fourmiliere_y);
+            if(distance_ortho <= ((p_fourmiliere+k)->rayon + RAYON_FOURMI) &&
+               ((distance_ouvri_fourmiliere - (p_fourmiliere+k)->rayon) < distance_ouvri_nourriture))
+                risque_fourmiliere_chemin = 1;
         }
     }
     return risque_fourmiliere_chemin;

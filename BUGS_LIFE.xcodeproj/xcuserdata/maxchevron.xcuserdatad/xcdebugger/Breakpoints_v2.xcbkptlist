@@ -2458,11 +2458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmiliere.c"
-            timestampString = "516460285.468455"
+            timestampString = "516463358.897185"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "564"
-            endingLineNumber = "564"
+            startingLineNumber = "568"
+            endingLineNumber = "568"
             landmarkName = "fourmiliere_ouvri_sur_chemin()"
             landmarkType = "9">
          </BreakpointContent>
