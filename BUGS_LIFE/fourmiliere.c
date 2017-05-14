@@ -19,6 +19,8 @@
 #include "fourmiliere.h"
 
 #define NB_ELEMENTS_FOURMILIERE 6
+#define NAISSANCE				1
+#define DEAD					1
 
 struct fourmiliere
 {
@@ -197,21 +199,28 @@ int fourmiliere_test_superposition(MODE_LS mode){
     if(nb_fourmiliere<=1) return FAUX;
     for (i = 0; i < nb_fourmiliere; i++){
         for (j = i+ 1; j < nb_fourmiliere; j++){
-			if (mode == LECTURE){
-	            double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
-	                                                         (p_fourmiliere+j)->x,
-	                                                         (p_fourmiliere+i)->y,
-	                                                         (p_fourmiliere+j)->y);
-	            double r1 = (p_fourmiliere+i)->rayon;
-	            double r2 = (p_fourmiliere+j)->rayon;
+            double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
+                                                         (p_fourmiliere+j)->x,
+                                                         (p_fourmiliere+i)->y,
+                                                         (p_fourmiliere+j)->y);
+            double r1 = (p_fourmiliere+i)->rayon;
+            double r2 = (p_fourmiliere+j)->rayon;
+            if (mode == LECTURE){
 	            if (distance - (r1+ r2) <= 0){
 	                error_superposition_fourmiliere(i, j);
-	                return  VRAI;
-	            }
+	                return  VRAI; 
+				}
+			}
+			else {
+				if (distance - (r1+ r2) <= EPSIL_ZERO){
+					fourmiliere_destruction(i);
+					fourmiliere_destruction(j);
+					return VRAI;
+				}
 			}
             if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbO != 0)
-	            if(fourmi_test_superposition_oo((p_fourmiliere+i)->p_fourmi_ouvriere,
-												(p_fourmiliere+j)->p_fourmi_ouvriere,
+	            if(fourmi_test_superposition_oo(&((p_fourmiliere+i)->p_fourmi_ouvriere),
+												&((p_fourmiliere+j)->p_fourmi_ouvriere),
 												i, j, mode)){
 					if (mode == SIMULATION){
 						(p_fourmiliere+i)->nbO -= 1;
@@ -222,8 +231,8 @@ int fourmiliere_test_superposition(MODE_LS mode){
 	                return VRAI;
 				}
 	        if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbO != 0)
-	            if(fourmi_test_superposition_go((p_fourmiliere+i)->p_fourmi_garde,
-												(p_fourmiliere+j)->p_fourmi_ouvriere,
+	            if(fourmi_test_superposition_go(&(p_fourmiliere+i)->p_fourmi_garde,
+												&(p_fourmiliere+j)->p_fourmi_ouvriere,
 												i, j, mode)) {
 					if (mode == SIMULATION){
 						(p_fourmiliere+i)->nbG -= 1;
@@ -234,8 +243,8 @@ int fourmiliere_test_superposition(MODE_LS mode){
 	                return VRAI;
 				}
 	        if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbG != 0)
-	            if(fourmi_test_superposition_og((p_fourmiliere+i)->p_fourmi_ouvriere,
-												(p_fourmiliere+j)->p_fourmi_garde, 
+	            if(fourmi_test_superposition_og(&(p_fourmiliere+i)->p_fourmi_ouvriere,
+												&(p_fourmiliere+j)->p_fourmi_garde, 
 												i, j, mode)){
 					if (mode == SIMULATION){
 						(p_fourmiliere+i)->nbO -= 1;
@@ -246,8 +255,8 @@ int fourmiliere_test_superposition(MODE_LS mode){
 	                return VRAI;
 				}
 	        if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbG != 0)
-	            if(fourmi_test_superposition_gg((p_fourmiliere+i)->p_fourmi_garde,
-												(p_fourmiliere+j)->p_fourmi_garde,
+	            if(fourmi_test_superposition_gg(&(p_fourmiliere+i)->p_fourmi_garde,
+												&(p_fourmiliere+j)->p_fourmi_garde,
 												i, j, mode)) {
 					if (mode == SIMULATION){
 						(p_fourmiliere+i)->nbG -= 1;
@@ -373,7 +382,7 @@ void fourmiliere_free(void){
 }
 
 void fourmiliere_update(void) {
-    //fourmiliere_naissance_fourmi(); //PROBLEME DE DEPLACEMENT DE FOURMI P-E DU AUX INDICES
+    fourmiliere_naissance_fourmi(); //PROBLEME DE DEPLACEMENT DE FOURMI P-E DU AUX INDICES
     //fourmiliere_consommation();      //PROBLEME: MET LE DECOMPTE NOURRITURE A 0 DES QU'IL PASSE A 1
     fourmiliere_rayon();
     fourmiliere_test_superposition(SIMULATION);
@@ -391,12 +400,18 @@ void fourmiliere_naissance_fourmi(void){
 	for (i = 0; i < nb_fourmiliere; i++){
 		int p = ((p_fourmiliere+i)->total_food) * BIRTH_RATE;
 		if (rand()/RAND_MAX <= p) {
-			if ((p_fourmiliere+i)->nbO < nourriture_get_nb())
-				fourmi_naissance(T_OUVRIERE, (p_fourmiliere+i)->x,
-								(p_fourmiliere+i)->y);
-			else
-				fourmi_naissance(T_GARDE, (p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
-			}			
+			if ((p_fourmiliere+i)->nbO < nourriture_get_nb()){
+				fourmi_naissance(&(p_fourmiliere+i)->p_fourmi_ouvriere, T_OUVRIERE, 
+								(p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
+				(p_fourmiliere+i)->nbO += NAISSANCE;
+			}
+			else {
+				fourmi_naissance(&(p_fourmiliere+i)->p_fourmi_garde,T_GARDE, 
+								(p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
+				(p_fourmiliere+i)->nbG += NAISSANCE;
+			}
+			(p_fourmiliere+i)->nbF += NAISSANCE;
+		}			
 	}
 }
 
