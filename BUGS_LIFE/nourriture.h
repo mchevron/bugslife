@@ -24,7 +24,6 @@ void nourriture_free(void);
 void nourriture_vider ( NOURRITURE ** p_liste );
 void nourriture_retirer ( NOURRITURE ** p_tete, NOURRITURE *nour );
 unsigned nourriture_get_nb(void);
-void nourriture_centre_dessine(ETAT_NOUR etat, double x, double y);
 void nourriture_ajouter_fixe(double x, double y);
 void nourriture_creation(void);
 void nourriture_choix(double *posx, double *posy, double *butx, double *buty, int i);

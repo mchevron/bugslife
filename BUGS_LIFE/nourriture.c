@@ -176,14 +176,6 @@ unsigned nourriture_get_nb(void){
 	return nb_nourriture;
 }
 
-void nourriture_centre_dessine(ETAT_NOUR etat, double x, double y){
-	if (etat == PLEIN){
-		graphic_set_color3f (0., 0., 0.);
-		graphic_draw_circle (x, y, RAYON_FOOD, GRAPHIC_EMPTY);
-	}
-	else {}// à completer	
-}
-
 void nourriture_ajouter_fixe(double x, double y){
 	NOURRITURE* nourri = NULL;
     nourri = nourriture_ajouter(&p_nourriture);
