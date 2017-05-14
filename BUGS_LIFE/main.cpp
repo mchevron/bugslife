@@ -85,15 +85,14 @@ void control_cb(int control){
         case (STEP):
             // step simulation
             printf("modele_update\n one step\n");
-            if (glutGetWindow() != main_window) glutSetWindow( main_window);
+            if (glutGetWindow() != main_window) glutSetWindow( main_window );
             modele_update(auto_man_radio->get_int_val());
             glutPostRedisplay();
             run = STEP;
             break;
         case (RECORD):
             // record simulation
-            if(record->get_int_val() == 1) printf("Record\n");
-            else printf("Stop record\n");
+            modele_record(record->get_int_val());
             break;
         default:
             printf("\n Unknown command\n");
@@ -157,6 +156,7 @@ void idle_cb(){
     if (run == RUN){
         if (glutGetWindow() != main_window) glutSetWindow(main_window);
         modele_update(auto_man_radio->get_int_val());
+        modele_record(record->get_int_val());
         glutPostRedisplay();
     }
 }
@@ -183,7 +183,7 @@ void add_simulation_panel(GLUI* glui) {
                               control_cb);
     glui->add_button_to_panel(simulation_panel,  "Step", STEP,
                               control_cb);
-    record = glui->add_checkbox_to_panel(simulation_panel, "Record",NULL,
+    record = glui->add_checkbox_to_panel(simulation_panel, "Record", NULL,
                                            RECORD, control_cb);
 }
 
