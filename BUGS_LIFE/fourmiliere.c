@@ -115,14 +115,6 @@ int fourmiliere_ouvriere_lecture_precontrol(unsigned i, unsigned j,
     return L_CONTINUE;
 }
 
-/*
-int fourmiliere_test_nbO(int i, int j) {
-    printf("%d\n", (p_fourmiliere+i)->nbO);
-    if((p_fourmiliere+i)->nbO==j+1) return COMPLETE;
-    return INCOMPLETE;
-}
- */
-
 int fourmiliere_garde_lecture_precontrol(unsigned i, unsigned j, char tab[MAX_LINE]){
     char check[MAX_LINE];
     double test = 0.;

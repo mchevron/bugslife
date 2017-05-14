@@ -50,18 +50,10 @@ int modele_lecture_fichier(char nom_fichier[]){
     while((fgets(tab, MAX_LINE, fentree) != NULL)||
           (etape_lecture == L_COMPLETE)||
           (etape_lecture == L_EXIT)) {
-        if((tab[DEBUT]=='#')||(tab[DEBUT]=='\n')||(tab[DEBUT]=='\r'))
+        if((tab[DEBUT]=='#')||(tab[DEBUT]=='\n')||(tab[DEBUT]=='\r')||
+           ((tab[DEBUT]=='\t')&&(tab[DEBUT+1]=='\r')))
             continue;
-        if (sscanf(tab, " %c", &test), test == '#') continue;
-        /*
-         int test_i;
-        double test_d;
-        char check[MAX_LINE];
-        sscanf(tab, " %s", check);
-        if((sscanf(tab, " %c", &test) == ECHEC) &&
-           (sscanf(tab, " %d", &test_i) == ECHEC) &&
-           (sscanf(tab, " %lf", &test_d) == ECHEC)) continue;
-        */
+        if (sscanf(tab, "%*[ \t]%c", &test), test == '#') continue;
         switch(etape_lecture){
             case L_NB_FOURMILIERE:
                 etape_lecture = fourmiliere_nb_fourmiliere(tab);
