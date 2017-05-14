@@ -558,7 +558,7 @@ void fourmi_ouvriere_intrusion(FOURMI *p_garde, FOURMI *p_ouvriere,
     }
 }
 
-float fourmi_test_ouvri_competition(double distance_new, FOURMI *p_ouvriere,
+double fourmi_test_ouvri_competition(double distance_new, FOURMI *p_ouvriere,
                                     double nourri_x, double nourri_y) {
     float risque_mort_new = 0;
     while (p_ouvriere){
@@ -575,7 +575,7 @@ float fourmi_test_ouvri_competition(double distance_new, FOURMI *p_ouvriere,
     return risque_mort_new;
 }
 
-float fourmi_test_nourri_dispo(FOURMI *p_ouvriere, double nourri_x, double nourri_y) {
+double fourmi_test_nourri_dispo(FOURMI *p_ouvriere, double nourri_x, double nourri_y) {
     unsigned dispo = 1;
     while (p_ouvriere){
         if(p_ouvriere->ouvriere.butx == nourri_x &&

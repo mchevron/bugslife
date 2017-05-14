@@ -504,14 +504,14 @@ float fourmiliere_test_ouvri_competition(double distance_new, unsigned i, double
     return risque_mort_new;
 }
 
-float fourmiliere_test_nourri_dispo(unsigned i, double nourri_x, double nourri_y){
+double fourmiliere_test_nourri_dispo(unsigned i, double nourri_x, double nourri_y){
     unsigned dispo = 1;
     if(fourmi_test_nourri_dispo((p_fourmiliere+i)->p_fourmi_ouvriere,
                                 nourri_x, nourri_y)==0) dispo=0;
     return dispo;
 }
 
-float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double nourri_x, double nourri_y){
+double fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double nourri_x, double nourri_y){
     unsigned k = 0;
     nourri_x = nourri_x - ouvri_x;
     nourri_y = nourri_y - ouvri_y;
@@ -529,7 +529,7 @@ float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double 
     return risque_fourmiliere_chemin;
 }
 
-float fourmiliere_ouvri_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double nourri_x, double nourri_y){
+double fourmiliere_ouvri_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double nourri_x, double nourri_y){
     unsigned k = 0;
     nourri_x = nourri_x - ouvri_x;
     nourri_y = nourri_y - ouvri_y;
