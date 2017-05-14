@@ -173,12 +173,12 @@ FOURMI * fourmi_ajouter ( FOURMI ** p_tete ){
     return four;
 }
 
-int fourmi_test_superposition_oo( FOURMI **p_frm_frml1, FOURMI ** p_frm_frml2,
+int fourmi_test_superposition_oo( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
                                  unsigned i, unsigned j , MODE_LS mode){
-    FOURMI * frm1 = * p_frm_frml1;
+    FOURMI * frm1 = p_frm_frml1;
     FOURMI * frm2 = NULL;
     while (frm1 != NULL){
-        frm2 = * p_frm_frml2;
+        frm2 = p_frm_frml2;
         while (frm2 != NULL){
             double distance = utilitaire_calcul_distance(frm1->ouvriere.posx,
                                                          frm2->ouvriere.posx,
@@ -196,11 +196,11 @@ int fourmi_test_superposition_oo( FOURMI **p_frm_frml1, FOURMI ** p_frm_frml2,
 					if (frm1->ouvriere.bool_nourriture)
 						nourriture_ajouter_fixe(frm1->ouvriere.posx, 
 												frm1->ouvriere.posy);
-	                fourmi_retirer(p_frm_frml1, frm1);
+	                fourmi_retirer(p_fourmi_ouvriere, frm1);
 					if (frm2->ouvriere.bool_nourriture)
 						nourriture_ajouter_fixe(frm2->ouvriere.posx, 
 												frm2->ouvriere.posy);
-	                fourmi_retirer(p_frm_frml2, frm2);
+	                fourmi_retirer(p_fourmi_ouvriere, frm2);
 					return  VRAI;
 				}
 			}
@@ -211,12 +211,11 @@ int fourmi_test_superposition_oo( FOURMI **p_frm_frml1, FOURMI ** p_frm_frml2,
     return FAUX;
 }
 
-int fourmi_test_superposition_go( FOURMI ** p_frm_frml1, FOURMI ** p_frm_frml2,
+int fourmi_test_superposition_go( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
                                  unsigned i, unsigned j , MODE_LS mode){
-    FOURMI * frm1 = * p_frm_frml1;
+    FOURMI * frm1 = p_frm_frml1;
     FOURMI * frm2 = NULL;
     while (frm1 != NULL){
-		frm2 = * p_frm_frml2;
         while (frm2 != NULL){
             double distance = utilitaire_calcul_distance(frm1->garde.posx,
                                                          frm2->ouvriere.posx,
@@ -231,11 +230,11 @@ int fourmi_test_superposition_go( FOURMI ** p_frm_frml1, FOURMI ** p_frm_frml2,
 			}
 			else {
 				if (distance - (RAYON_FOURMI + RAYON_FOURMI) <= EPSIL_ZERO){
-	                fourmi_retirer(p_frm_frml1, frm1);
+	                fourmi_retirer(p_fourmi_garde, frm1);
 					if (frm2->ouvriere.bool_nourriture) 
 						nourriture_ajouter_fixe(frm2->ouvriere.posx, 
 												frm2->ouvriere.posy);
-	                fourmi_retirer(p_frm_frml2, frm2);
+	                fourmi_retirer(p_fourmi_ouvriere, frm2);
 	                return  VRAI;
 	            }
 			}
@@ -245,12 +244,11 @@ int fourmi_test_superposition_go( FOURMI ** p_frm_frml1, FOURMI ** p_frm_frml2,
     }
     return FAUX;
 }
-int fourmi_test_superposition_og( FOURMI ** p_frm_frml1, FOURMI ** p_frm_frml2,
+int fourmi_test_superposition_og( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
                                  unsigned i, unsigned j , MODE_LS mode){
-    FOURMI * frm1 = *p_frm_frml1;
+    FOURMI * frm1 = p_frm_frml1;
     FOURMI * frm2 = NULL;
     while (frm1 != NULL){
-		frm2 = * p_frm_frml2;
         while (frm2 != NULL){
             double distance = utilitaire_calcul_distance(frm1->ouvriere.posx,
                                                          frm2->garde.posx,
@@ -268,8 +266,8 @@ int fourmi_test_superposition_og( FOURMI ** p_frm_frml1, FOURMI ** p_frm_frml2,
 					if (frm1->ouvriere.bool_nourriture) 
 						nourriture_ajouter_fixe(frm1->ouvriere.posx, 
 												frm1->ouvriere.posy);
-	                fourmi_retirer(p_frm_frml1, frm1);
-	                fourmi_retirer(p_frm_frml2, frm2);
+	                fourmi_retirer(p_fourmi_ouvriere, frm1);
+	                fourmi_retirer(p_fourmi_garde, frm2);
 	                return  VRAI;				
 	            }
 			}			
@@ -280,12 +278,11 @@ int fourmi_test_superposition_og( FOURMI ** p_frm_frml1, FOURMI ** p_frm_frml2,
     return FAUX;
 }
 
-int fourmi_test_superposition_gg( FOURMI **p_frm_frml1, FOURMI ** p_frm_frml2,
+int fourmi_test_superposition_gg( FOURMI *p_frm_frml1, FOURMI * p_frm_frml2,
                                  unsigned i, unsigned j , MODE_LS mode ){
-    FOURMI * frm1 = * p_frm_frml1;
+    FOURMI * frm1 = p_frm_frml1;
     FOURMI * frm2 = NULL;
     while (frm1 != NULL){
-		frm2 = * p_frm_frml2;
         while (frm2 != NULL){
             double distance = utilitaire_calcul_distance(frm1->garde.posx, 
                                                          frm2->garde.posx,
@@ -300,8 +297,8 @@ int fourmi_test_superposition_gg( FOURMI **p_frm_frml1, FOURMI ** p_frm_frml2,
 			}
 			else {
 				if (distance - (RAYON_FOURMI + RAYON_FOURMI) <= EPSIL_ZERO){
-					fourmi_retirer(p_frm_frml1, frm1);
-					fourmi_retirer(p_frm_frml2, frm2);
+					fourmi_retirer(p_fourmi_garde, frm1);
+					fourmi_retirer(p_fourmi_garde, frm2);
 					return  VRAI;				
 				}
 			}
@@ -417,35 +414,38 @@ void fourmi_retirer ( FOURMI ** p_tete, FOURMI *four ){
     }
 }
 
-void fourmi_ouvriere_update(FOURMI **p_ouvriere, int i) {
+void fourmi_ouvriere_update(FOURMI **p_ouvriere, int i, FOURMILIERE * p_fourmiliere) {
     FOURMI *p_ouvri = *p_ouvriere;
     while (p_ouvri){
         fourmi_ouvriere_deplacement(p_ouvri, i);
         p_ouvri->ouvriere.age+=1;
-        printf("%d\n", p_ouvri->ouvriere.age);
-        if(p_ouvri->ouvriere.age==50) {
+        if(p_ouvri->ouvriere.age==BUG_LIFE) {
             fourmi_retirer(p_ouvriere, p_ouvri);
-            //fourmiliere_diminuer_NBO
+            (p_fourmiliere+i)->nbO -=1;
         }
         p_ouvri = p_ouvri->next;
     }
 }
 
-void fourmi_garde_update(FOURMI *p_garde, int i, int nb_fourmiliere){
+void fourmi_garde_update(FOURMI **p_garde, int i, int nb_fourmiliere, FOURMILIERE * p_fourmiliere){
     int j = 0;
-    while (p_garde){
-        //fourmi_age(p_garde);
-        fourmi_garde_deplacement(p_garde, i, nb_fourmiliere);
-        p_garde = p_garde->next;
+    FOURMI *p_gar = *p_garde;
+    while (p_gar){
+        fourmi_garde_deplacement(p_gar, i, nb_fourmiliere);
+        p_gar->garde.age+=1;
+        if(p_gar->garde.age==BUG_LIFE) {
+            fourmi_retirer(p_garde, p_gar);
+            (p_fourmiliere+i)->nbG -=1;
+        }
+        p_gar = p_gar->next;
         j+=1;
     }
 }
 
-void fourmi_naissance(FOURMI ** p_fourmi, TYPE_FOURMI type, double posx, double posy){
+void fourmi_naissance(TYPE_FOURMI type, double posx, double posy){
 	FOURMI * four = NULL;
-	printf("fourmi\n");
 	if (type == T_OUVRIERE){
-		four = fourmi_ajouter(p_fourmi);
+		four = fourmi_ajouter(p_fourmi_ouvriere);
 		if (four != NULL){
 			four->ouvriere.age = 0;
 			four->ouvriere.posx = posx;
@@ -457,7 +457,7 @@ void fourmi_naissance(FOURMI ** p_fourmi, TYPE_FOURMI type, double posx, double 
 		}
 	}
 	else {
-		four = fourmi_ajouter(p_fourmi);
+		four = fourmi_ajouter(p_fourmi_garde);
 		if (four != NULL){
 			four->garde.age = 0;
 			four->garde.posx = posx;
@@ -467,12 +467,6 @@ void fourmi_naissance(FOURMI ** p_fourmi, TYPE_FOURMI type, double posx, double 
 			four->ouvriere.id = 0;
 		}
 	}
-}
-
-
-void fourmi_age(FOURMI *p_fourmi) {
-    p_fourmi->ouvriere.age+=1;
-    if(p_fourmi->ouvriere.age==BUG_LIFE);
 }
 
 int fourmi_nourriture_test_superposition_o(FOURMI *p_four, double x, double y){
@@ -502,7 +496,7 @@ int fourmi_nourriture_test_superposition_g(FOURMI *p_four, double x, double y){
 void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, int i) {
     if(p_ouvriere->ouvriere.bool_nourriture==EMPTY) {
         nourriture_choix(&p_ouvriere->ouvriere.posx, &p_ouvriere->ouvriere.posy,
-                         &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty);
+                         &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i);
         //cette fonction met à jour le but de la fourmi vide
     }
     else fourmiliere_retour(&p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i);
@@ -547,7 +541,7 @@ void fourmi_garde_deplacement(FOURMI *p_garde, int i, int nb_fourmiliere) {
 }
     
 void fourmi_ouvriere_intrusion(FOURMI *p_garde, FOURMI *p_ouvriere,
-                              unsigned i, unsigned c_x, unsigned c_y, unsigned rayon){
+                              unsigned i, unsigned c_x, unsigned c_y, unsigned rayon) {
     while (p_ouvriere){
         double distance = utilitaire_calcul_distance(c_x,
                                                      p_ouvriere->ouvriere.posx,
@@ -561,3 +555,31 @@ void fourmi_ouvriere_intrusion(FOURMI *p_garde, FOURMI *p_ouvriere,
     }
 }
 
+float fourmi_test_ouvri_competition(double distance_new, FOURMI *p_ouvriere,
+                                    double nourri_x, double nourri_y) {
+    float risque_mort_new = 0;
+    while (p_ouvriere){
+        double distance_comp = utilitaire_calcul_distance(nourri_x,
+                                                     p_ouvriere->ouvriere.posx,
+                                                     nourri_y,
+                                                     p_ouvriere->ouvriere.posy);
+        if(distance_comp <= distance_new &&
+           p_ouvriere->ouvriere.bool_nourriture == EMPTY &&
+           p_ouvriere->ouvriere.butx == nourri_x &&
+           p_ouvriere->ouvriere.buty == nourri_y){
+            risque_mort_new = 1;
+        }
+        p_ouvriere = p_ouvriere->next;
+    }
+    return risque_mort_new;
+}
+
+float fourmi_test_nourri_dispo(FOURMI *p_ouvriere, double nourri_x, double nourri_y) {
+    unsigned dispo = 1;
+    while (p_ouvriere){
+        if(p_ouvriere->ouvriere.butx == nourri_x &&
+           p_ouvriere->ouvriere.buty == nourri_y) dispo = 0;
+        p_ouvriere = p_ouvriere->next;
+    }
+    return dispo;
+}
