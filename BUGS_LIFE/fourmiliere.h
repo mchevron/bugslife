@@ -18,7 +18,7 @@ int fourmiliere_ouvriere_lecture_precontrol(unsigned i, unsigned j,
 											char tab[MAX_LINE]);
 int fourmiliere_garde_lecture_precontrol(unsigned i, unsigned j,
 										 char tab[MAX_LINE]);
-int fourmiliere_test_rayon(unsigned num_fourmiliere, int nbF, int total_food,
+int fourmiliere_test_rayon(unsigned num_fourmiliere, int nbF, double total_food,
 							double rayon_fourmiliere);
 int fourmiliere_test_lecture_elements(unsigned nb_fourmiliere_fichier);
 int fourmiliere_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere, 
@@ -28,6 +28,8 @@ int fourmiliere_test_pos_garde_lecture(unsigned num_fourmiliere, unsigned num_ga
 int fourmiliere_test_pos_garde(unsigned num_fourmiliere, double x_garde,
                                double y_garde);
 int fourmiliere_test_superposition(MODE_LS mode);
+void fourmiliere_diminuer_nbF(unsigned i, unsigned j, 
+							  TYPE_FOURMI type1, TYPE_FOURMI type2);
 int fourmiliere_test_nbO(int i, int j);
 void fourmiliere_dessine(void);
 char* fourmiliere_get_info_rollout(unsigned info, unsigned i);

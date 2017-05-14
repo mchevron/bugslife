@@ -69,6 +69,7 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE]){
         error_lecture_elements_fourmiliere(i, ERR_FOURMILIERE, ERR_PAS_ASSEZ);
         return L_EXIT;
     }
+    printf(" %d\n", (p_fourmiliere+i)->total_food);
     fourmi_recoit(&(p_fourmiliere+i)->p_fourmi_ouvriere,
                   &(p_fourmiliere+i)->p_fourmi_garde);
     (p_fourmiliere+i)->nbF = (p_fourmiliere+i)->nbO + (p_fourmiliere+i)->nbG;
@@ -133,7 +134,7 @@ int fourmiliere_garde_lecture_precontrol(unsigned i, unsigned j, char tab[MAX_LI
     return L_CONTINUE;
 }
 
-int fourmiliere_test_rayon(unsigned num_fourmiliere, int nbF, int total_food,
+int fourmiliere_test_rayon(unsigned num_fourmiliere, int nbF, double total_food,
 							double rayon_fourmiliere){
 	double rayon_max = (1 + sqrt(nbF) + sqrt(total_food))*RAYON_FOURMI;
 	if (rayon_fourmiliere > (double) rayon_max) {
@@ -207,6 +208,7 @@ int fourmiliere_test_superposition(MODE_LS mode){
 				if (distance - (r1+ r2) <= EPSIL_ZERO){
 					fourmiliere_destruction(i);
 					fourmiliere_destruction(j);
+					nb_fourmiliere -= 2*DEAD;
 					return VRAI;
 				}
 			}
@@ -215,10 +217,7 @@ int fourmiliere_test_superposition(MODE_LS mode){
 												&((p_fourmiliere+j)->p_fourmi_ouvriere),
 												i, j, mode)){
 					if (mode == SIMULATION){
-						(p_fourmiliere+i)->nbO -= 1;
-						(p_fourmiliere+j)->nbO -= 1;
-						(p_fourmiliere+i)->nbF -= 1;
-						(p_fourmiliere+j)->nbF -= 1;
+						fourmiliere_diminuer_nbF(i,j, T_OUVRIERE, T_OUVRIERE);
 					}	
 	                return VRAI;
 				}
@@ -227,10 +226,7 @@ int fourmiliere_test_superposition(MODE_LS mode){
 												&(p_fourmiliere+j)->p_fourmi_ouvriere,
 												i, j, mode)) {
 					if (mode == SIMULATION){
-						(p_fourmiliere+i)->nbG -= 1;
-						(p_fourmiliere+j)->nbO -= 1;
-						(p_fourmiliere+i)->nbF -= 1;
-						(p_fourmiliere+j)->nbF -= 1;
+						fourmiliere_diminuer_nbF(i,j, T_GARDE, T_OUVRIERE);
 					}	
 	                return VRAI;
 				}
@@ -239,10 +235,7 @@ int fourmiliere_test_superposition(MODE_LS mode){
 												&(p_fourmiliere+j)->p_fourmi_garde, 
 												i, j, mode)){
 					if (mode == SIMULATION){
-						(p_fourmiliere+i)->nbO -= 1;
-						(p_fourmiliere+j)->nbG -= 1;
-						(p_fourmiliere+i)->nbF -= 1;
-						(p_fourmiliere+j)->nbF -= 1;
+						fourmiliere_diminuer_nbF(i,j, T_OUVRIERE, T_GARDE);
 					}	
 	                return VRAI;
 				}
@@ -251,10 +244,7 @@ int fourmiliere_test_superposition(MODE_LS mode){
 												&(p_fourmiliere+j)->p_fourmi_garde,
 												i, j, mode)) {
 					if (mode == SIMULATION){
-						(p_fourmiliere+i)->nbG -= 1;
-						(p_fourmiliere+j)->nbG -= 1;
-						(p_fourmiliere+i)->nbF -= 1;
-						(p_fourmiliere+j)->nbF -= 1;
+						fourmiliere_diminuer_nbF(i,j, T_GARDE, T_GARDE);
 					}	
 	                return VRAI;
 				}
@@ -263,6 +253,33 @@ int fourmiliere_test_superposition(MODE_LS mode){
     return FAUX;
 }
 
+void fourmiliere_diminuer_nbF(unsigned i, unsigned j, 
+							  TYPE_FOURMI type1, TYPE_FOURMI type2){
+	if ((type1 == T_OUVRIERE) && (type2 == T_OUVRIERE)){
+		(p_fourmiliere+i)->nbO -= DEAD;
+		(p_fourmiliere+j)->nbO -= DEAD;
+		(p_fourmiliere+i)->nbF -= DEAD;
+		(p_fourmiliere+j)->nbF -= DEAD;
+	}
+	if ((type1 == T_GARDE) && (type2 == T_OUVRIERE)){
+		(p_fourmiliere+i)->nbG -= DEAD;
+		(p_fourmiliere+j)->nbO -= DEAD;
+		(p_fourmiliere+i)->nbF -= DEAD;
+		(p_fourmiliere+j)->nbF -= DEAD;
+	}
+	if ((type1 == T_OUVRIERE) && (type2 == T_GARDE)){
+		(p_fourmiliere+i)->nbO -= DEAD;
+		(p_fourmiliere+j)->nbG -= DEAD;
+		(p_fourmiliere+i)->nbF -= DEAD;
+		(p_fourmiliere+j)->nbF -= DEAD;
+	}	
+	if ((type1 == T_GARDE) && (type2 == T_GARDE)){
+		(p_fourmiliere+i)->nbG -= DEAD;
+		(p_fourmiliere+j)->nbG -= DEAD;
+		(p_fourmiliere+i)->nbF -= DEAD;
+		(p_fourmiliere+j)->nbF -= DEAD;
+	}
+}
 
 void fourmiliere_dessine(void) {
     unsigned i = 0;
@@ -280,6 +297,7 @@ char* fourmiliere_get_info_rollout(unsigned info, unsigned i) {
         "Brown", "Khaki"};
     char* color = color_name[i];
     char empty[EMPTY] = "";
+    int total_food_int = 0;
     if(i<nb_fourmiliere) {
         switch(info)
         {
@@ -299,7 +317,8 @@ char* fourmiliere_get_info_rollout(unsigned info, unsigned i) {
                 nbG_T = nbG_T + (p_fourmiliere+i)->nbG;
                 break;
             case NB_NOURRITURE:
-                sprintf(info_glui, "%d", (p_fourmiliere+i)->total_food);
+				total_food_int = (p_fourmiliere+i)->total_food;
+                sprintf(info_glui, "%d", total_food_int);
                 total_food_T = total_food_T + (p_fourmiliere+i)->total_food;
                 break;
             case NBT_FOURMI:
@@ -339,7 +358,7 @@ void fourmiliere_save(FILE *f_sortie) {
         fprintf(f_sortie, " %lf", (p_fourmiliere+i)->y);
         fprintf(f_sortie, " %u", (p_fourmiliere+i)->nbO);
         fprintf(f_sortie, " %u", (p_fourmiliere+i)->nbG);
-        fprintf(f_sortie, " %u", (p_fourmiliere+i)->total_food);
+        fprintf(f_sortie, " %d", (p_fourmiliere+i)->total_food);
         fprintf(f_sortie, " %lf\n", (p_fourmiliere+i)->rayon);
         if ((p_fourmiliere+i)->nbO != 0){
 			fourmi_save_ouvriere(f_sortie, (p_fourmiliere+i)->p_fourmi_ouvriere);
@@ -390,7 +409,7 @@ void fourmiliere_update(void) {
 void fourmiliere_naissance_fourmi(void){
 	unsigned i;
 	for (i = 0; i < nb_fourmiliere; i++){
-		int p = ((p_fourmiliere+i)->total_food) * BIRTH_RATE;
+		double p = ((p_fourmiliere+i)->total_food) * BIRTH_RATE;
 		if (rand()/RAND_MAX <= p) {
 			if ((p_fourmiliere+i)->nbO < nourriture_get_nb()){
 				fourmi_naissance(&(p_fourmiliere+i)->p_fourmi_ouvriere, T_OUVRIERE, 

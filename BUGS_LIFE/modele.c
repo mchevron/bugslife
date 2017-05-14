@@ -16,8 +16,12 @@
 #include "error.h"
 #include "modele.h"
 
-#define DEBUT		0
-#define EXIT		1
+#define DEBUT			0
+#define EXIT			1
+#define INCREMENTATION	1
+
+static unsigned mise_a_jour = 0;
+static FILE *f_record = NULL;
 
 int modele_lecture(char mode[], char nom_fichier[]){
     if (strcmp(mode, "Error") == 0){
@@ -121,4 +125,20 @@ void modele_sauvegarde(char *fsortie) {
     fourmiliere_save(f_sortie);
     nourriture_save(f_sortie);
     fclose(f_sortie);
+}
+
+void modele_record(int record){
+	if (record) {
+		if (!(f_record))
+			f_record = fopen("out.dat","w");
+		fprintf(f_record, "%u", mise_a_jour);
+		fourmiliere_record(f_record);
+		mise_a_jour += INCREMENTATION;
+	}
+	else {
+		if (f_record) {
+			fclose(f_record);
+			mise_a_jour = 0;
+		}
+	}	
 }

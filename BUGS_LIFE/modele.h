@@ -15,3 +15,4 @@ void modele_new_food(float pos_x, float pos_y);
 void modele_dessine_complet(void);
 char* modele_get_info_glui(unsigned info, unsigned i);
 void modele_sauvegarde(char *fsortie);
+void modele_record(int record);

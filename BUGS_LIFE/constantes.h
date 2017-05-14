@@ -20,6 +20,10 @@ typedef enum ModeLS{
 	LECTURE, SIMULATION
 } MODE_LS;
 
+typedef enum EtatRecord{
+	R_STOP, R_START
+} ETAT_RECORD;
+
 typedef enum etape_lecture {
     L_NB_FOURMILIERE, L_FOURMILIERE, L_OUVRIERE, L_GARDE, L_NB_NOURRITURE,
     L_NOURRITURE, L_EXIT, L_COMPLETE, L_CONTINUE
