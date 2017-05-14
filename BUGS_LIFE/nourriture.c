@@ -214,12 +214,18 @@ void nourriture_choix(double *posx, double *posy, double *butx, double *buty, in
     double distance_new = distance;
     float risque_mort = 1;                         // 1 = risque certain
     float risque_mort_new = 1;
+    float risque_fourmiliere_chemin = 0;
+    float risque_ouvriere_chemin = 0;
+    float risque_competition = 0;
     float dispo = 1;
     float dispo_new = dispo;
     NOURRITURE* nourri = p_nourriture;
     while(nourri) {
         distance_new = utilitaire_calcul_distance(*posx, nourri->x, *posy, nourri->y);
-        risque_mort_new = fourmiliere_test_ouvri_competition(distance_new, i, nourri->x, nourri->y);
+        risque_fourmiliere_chemin = fourmiliere_sur_chemin(*posx, *posy, i, nourri->x, nourri->y);
+        //risque_ouvriere_chemin = fourmiliere_ouvri_sur_chemin(*posx, *posy, i, nourri->x, nourri->y);
+        risque_competition = fourmiliere_test_ouvri_competition(distance_new, i, nourri->x, nourri->y);
+        risque_mort_new = (risque_fourmiliere_chemin+risque_competition)/2;
         dispo_new = fourmiliere_test_nourri_dispo(i, nourri->x, nourri->y);
         if((risque_mort_new < risque_mort) || (risque_mort_new <= risque_mort &&
                                                distance_new <= distance && dispo_new <= dispo)) {

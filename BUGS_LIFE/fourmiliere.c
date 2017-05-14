@@ -393,7 +393,7 @@ void fourmiliere_free(void){
 }
 
 void fourmiliere_update(void) {
-    fourmiliere_naissance_fourmi(); //PROBLEME DE DEPLACEMENT DE FOURMI P-E DU AUX INDICES
+    //fourmiliere_naissance_fourmi(); //PROBLEME DE DEPLACEMENT DE FOURMI P-E DU AUX INDICES
     //fourmiliere_consommation();      //PROBLEME: MET LE DECOMPTE NOURRITURE A 0 DES QU'IL PASSE A 1
     fourmiliere_rayon();
     fourmiliere_test_superposition(SIMULATION);
@@ -538,6 +538,33 @@ void fourmiliere_record(FILE *f_record) {
 	fputs("\n", f_record);
 }
 
+float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double nourri_x, double nourri_y){
+    unsigned k = 0;
+    nourri_x = nourri_x - ouvri_x;
+    nourri_y = nourri_y - ouvri_y;
+    double fourmiliere_x;
+    double fourmiliere_y;
+    float risque_fourmiliere_chemin=0;
+    for (k = 0; k < nb_fourmiliere; k++){
+        if(k!=i){
+            fourmiliere_x = (p_fourmiliere+k)->x - ouvri_x;
+            fourmiliere_y = (p_fourmiliere+k)->y - ouvri_y;
+            double distance = utilitaire_dist_proj_ortho(nourri_x, nourri_y, fourmiliere_x, fourmiliere_y);
+            if(distance <= (p_fourmiliere+k)->rayon) risque_fourmiliere_chemin = 1;
+        }
+    }
+    return risque_fourmiliere_chemin;
+}
 
-
-
+float fourmiliere_ouvri_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double nourri_x, double nourri_y){
+    unsigned k = 0;
+    nourri_x = nourri_x - ouvri_x;
+    nourri_y = nourri_y - ouvri_y;
+    float risque_mort_new=0;
+    for (k = 0; k < nb_fourmiliere; k++){
+        if(k!=i){
+            //if(fourmi_ouvri_sur_chemin(*posx, *posy, i, nourri_x, nourri_y)==1) risque_mort_new=1;
+        }
+    }
+    return risque_mort_new;
+}

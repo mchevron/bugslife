@@ -47,3 +47,4 @@ void fourmiliere_test_ouvri_intrustion(FOURMI *p_garde, unsigned i);
 float fourmiliere_test_ouvri_competition(double distance_new, unsigned i, double nourri_x, double nourri_y);
 float fourmiliere_test_nourri_dispo(unsigned i, double nourri_x, double nourri_y);
 void fourmiliere_record(FILE *f_record);
+float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double nourri_x, double nourri_y);

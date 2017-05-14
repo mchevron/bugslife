@@ -551,8 +551,8 @@ void fourmi_ouvriere_intrusion(FOURMI *p_garde, FOURMI *p_ouvriere,
                                                      c_y,
                                                      p_ouvriere->ouvriere.posy);
         if (distance <= rayon){
-            p_garde->garde.posx = p_ouvriere->ouvriere.posx;
-            p_garde->garde.posy = p_ouvriere->ouvriere.posy;
+            p_garde->garde.butx = p_ouvriere->ouvriere.posx;
+            p_garde->garde.buty = p_ouvriere->ouvriere.posy;
             }
         p_ouvriere = p_ouvriere->next;
     }

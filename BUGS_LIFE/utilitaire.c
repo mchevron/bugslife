@@ -27,4 +27,14 @@ double utilitaire_proba(double p){
     return val;
 }
 
-
+double utilitaire_dist_proj_ortho(double nourri_x,double nourri_y,double fourmiliere_x,double fourmiliere_y) {
+    double proj_parti_1 = fourmiliere_x*nourri_x + fourmiliere_y*nourri_y;
+    double proj_parti_2 = nourri_x*nourri_x + nourri_y*nourri_y;
+    double proj_ortho_x = (proj_parti_1/proj_parti_2)*nourri_x;
+    double proj_ortho_y = (proj_parti_1/proj_parti_2)*nourri_y;
+    double distance = utilitaire_calcul_distance(proj_ortho_x,
+                                                 fourmiliere_x,
+                                                 proj_ortho_y,
+                                                 fourmiliere_y);
+    return distance;
+}
