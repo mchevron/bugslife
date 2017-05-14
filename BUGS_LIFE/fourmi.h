@@ -44,4 +44,3 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, int i);
 void fourmi_garde_deplacement(FOURMI *p_garde, int i, int nb_fourmiliere);
 void fourmi_ouvriere_intrusion(FOURMI *p_garde, FOURMI *p_ouvriere,
                               unsigned i, unsigned c_x, unsigned c_y, unsigned rayon);
-

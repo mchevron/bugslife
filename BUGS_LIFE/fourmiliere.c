@@ -256,6 +256,7 @@ int fourmiliere_test_superposition(MODE_LS mode){
     return FAUX;
 }
 
+
 void fourmiliere_dessine(void) {
     unsigned i = 0;
     for(i=0; i<nb_fourmiliere; i=i+1) {
@@ -366,7 +367,7 @@ void fourmiliere_free(void){
 }
 
 void fourmiliere_update(void) {
-    fourmiliere_naissance_fourmi();
+    //fourmiliere_naissance_fourmi();
     //fourmiliere_consommation();      //PROBLEME: MET LE DECOMPTE NOURRITURE A 0 DES QU'IL PASSE A 1
     fourmiliere_rayon();
     fourmiliere_test_superposition(SIMULATION);

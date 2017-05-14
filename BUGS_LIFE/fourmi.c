@@ -312,6 +312,7 @@ int fourmi_test_superposition_gg( FOURMI **p_frm_frml1, FOURMI ** p_frm_frml2,
     return FAUX;
 }
 
+
 void fourmi_dessine(unsigned nb_fourmiliere, FOURMILIERE * p_fourmiliere) {
     int i = 0, j = 0;
     for(i=0; i<nb_fourmiliere; i=i+1) {
