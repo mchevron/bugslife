@@ -8,3 +8,4 @@
 
 double utilitaire_calcul_distance(double x1, double x2, double y1, double y2);
 double utilitaire_proba(double p);
+double utilitaire_dist_proj_ortho(double nourri_x,double nourri_y,double fourmiliere_x,double fourmiliere_y);
