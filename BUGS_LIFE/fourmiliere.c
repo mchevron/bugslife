@@ -29,7 +29,7 @@ struct fourmiliere
     int nbO;
     int nbG;
     int nbF;
-    int total_food;
+    double total_food;
     double rayon;
     FOURMI * p_fourmi_ouvriere;
     FOURMI * p_fourmi_garde;
@@ -60,7 +60,7 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE]){
     }
     (p_fourmiliere+i)->p_fourmi_ouvriere = NULL;
 	(p_fourmiliere+i)->p_fourmi_garde = NULL;
-    if (sscanf(tab, "%*[ \t]%lf %lf %d %d %d %lf", &(p_fourmiliere+i)->x,
+    if (sscanf(tab, "%*[ \t]%lf %lf %d %d %lf %lf", &(p_fourmiliere+i)->x,
                &(p_fourmiliere+i)->y,
                &(p_fourmiliere+i)->nbO,
                &(p_fourmiliere+i)->nbG,
@@ -69,7 +69,7 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE]){
         error_lecture_elements_fourmiliere(i, ERR_FOURMILIERE, ERR_PAS_ASSEZ);
         return L_EXIT;
     }
-    printf(" %d\n", (p_fourmiliere+i)->total_food);
+    printf(" %lf\n", (p_fourmiliere+i)->total_food);
     fourmi_recoit(&(p_fourmiliere+i)->p_fourmi_ouvriere,
                   &(p_fourmiliere+i)->p_fourmi_garde);
     (p_fourmiliere+i)->nbF = (p_fourmiliere+i)->nbO + (p_fourmiliere+i)->nbG;
@@ -393,8 +393,8 @@ void fourmiliere_free(void){
 }
 
 void fourmiliere_update(void) {
-    //fourmiliere_naissance_fourmi(); //PROBLEME DE DEPLACEMENT DE FOURMI P-E DU AUX INDICES
-    //fourmiliere_consommation();      //PROBLEME: MET LE DECOMPTE NOURRITURE A 0 DES QU'IL PASSE A 1
+    fourmiliere_naissance_fourmi(); //PROBLEME DE DEPLACEMENT DE FOURMI P-E DU AUX INDICES
+    fourmiliere_consommation();      //PROBLEME: MET LE DECOMPTE NOURRITURE A 0 DES QU'IL PASSE A 1
     fourmiliere_rayon();
     fourmiliere_test_superposition(SIMULATION);
     int i = 0;
@@ -408,9 +408,12 @@ void fourmiliere_update(void) {
     
 void fourmiliere_naissance_fourmi(void){
 	unsigned i;
+    double rand_max = RAND_MAX;
 	for (i = 0; i < nb_fourmiliere; i++){
 		double p = ((p_fourmiliere+i)->total_food) * BIRTH_RATE;
-		if (rand()/RAND_MAX <= p) {
+        printf("%lf\n", rand()/rand_max);
+        printf("%lf\n", p);
+		if (rand()/rand_max <= p) {
 			if ((p_fourmiliere+i)->nbO < nourriture_get_nb()){
 				fourmi_naissance(&(p_fourmiliere+i)->p_fourmi_ouvriere, T_OUVRIERE, 
 								(p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
@@ -429,8 +432,7 @@ void fourmiliere_naissance_fourmi(void){
 void fourmiliere_consommation(void){
 	unsigned i;
 	for (i = 0; i < nb_fourmiliere; i++){
-		(p_fourmiliere+i)->total_food = (p_fourmiliere+i)->total_food -
-										(p_fourmiliere+i)->nbF*FEED_RATE;
+		(p_fourmiliere+i)->total_food -= (p_fourmiliere+i)->nbF*FEED_RATE;
 		if ((p_fourmiliere+i)->total_food < VAL_FOOD){
 			(p_fourmiliere+i)->total_food = 0;
 			nourriture_centre_dessine(VIDE, (p_fourmiliere+i)->x,
@@ -465,6 +467,9 @@ void fourmiliere_rayon(void){
 	for (i = 0; i < nb_fourmiliere; i++){
 		(p_fourmiliere+i)->rayon = (1 + sqrt((p_fourmiliere+i)->nbF) + 
 								   sqrt((p_fourmiliere+i)->total_food))*RAYON_FOURMI;
+        printf("%d\n", (p_fourmiliere+i)->nbF);
+        printf("%lf\n", (p_fourmiliere+i)->total_food);
+        printf("%lf\n", (p_fourmiliere+i)->rayon);
 	}
 }
 
@@ -511,7 +516,7 @@ void fourmiliere_test_ouvri_intrustion(FOURMI *p_garde, unsigned i) {
     }
 }
 
-double fourmiliere_test_ouvri_competition(double distance_new, unsigned i, double nourri_x, double nourri_y){
+float fourmiliere_test_ouvri_competition(double distance_new, unsigned i, double nourri_x, double nourri_y){
     unsigned k = 0;
     float risque_mort_new=0;
     for (k = 0; k < nb_fourmiliere; k++){
@@ -523,14 +528,22 @@ double fourmiliere_test_ouvri_competition(double distance_new, unsigned i, doubl
     return risque_mort_new;
 }
 
-double fourmiliere_test_nourri_dispo(unsigned i, double nourri_x, double nourri_y){
+float fourmiliere_test_nourri_dispo(unsigned i, double nourri_x, double nourri_y){
     unsigned dispo = 1;
     if(fourmi_test_nourri_dispo((p_fourmiliere+i)->p_fourmi_ouvriere,
                                 nourri_x, nourri_y)==0) dispo=0;
     return dispo;
 }
 
-double fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double nourri_x, double nourri_y){
+void fourmiliere_record(FILE *f_record) {
+	unsigned i=0;
+    for(i=0; i<nb_fourmiliere; i++){
+		fprintf(f_record, " %u", (p_fourmiliere+i)->nbF);
+	}
+	fputs("\n", f_record);
+}
+
+float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double nourri_x, double nourri_y){
     unsigned k = 0;
     nourri_x = nourri_x - ouvri_x;
     nourri_y = nourri_y - ouvri_y;

@@ -1,4 +1,4 @@
-/*!
+    /*!
  \file fourmi.h
  \brief Module qui gère les données liées aux fourmis
  \author Diane Remmy & Max Chevron
@@ -60,7 +60,7 @@ struct fourmiliere
     int nbO;
     int nbG;
     int nbF;
-    int total_food;
+    double total_food;
     int rayon;
     FOURMI * p_fourmi_ouvriere;
     FOURMI * p_fourmi_garde;
@@ -516,12 +516,12 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, int i) {
         p_ouvriere->ouvriere.posy += BUG_SPEED*DELTA_T*Vn_y;
     }
     else {
-        if(p_ouvriere->ouvriere.bool_nourriture==1) {
+        if(p_ouvriere->ouvriere.bool_nourriture==CARRY) {
             fourmiliere_new_food(i);
-            p_ouvriere->ouvriere.bool_nourriture = 0;;
+            p_ouvriere->ouvriere.bool_nourriture = EMPTY;
         }
         else {
-            p_ouvriere->ouvriere.bool_nourriture = 1;
+            p_ouvriere->ouvriere.bool_nourriture = CARRY;
             nourriture_cherche_retire(p_ouvriere->ouvriere.butx,
                                       p_ouvriere->ouvriere.buty);
         }
