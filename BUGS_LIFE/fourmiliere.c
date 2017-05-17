@@ -448,8 +448,8 @@ void fourmiliere_consommation(void){
 		if ((p_fourmiliere+i)->total_food < VAL_FOOD){
 			(p_fourmiliere+i)->total_food = 0;
 
-			if ((p_fourmiliere+i)->nbF == 0)
-				fourmiliere_destruction(i);
+            if ((p_fourmiliere+i)->nbF == 0)
+                fourmiliere_destruction(i);
 		}
 	}
 }
@@ -470,7 +470,7 @@ void fourmiliere_destruction(unsigned i){
 	(p_fourmiliere+i)->p_fourmi_ouvriere = NULL;
 	(p_fourmiliere+i)->p_fourmi_garde = NULL;
 	
-	nb_fourmiliere -= 1;
+	//nb_fourmiliere -= 1;
 }
 
 void fourmiliere_rayon(void){
