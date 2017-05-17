@@ -27,7 +27,7 @@
 
 struct ouvriere
 {
-    unsigned id;
+    unsigned id;	// seulement utile pour superposition en mode lecture
     unsigned age;
     double posx;
     double posy;
@@ -38,7 +38,7 @@ struct ouvriere
 
 struct garde
 {
-    unsigned id;
+    unsigned id;	// seulement utile pour superposition en mode lecture
     unsigned age;
     double posx;
     double posy;
@@ -97,11 +97,6 @@ int fourmi_ouvriere_lecture(unsigned i, char tab[MAX_LINE]) {
     ouvri->ouvriere.bool_nourriture = bool_nourriture;
     ouvri->ouvriere.id = j;
     if(fourmi_test_age(i, j, ouvri->ouvriere.age)) return L_EXIT;
-    /*if(fourmiliere_test_nbO(i, j)==COMPLETE) {
-        j=0;
-        return L_GARDE;
-     }
-     */
     j = j+1;
     return L_OUVRIERE;
 }
@@ -154,6 +149,7 @@ int fourmi_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere,
 	return FAUX;
 }
 
+// pointeur tête est initialiser pour fourmilière i lors de la lecture
 void fourmi_recoit( FOURMI **p_ouvriere, FOURMI ** p_garde){
     p_fourmi_ouvriere = p_ouvriere;
     p_fourmi_garde = p_garde;
@@ -173,6 +169,7 @@ FOURMI * fourmi_ajouter ( FOURMI ** p_tete ){
     return four;
 }
 
+// test superposition réutiliser pour la simulation 
 int fourmi_test_superposition_oo( FOURMI **p_frm_frml1, FOURMI ** p_frm_frml2,
                                  unsigned i, unsigned j , MODE_LS mode){
     FOURMI * frm1 = * p_frm_frml1;
@@ -194,7 +191,7 @@ int fourmi_test_superposition_oo( FOURMI **p_frm_frml1, FOURMI ** p_frm_frml2,
 			else {
 				if (distance - (RAYON_FOURMI + RAYON_FOURMI) <= EPSIL_ZERO){
 					if (frm1->ouvriere.bool_nourriture)
-						nourriture_ajouter_fixe(frm1->ouvriere.posx, 
+						nourriture_ajouter_fixe(frm1->ouvriere.posx, 			// si ouvrière meurt lâche sa nourriture
 												frm1->ouvriere.posy);
 	                fourmi_retirer(p_frm_frml1, frm1);
 					if (frm2->ouvriere.bool_nourriture)
