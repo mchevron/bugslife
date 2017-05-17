@@ -30,7 +30,7 @@ int fourmi_test_superposition_og( FOURMI **p_frm_frml1, FOURMI ** p_frm_frml2,
                                  unsigned i, unsigned j , MODE_LS mode );
 int fourmi_test_superposition_gg( FOURMI **p_frm_frml1, FOURMI ** p_frm_frml2,
                                  unsigned i, unsigned j ,MODE_LS mode );
-void fourmi_dessine(unsigned nb_fourmiliere, FOURMILIERE * p_fourmiliere);
+void fourmi_dessine(FOURMI * p_fourmi, unsigned i, unsigned nbO, unsigned nbG);
 void fourmi_save_ouvriere( FILE *f_sortie, FOURMI *p_ouvriere);
 void fourmi_save_garde( FILE *f_sortie, FOURMI *p_garde);
 void fourmi_free ( FOURMI ** p_liste );

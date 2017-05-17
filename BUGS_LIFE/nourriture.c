@@ -227,7 +227,7 @@ void nourriture_choix(double *posx, double *posy, double *butx, double *buty, in
                 *buty = nourri->y;
         }
         nourri = nourri->next;
-    }
+    }		
 }
 
 void nourriture_cherche_retire(double x, double y) {
