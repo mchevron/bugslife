@@ -60,7 +60,8 @@ typedef enum get_info {
 #define AUTOMATIC       		0
 #define COMPLETE                0
 #define INCOMPLETE       		1
-#define OUV                     1
+#define OUV_CARRY               2
+#define OUV_EMPTY               1
 #define GAR                     0
 
 

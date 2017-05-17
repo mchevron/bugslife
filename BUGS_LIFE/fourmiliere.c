@@ -23,6 +23,7 @@
 #define DEAD					1
 #define RATIO					0.25
 #define MAX_GARDE				10
+#define MARGE_DEVIATION         3
 
 struct fourmiliere
 {
@@ -520,10 +521,12 @@ void fourmiliere_new_food(int i) {
     (p_fourmiliere+i)->total_food+=1;
 }
 
-void fourmiliere_retour(double ouvri_x, double ouvri_y, double *butx, double *buty, int i, int type) {
-    *butx = (p_fourmiliere+i)->x;
-    *buty = (p_fourmiliere+i)->y;
-    if(type==OUV){
+void fourmiliere_retour_et_deviation(double ouvri_x, double ouvri_y, double *butx, double *buty, int i, int type) {
+    if(type==OUV_CARRY || type==GAR){
+        *butx = (p_fourmiliere+i)->x;
+        *buty = (p_fourmiliere+i)->y;
+    }
+    if(type==OUV_CARRY || type==OUV_EMPTY){
         unsigned k = 0;
         for (k = 0; k < nb_fourmiliere; k++){
             if(k!=i){
@@ -533,8 +536,6 @@ void fourmiliere_retour(double ouvri_x, double ouvri_y, double *butx, double *bu
             }
         }
     }
-
-                                            //A FAIRE: ADAPTER LA TRAJECTOIRE EN FONCTION DES OBSTACLES
 }
 
 void fourmiliere_test_ouvri_intrustion(FOURMI *p_garde, unsigned i) {
@@ -623,6 +624,8 @@ void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2
             //distance fourmiliere centre avec la projetée orthogonale du centre de la fourmiliere
     double distance_fc_fpo_x = (proj_ortho_x-x2);
     double distance_fc_fpo_y = (proj_ortho_y-y2);
-    *butx = ((((p_fourmiliere+k)->rayon + RAYON_FOURMI)*distance_fc_fpo_x)/distance_fc_fpo) + (p_fourmiliere+k)->x;
-    *buty = ((((p_fourmiliere+k)->rayon + RAYON_FOURMI)*distance_fc_fpo_y)/distance_fc_fpo) + (p_fourmiliere+k)->y;
+    *butx = ((((p_fourmiliere+k)->rayon + RAYON_FOURMI + EPSIL_ZERO + MARGE_DEVIATION)
+              *distance_fc_fpo_x)/distance_fc_fpo) + (p_fourmiliere+k)->x;
+    *buty = ((((p_fourmiliere+k)->rayon + RAYON_FOURMI + EPSIL_ZERO + MARGE_DEVIATION)
+              *distance_fc_fpo_y)/distance_fc_fpo) + (p_fourmiliere+k)->y;
 }
