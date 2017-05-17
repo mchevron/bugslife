@@ -417,20 +417,21 @@ void fourmi_retirer ( FOURMI ** p_tete, FOURMI *four ){
     }
 }
 
-void fourmi_ouvriere_update(FOURMI **p_ouvriere, int i, FOURMILIERE * p_fourmiliere) {
+int fourmi_ouvriere_update(FOURMI **p_ouvriere, unsigned i, unsigned nb_fourmiliere) {
     FOURMI *p_ouvri = *p_ouvriere;
     while (p_ouvri){
         fourmi_ouvriere_deplacement(p_ouvri, i);
-        p_ouvri->ouvriere.age+=1;
-        if(p_ouvri->ouvriere.age==BUG_LIFE) {
+        p_ouvri->ouvriere.age += 1;
+        if(p_ouvri->ouvriere.age == BUG_LIFE) {
             fourmi_retirer(p_ouvriere, p_ouvri);
-            (p_fourmiliere+i)->nbO -=1;
+			return VRAI;
         }
         p_ouvri = p_ouvri->next;
     }
+    return FAUX;
 }
 
-void fourmi_garde_update(FOURMI **p_garde, int i, int nb_fourmiliere, FOURMILIERE * p_fourmiliere){
+int fourmi_garde_update(FOURMI **p_garde, unsigned i, unsigned nb_fourmiliere){
     int j = 0;
     FOURMI *p_gar = *p_garde;
     while (p_gar){
@@ -438,11 +439,12 @@ void fourmi_garde_update(FOURMI **p_garde, int i, int nb_fourmiliere, FOURMILIER
         p_gar->garde.age+=1;
         if(p_gar->garde.age==BUG_LIFE) {
             fourmi_retirer(p_garde, p_gar);
-            (p_fourmiliere+i)->nbG -=1;
+            return VRAI;
         }
         p_gar = p_gar->next;
         j+=1;
     }
+    return FAUX;
 }
 
 void fourmi_naissance(FOURMI ** p_fourmi, TYPE_FOURMI type, double posx, double posy){
@@ -496,7 +498,7 @@ int fourmi_nourriture_test_superposition_g(FOURMI *p_four, double x, double y){
     return FAUX;
 }
 
-void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, int i) {
+void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
     if(p_ouvriere->ouvriere.bool_nourriture==EMPTY) {
         nourriture_choix(&p_ouvriere->ouvriere.posx, &p_ouvriere->ouvriere.posy,
                          &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i);
@@ -528,7 +530,7 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, int i) {
     }
 }
 
-void fourmi_garde_deplacement(FOURMI *p_garde, int i, int nb_fourmiliere) {
+void fourmi_garde_deplacement(FOURMI *p_garde, unsigned i, unsigned nb_fourmiliere) {
     fourmiliere_retour(&p_garde->garde.butx, &p_garde->garde.buty, i);
     fourmiliere_test_ouvri_intrustion(p_garde, i);
     double distance = utilitaire_calcul_distance(p_garde->garde.posx,
