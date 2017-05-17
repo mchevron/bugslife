@@ -515,7 +515,7 @@ void fourmiliere_retour(double ouvri_x, double ouvri_y, double *butx, double *bu
         for (k = 0; k < nb_fourmiliere; k++){
             if(k!=i){
                 if(fourmiliere_sur_chemin(ouvri_x, ouvri_y, i, *butx, *buty) == 1) {
-                    foumriliere_ouvri_changer_but(butx, (p_fourmiliere+k)->x, buty, (p_fourmiliere+k)->y);
+                    foumriliere_ouvri_changer_but(butx, (p_fourmiliere+k)->x, buty, (p_fourmiliere+k)->y, ouvri_x, ouvri_y, k);
                 }
             }
         }
@@ -597,13 +597,19 @@ double fourmiliere_ouvri_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, 
     return risque_ouvriere_chemin;
 }
 
-void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2) {
-    double x1 = *butx;
-    double y1 = *buty;
+void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2, double ouvri_x,double ouvri_y, unsigned k) {
+    double x1 = *butx - ouvri_x;
+    double y1 = *buty - ouvri_y;
+    x2 = x2 - ouvri_x;
+    y2 = y2 - ouvri_y;
     double proj_parti_1 = x2*x1 + y2*y1;
     double proj_parti_2 = x1*x1 + y1*y1;
     double proj_ortho_x = (proj_parti_1/proj_parti_2)*x1;
     double proj_ortho_y = (proj_parti_1/proj_parti_2)*y1;
-    *butx = proj_ortho_x;
-    *buty = proj_ortho_y;
+    double distance_fc_fpo = utilitaire_calcul_distance(x2, proj_ortho_x, y2, proj_ortho_y);
+            //distance fourmiliere centre avec la projetée orthogonale du centre de la fourmiliere
+    double distance_fc_fpo_x = (proj_ortho_x-x2);
+    double distance_fc_fpo_y = (proj_ortho_y-y2);
+    *butx = ((((p_fourmiliere+k)->rayon + RAYON_FOURMI)*distance_fc_fpo_x)/distance_fc_fpo) + (p_fourmiliere+k)->x;
+    *buty = ((((p_fourmiliere+k)->rayon + RAYON_FOURMI)*distance_fc_fpo_y)/distance_fc_fpo) + (p_fourmiliere+k)->y;
 }
