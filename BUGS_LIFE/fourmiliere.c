@@ -21,6 +21,8 @@
 #define NB_ELEMENTS_FOURMILIERE 6
 #define NAISSANCE				1
 #define DEAD					1
+#define RATIO					0.25
+#define MAX_GARDE				10
 
 struct fourmiliere
 {
@@ -69,7 +71,6 @@ int fourmiliere_lecture(unsigned i, char tab[MAX_LINE]){
         error_lecture_elements_fourmiliere(i, ERR_FOURMILIERE, ERR_PAS_ASSEZ);
         return L_EXIT;
     }
-    printf(" %lf\n", (p_fourmiliere+i)->total_food);
     fourmi_recoit(&(p_fourmiliere+i)->p_fourmi_ouvriere,
                   &(p_fourmiliere+i)->p_fourmi_garde);
     (p_fourmiliere+i)->nbF = (p_fourmiliere+i)->nbO + (p_fourmiliere+i)->nbG;
@@ -187,67 +188,70 @@ int fourmiliere_test_pos_domaine(ERREUR_ORIG origine, unsigned num_fourmiliere,
 
 
 int fourmiliere_test_superposition(MODE_LS mode){
-    unsigned i = 0;
-    unsigned j = 0;
-    if(nb_fourmiliere<=1) return FAUX;
-    for (i = 0; i < nb_fourmiliere; i++){
-        for (j = 0; (j !=i) && (j < nb_fourmiliere); j++){
-            double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
-                                                         (p_fourmiliere+j)->x,
-                                                         (p_fourmiliere+i)->y,
-                                                         (p_fourmiliere+j)->y);
-            double r1 = (p_fourmiliere+i)->rayon;
-            double r2 = (p_fourmiliere+j)->rayon;
-            if (mode == LECTURE){
-	            if (distance - (r1+ r2) <= 0){
-	                error_superposition_fourmiliere(i, j);
-	                return  VRAI; 
+    unsigned i;
+    unsigned j;
+    if(nb_fourmiliere <= 1) return FAUX;
+    for (i = 0; i < nb_fourmiliere ; i++){
+		printf("i %u\n", i);
+        for (j = i + 1; j < nb_fourmiliere - 1; j++){
+			printf("nb %u\n", nb_fourmiliere);
+				printf("j %u\n", j);
+	            double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
+	                                                         (p_fourmiliere+j)->x,
+	                                                         (p_fourmiliere+i)->y,
+	                                                         (p_fourmiliere+j)->y);
+	            double r1 = (p_fourmiliere+i)->rayon;
+	            double r2 = (p_fourmiliere+j)->rayon;
+	            if (mode == LECTURE){
+		            if (distance - (r1+ r2) <= 0){
+		                error_superposition_fourmiliere(i, j);
+		                return  VRAI; 
+					}
 				}
-			}
-			else {
-				if (distance - (r1+ r2) <= EPSIL_ZERO){
-					(p_fourmiliere+i)->rayon = distance/2;
-					(p_fourmiliere+j)->rayon = distance/2;
-					return VRAI;
+				else {
+					if (distance - (r1+ r2) <= EPSIL_ZERO){
+						(p_fourmiliere+i)->rayon = (distance - EPSIL_ZERO)/(r1 + r2)*r1;
+						(p_fourmiliere+j)->rayon = (distance - EPSIL_ZERO)/(r1 + r2)*r2;
+						return VRAI;
+					}
 				}
-			}
-            if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbO != 0)
-	            if(fourmi_test_superposition_oo(&((p_fourmiliere+i)->p_fourmi_ouvriere),
-												&((p_fourmiliere+j)->p_fourmi_ouvriere),
-												i, j, mode)){
-					if (mode == SIMULATION){
-						fourmiliere_diminuer_nbF(i,j, T_OUVRIERE, T_OUVRIERE);
-					}	
-	                return VRAI;
-				}
-	        if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbO != 0)
-	            if(fourmi_test_superposition_go(&(p_fourmiliere+i)->p_fourmi_garde,
-												&(p_fourmiliere+j)->p_fourmi_ouvriere,
-												i, j, mode)) {
-					if (mode == SIMULATION){
-						fourmiliere_diminuer_nbF(i,j, T_GARDE, T_OUVRIERE);
-					}	
-	                return VRAI;
-				}
-	        if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbG != 0)
-	            if(fourmi_test_superposition_og(&(p_fourmiliere+i)->p_fourmi_ouvriere,
-												&(p_fourmiliere+j)->p_fourmi_garde, 
-												i, j, mode)){
-					if (mode == SIMULATION){
-						fourmiliere_diminuer_nbF(i,j, T_OUVRIERE, T_GARDE);
-					}	
-	                return VRAI;
-				}
-	        if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbG != 0)
-	            if(fourmi_test_superposition_gg(&(p_fourmiliere+i)->p_fourmi_garde,
-												&(p_fourmiliere+j)->p_fourmi_garde,
-												i, j, mode)) {
-					if (mode == SIMULATION){
-						fourmiliere_diminuer_nbF(i,j, T_GARDE, T_GARDE);
-					}	
-	                return VRAI;
-				}
-        }
+	            //~ if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbO != 0)
+		            //~ if(fourmi_test_superposition_oo(&((p_fourmiliere+i)->p_fourmi_ouvriere),
+													//~ &((p_fourmiliere+j)->p_fourmi_ouvriere),
+													//~ i, j, mode)){
+						//~ if (mode == SIMULATION){
+							//~ fourmiliere_diminuer_nbF(i,j, T_OUVRIERE, T_OUVRIERE);
+						//~ }	
+		                //~ return VRAI;
+					//~ }
+		        //~ if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbO != 0)
+		            //~ if(fourmi_test_superposition_go(&(p_fourmiliere+i)->p_fourmi_garde,
+													//~ &(p_fourmiliere+j)->p_fourmi_ouvriere,
+													//~ i, j, mode)) {
+						//~ if (mode == SIMULATION){
+							//~ fourmiliere_diminuer_nbF(i,j, T_GARDE, T_OUVRIERE);
+						//~ }	
+		                //~ return VRAI;
+					//~ }
+		        //~ if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbG != 0)
+		            //~ if(fourmi_test_superposition_og(&(p_fourmiliere+i)->p_fourmi_ouvriere,
+													//~ &(p_fourmiliere+j)->p_fourmi_garde, 
+													//~ i, j, mode)){
+						//~ if (mode == SIMULATION){
+							//~ fourmiliere_diminuer_nbF(i,j, T_OUVRIERE, T_GARDE);
+						//~ }	
+		                //~ return VRAI;
+					//~ }
+		        //~ if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbG != 0)
+		            //~ if(fourmi_test_superposition_gg(&(p_fourmiliere+i)->p_fourmi_garde,
+													//~ &(p_fourmiliere+j)->p_fourmi_garde,
+													//~ i, j, mode)) {
+						//~ if (mode == SIMULATION){
+							//~ fourmiliere_diminuer_nbF(i,j, T_GARDE, T_GARDE);
+						//~ }	
+		                //~ return VRAI;
+					//~ }
+		}
     }
     return FAUX;
 }
@@ -286,8 +290,13 @@ void fourmiliere_dessine(void) {
         graphic_find_color (i);
         graphic_draw_circle ((p_fourmiliere+i)->x, (p_fourmiliere+i)->y,
                              (p_fourmiliere+i)->rayon, GRAPHIC_EMPTY);
-    }
-    fourmi_dessine(nb_fourmiliere, p_fourmiliere);
+    if ((p_fourmiliere+i)->nbO != 0)
+		fourmi_dessine((p_fourmiliere+i)->p_fourmi_ouvriere, i, (p_fourmiliere+i)->nbO,
+						T_OUVRIERE);
+	if ((p_fourmiliere+i)->nbG != 0)
+		fourmi_dessine((p_fourmiliere+i)->p_fourmi_garde, i, (p_fourmiliere+i)->nbG,
+						T_GARDE);
+	}
 }
 
 char* fourmiliere_get_info_rollout(unsigned info, unsigned i) {
@@ -392,11 +401,11 @@ void fourmiliere_free(void){
 }
 
 void fourmiliere_update(void) {
-    fourmiliere_naissance_fourmi(); //PROBLEME DE DEPLACEMENT DE FOURMI P-E DU AUX INDICES
-    fourmiliere_consommation();      //PROBLEME: MET LE DECOMPTE NOURRITURE A 0 DES QU'IL PASSE A 1
+    int i = 0;
+    fourmiliere_naissance_fourmi(); 
+    fourmiliere_consommation();  
     fourmiliere_rayon();
     fourmiliere_test_superposition(SIMULATION);
-    int i = 0;
     for (i = 0; i < nb_fourmiliere; i++){
         if((p_fourmiliere+i)->nbO!=0)
             if (fourmi_ouvriere_update(&(p_fourmiliere+i)->p_fourmi_ouvriere, i, nb_fourmiliere)){
@@ -413,19 +422,21 @@ void fourmiliere_update(void) {
     
 void fourmiliere_naissance_fourmi(void){
 	unsigned i;
+	double ratio;
     double rand_max = RAND_MAX;
 	for (i = 0; i < nb_fourmiliere; i++){
 		double p = ((p_fourmiliere+i)->total_food) * BIRTH_RATE;
 		if (rand()/rand_max <= p) {
-			if ((p_fourmiliere+i)->nbO < nourriture_get_nb()){
-				fourmi_naissance(&(p_fourmiliere+i)->p_fourmi_ouvriere, T_OUVRIERE, 
-								(p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
-				(p_fourmiliere+i)->nbO += NAISSANCE;
-			}
-			else {
+			ratio = (p_fourmiliere+i)->nbG/(p_fourmiliere+i)->nbO;
+			if ((ratio <= RATIO) && ((p_fourmiliere+i)->nbG <= MAX_GARDE)){
 				fourmi_naissance(&(p_fourmiliere+i)->p_fourmi_garde,T_GARDE, 
 								(p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
 				(p_fourmiliere+i)->nbG += NAISSANCE;
+			}
+			else {
+				fourmi_naissance(&(p_fourmiliere+i)->p_fourmi_ouvriere, T_OUVRIERE, 
+								(p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
+				(p_fourmiliere+i)->nbO += NAISSANCE;
 			}
 			(p_fourmiliere+i)->nbF += NAISSANCE;
 		}			
