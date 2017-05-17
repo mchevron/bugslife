@@ -22,6 +22,7 @@
 #define NB_ELEMENTS_NOURRITURE	2
 #define NB_NOURRITURE_PAR_LIGNE 3
 #define	REUSSI					1
+#define NEW_FOOD				1
 
 struct nourriture
 {
@@ -95,6 +96,7 @@ NOURRITURE * nourriture_ajouter ( NOURRITURE ** p_tete )
     return nour;
 }
 
+// ajoute une nourriture lorsqu'on clique sur la fenêtre avec la souris
 void nourriture_clique(float pos_x, float pos_y) {
     NOURRITURE* nourri;
     nourri = nourriture_ajouter(&p_nourriture);
@@ -116,6 +118,8 @@ void nourriture_dessine() {
     }
 }
 
+
+// enregistre infos sur nourriture dans le fichier de sortie
 void nourriture_save(FILE *f_sortie) {
     fputs("# Nb nourriture\n", f_sortie);
 	fprintf(f_sortie, "%u\n", nb_nourriture);
@@ -182,20 +186,20 @@ void nourriture_ajouter_fixe(double x, double y){
 	if (nourri != NULL) {
 		nourri->x = x;
 		nourri->y = y;
+		nb_nourriture += NEW_FOOD;
 	}
 }
 
 void nourriture_creation(void){
     double rand_max = RAND_MAX;
-	double x = (rand()/rand_max)*(DMAX*2) + DMIN;
-	double y = (rand()/rand_max)*(DMAX*2) + DMIN;
 	if (rand()/rand_max <= FOOD_RATE){
+		double x = (rand()/rand_max)*(DMAX*2) + DMIN;
+		double y = (rand()/rand_max)*(DMAX*2) + DMIN;
 		while (fourmiliere_nourriture_test_superposition(x,y)){ 
 			x = (rand()/rand_max)*(DMAX*2) + DMIN;
 			y = (rand()/rand_max)*(DMAX*2) + DMIN;
 		}
-	nourriture_ajouter_fixe(x, y);
-    nb_nourriture += 1;
+		nourriture_ajouter_fixe(x, y);
 	}
 }
 
@@ -230,6 +234,7 @@ void nourriture_choix(double *posx, double *posy, double *butx, double *buty, in
     }		
 }
 
+// supprime la nourriture attrapée par l'ouvrière de la liste chaînée
 void nourriture_cherche_retire(double x, double y) {
     if(nb_nourriture!=0) {
         NOURRITURE *nourri = p_nourriture;
