@@ -498,9 +498,20 @@ void fourmiliere_new_food(int i) {
     (p_fourmiliere+i)->total_food+=1;
 }
 
-void fourmiliere_retour(double *butx, double *buty, int i) {
+void fourmiliere_retour(double ouvri_x, double ouvri_y, double *butx, double *buty, int i, int type) {
     *butx = (p_fourmiliere+i)->x;
     *buty = (p_fourmiliere+i)->y;
+    if(type==OUV){
+        unsigned k = 0;
+        for (k = 0; k < nb_fourmiliere; k++){
+            if(k!=i){
+                if(fourmiliere_sur_chemin(ouvri_x, ouvri_y, i, *butx, *buty) == 1) {
+                    foumriliere_ouvri_changer_but(butx, (p_fourmiliere+k)->x, buty, (p_fourmiliere+k)->y);
+                }
+            }
+        }
+    }
+
                                             //A FAIRE: ADAPTER LA TRAJECTOIRE EN FONCTION DES OBSTACLES
 }
 
@@ -554,8 +565,8 @@ float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double 
             fourmiliere_x = (p_fourmiliere+k)->x - ouvri_x;
             fourmiliere_y = (p_fourmiliere+k)->y - ouvri_y;
             double distance_ortho = utilitaire_dist_proj_ortho(nourri_x, fourmiliere_x, nourri_y, fourmiliere_y);
-            double distance_ouvri_fourmiliere = utilitaire_calcul_distance(ouvri_x, fourmiliere_x, ouvri_y, fourmiliere_y);
-            double distance_ouvri_nourriture = utilitaire_calcul_distance(ouvri_x, nourri_x, ouvri_y, nourri_y);
+            double distance_ouvri_fourmiliere = utilitaire_calcul_distance(0, fourmiliere_x, 0, fourmiliere_y);
+            double distance_ouvri_nourriture = utilitaire_calcul_distance(0, nourri_x, 0, nourri_y);
             if(distance_ortho <= ((p_fourmiliere+k)->rayon + RAYON_FOURMI) &&
                ((fabs(distance_ouvri_fourmiliere - (p_fourmiliere+k)->rayon)) < distance_ouvri_nourriture))
                 risque_fourmiliere_chemin = 1;
@@ -575,4 +586,15 @@ double fourmiliere_ouvri_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, 
         }
     }
     return risque_ouvriere_chemin;
+}
+
+void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2) {
+    double x1 = *butx;
+    double y1 = *buty;
+    double proj_parti_1 = x2*x1 + y2*y1;
+    double proj_parti_2 = x1*x1 + y1*y1;
+    double proj_ortho_x = (proj_parti_1/proj_parti_2)*x1;
+    double proj_ortho_y = (proj_parti_1/proj_parti_2)*y1;
+    *butx = proj_ortho_x;
+    *buty = proj_ortho_y;
 }

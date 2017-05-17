@@ -504,7 +504,11 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
                          &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i);
         //cette fonction met à jour le but de la fourmi vide
     }
-    else fourmiliere_retour(&p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i);
+    else {
+        fourmiliere_retour(p_ouvriere->ouvriere.posx, p_ouvriere->ouvriere.posy,
+                           &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, OUV);
+        
+    }
         //cette fonction adapte le but en ligne droite en fonction des obstacles
     
     double distance = utilitaire_calcul_distance(p_ouvriere->ouvriere.posx,
@@ -531,7 +535,7 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
 }
 
 void fourmi_garde_deplacement(FOURMI *p_garde, unsigned i, unsigned nb_fourmiliere) {
-    fourmiliere_retour(&p_garde->garde.butx, &p_garde->garde.buty, i);
+    fourmiliere_retour(p_garde->garde.posx, p_garde->garde.posy, &p_garde->garde.butx, &p_garde->garde.buty, i, GAR);
     fourmiliere_test_ouvri_intrustion(p_garde, i);
     double distance = utilitaire_calcul_distance(p_garde->garde.posx,
                                                  p_garde->garde.butx,
