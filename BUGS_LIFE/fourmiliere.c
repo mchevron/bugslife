@@ -470,7 +470,7 @@ void fourmiliere_destruction(unsigned i){
 	(p_fourmiliere+i)->p_fourmi_ouvriere = NULL;
 	(p_fourmiliere+i)->p_fourmi_garde = NULL;
 	
-	nb_fourmiliere -= 1;
+	nb_fourmiliere -= DEAD;
 }
 
 void fourmiliere_rayon(void){
