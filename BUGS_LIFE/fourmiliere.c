@@ -554,11 +554,11 @@ float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double 
         if(k!=i){
             fourmiliere_x = (p_fourmiliere+k)->x - ouvri_x;
             fourmiliere_y = (p_fourmiliere+k)->y - ouvri_y;
-            double distance_ortho = utilitaire_dist_proj_ortho(nourri_x, nourri_y, fourmiliere_x, fourmiliere_y);
-            double distance_ouvri_fourmiliere = utilitaire_dist_proj_ortho(nourri_x, nourri_y, ouvri_x, ouvri_y);
-            double distance_ouvri_nourriture = utilitaire_dist_proj_ortho(ouvri_x, ouvri_y, fourmiliere_x, fourmiliere_y);
+            double distance_ortho = utilitaire_dist_proj_ortho(nourri_x, fourmiliere_x, nourri_y, fourmiliere_y);
+            double distance_ouvri_fourmiliere = utilitaire_calcul_distance(ouvri_x, fourmiliere_x, ouvri_y, fourmiliere_y);
+            double distance_ouvri_nourriture = utilitaire_calcul_distance(ouvri_x, nourri_x, ouvri_y, nourri_y);
             if(distance_ortho <= ((p_fourmiliere+k)->rayon + RAYON_FOURMI) &&
-               ((distance_ouvri_fourmiliere - (p_fourmiliere+k)->rayon) < distance_ouvri_nourriture))
+               ((fabs(distance_ouvri_fourmiliere - (p_fourmiliere+k)->rayon)) < distance_ouvri_nourriture))
                 risque_fourmiliere_chemin = 1;
         }
     }
@@ -569,11 +569,11 @@ double fourmiliere_ouvri_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, 
     unsigned k = 0;
     nourri_x = nourri_x - ouvri_x;
     nourri_y = nourri_y - ouvri_y;
-    float risque_mort_new=0;
+    float risque_ouvriere_chemin=0;
     for (k = 0; k < nb_fourmiliere; k++){
         if(k!=i){
-            //if(fourmi_ouvri_sur_chemin(*posx, *posy, i, nourri_x, nourri_y)==1) risque_mort_new=1;
+            if(fourmi_ouvri_sur_chemin((p_fourmiliere+k)->p_fourmi_ouvriere, ouvri_x, ouvri_y, nourri_x, nourri_y)==1) risque_ouvriere_chemin=0.5;
         }
     }
-    return risque_mort_new;
+    return risque_ouvriere_chemin;
 }

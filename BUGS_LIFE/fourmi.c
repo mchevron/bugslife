@@ -584,3 +584,21 @@ double fourmi_test_nourri_dispo(FOURMI *p_ouvriere, double nourri_x, double nour
     }
     return dispo;
 }
+
+double fourmi_ouvri_sur_chemin(FOURMI *p_ouvriere, double ouvri_x, double ouvri_y,
+                               double nourri_x, double nourri_y) {
+    double risque_ouvri_chemin = 0;
+    double ouvri_adv_x, ouvri_adv_y;
+    while (p_ouvriere){
+        ouvri_adv_x = p_ouvriere->ouvriere.posx - ouvri_x;
+        ouvri_adv_y = p_ouvriere->ouvriere.posx - ouvri_y;
+        double distance_ortho = utilitaire_dist_proj_ortho(nourri_x, ouvri_adv_x, nourri_y, ouvri_adv_y);
+        double distance_ouvri_ouvri_adv = utilitaire_calcul_distance(ouvri_x, ouvri_adv_x, ouvri_y, ouvri_adv_y);
+        double distance_ouvri_nourriture = utilitaire_calcul_distance(ouvri_x, nourri_x, ouvri_y, nourri_y);
+        if(distance_ortho <= (RAYON_FOURMI + RAYON_FOURMI) &&
+           ((fabs(distance_ouvri_ouvri_adv - RAYON_FOURMI) < distance_ouvri_nourriture)))
+            risque_ouvri_chemin = 0.5;
+        p_ouvriere = p_ouvriere->next;
+    }
+    return risque_ouvri_chemin;
+}

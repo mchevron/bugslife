@@ -215,9 +215,9 @@ void nourriture_choix(double *posx, double *posy, double *butx, double *buty, in
     while(nourri) {
         distance_new = utilitaire_calcul_distance(*posx, nourri->x, *posy, nourri->y);
         risque_fourmiliere_chemin = fourmiliere_sur_chemin(*posx, *posy, i, nourri->x, nourri->y);
-        //risque_ouvriere_chemin = fourmiliere_ouvri_sur_chemin(*posx, *posy, i, nourri->x, nourri->y);
+        risque_ouvriere_chemin = fourmiliere_ouvri_sur_chemin(*posx, *posy, i, nourri->x, nourri->y);
         risque_competition = fourmiliere_test_ouvri_competition(distance_new, i, nourri->x, nourri->y);
-        risque_mort_new = (risque_fourmiliere_chemin+risque_competition)/2;
+        risque_mort_new = (risque_fourmiliere_chemin+risque_ouvriere_chemin+risque_competition)/3;
         dispo_new = fourmiliere_test_nourri_dispo(i, nourri->x, nourri->y);
         if((risque_mort_new < risque_mort) || (risque_mort_new <= risque_mort &&
                                                distance_new <= distance && dispo_new <= dispo)) {

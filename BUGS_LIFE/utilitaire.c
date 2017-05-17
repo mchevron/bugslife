@@ -28,14 +28,14 @@ double utilitaire_proba(double p){
     return val;
 }
 
-double utilitaire_dist_proj_ortho(double nourri_x,double nourri_y,double fourmiliere_x,double fourmiliere_y) {
-    double proj_parti_1 = fourmiliere_x*nourri_x + fourmiliere_y*nourri_y;
-    double proj_parti_2 = nourri_x*nourri_x + nourri_y*nourri_y;
-    double proj_ortho_x = (proj_parti_1/proj_parti_2)*nourri_x;
-    double proj_ortho_y = (proj_parti_1/proj_parti_2)*nourri_y;
+double utilitaire_dist_proj_ortho(double x1,double x2,double y1,double y2) {
+    double proj_parti_1 = x2*x1 + y2*y1;
+    double proj_parti_2 = x1*x1 + y1*y1;
+    double proj_ortho_x = (proj_parti_1/proj_parti_2)*x1;
+    double proj_ortho_y = (proj_parti_1/proj_parti_2)*y1;
     double distance = utilitaire_calcul_distance(proj_ortho_x,
-                                                 fourmiliere_x,
+                                                 x2,
                                                  proj_ortho_y,
-                                                 fourmiliere_y);
+                                                 y2);
     return distance;
 }
