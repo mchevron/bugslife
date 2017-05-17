@@ -191,9 +191,9 @@ int fourmiliere_test_superposition(MODE_LS mode){
     unsigned i;
     unsigned j;
     if(nb_fourmiliere <= 1) return FAUX;
-    for (i = 0; i < nb_fourmiliere ; i++){
+    for (i = 0; i < nb_fourmiliere -1; i++){
 		printf("i %u\n", i);
-        for (j = i + 1; j < nb_fourmiliere - 1; j++){
+        for (j = i + 1; j < nb_fourmiliere; j++){
 			printf("nb %u\n", nb_fourmiliere);
 				printf("j %u\n", j);
 	            double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
@@ -212,7 +212,7 @@ int fourmiliere_test_superposition(MODE_LS mode){
 					if (distance - (r1+ r2) <= EPSIL_ZERO){
 						(p_fourmiliere+i)->rayon = (distance - EPSIL_ZERO)/(r1 + r2)*r1;
 						(p_fourmiliere+j)->rayon = (distance - EPSIL_ZERO)/(r1 + r2)*r2;
-						return VRAI;
+						//return VRAI;
 					}
 				}
 	            //~ if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbO != 0)
@@ -422,24 +422,26 @@ void fourmiliere_update(void) {
     
 void fourmiliere_naissance_fourmi(void){
 	unsigned i;
-	double ratio;
+	double ratio = 1;
     double rand_max = RAND_MAX;
 	for (i = 0; i < nb_fourmiliere; i++){
 		double p = ((p_fourmiliere+i)->total_food) * BIRTH_RATE;
 		if (rand()/rand_max <= p) {
-			ratio = (p_fourmiliere+i)->nbG/(p_fourmiliere+i)->nbO;
-			if ((ratio <= RATIO) && ((p_fourmiliere+i)->nbG <= MAX_GARDE)){
-				fourmi_naissance(&(p_fourmiliere+i)->p_fourmi_garde,T_GARDE, 
-								(p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
-				(p_fourmiliere+i)->nbG += NAISSANCE;
-			}
-			else {
-				fourmi_naissance(&(p_fourmiliere+i)->p_fourmi_ouvriere, T_OUVRIERE, 
-								(p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
-				(p_fourmiliere+i)->nbO += NAISSANCE;
-			}
-			(p_fourmiliere+i)->nbF += NAISSANCE;
-		}			
+			if(p_fourmiliere+i) {
+                if((p_fourmiliere+i)->nbO!=0) ratio = (p_fourmiliere+i)->nbG/(p_fourmiliere+i)->nbO;
+                if ((ratio <= RATIO) && ((p_fourmiliere+i)->nbG <= MAX_GARDE)){
+                    fourmi_naissance(&(p_fourmiliere+i)->p_fourmi_garde,T_GARDE, 
+                                    (p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
+                    (p_fourmiliere+i)->nbG += NAISSANCE;
+                }
+                else {
+                    fourmi_naissance(&(p_fourmiliere+i)->p_fourmi_ouvriere, T_OUVRIERE, 
+                                    (p_fourmiliere+i)->x,(p_fourmiliere+i)->y);
+                    (p_fourmiliere+i)->nbO += NAISSANCE;
+                }
+                (p_fourmiliere+i)->nbF += NAISSANCE;
+            }
+		}
 	}
 }
 
