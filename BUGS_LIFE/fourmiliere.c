@@ -191,9 +191,9 @@ int fourmiliere_test_superposition(MODE_LS mode){
     unsigned i;
     unsigned j;
     if(nb_fourmiliere <= 1) return FAUX;
-    for (i = 0; i < nb_fourmiliere ; i++){
+    for (i = 0; i < nb_fourmiliere - 1 ; i++){
 		printf("i %u\n", i);
-        for (j = i + 1; j < nb_fourmiliere - 1; j++){
+        for (j = i + 1; j < nb_fourmiliere; j++){
 			printf("nb %u\n", nb_fourmiliere);
 				printf("j %u\n", j);
 	            double distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
@@ -212,45 +212,44 @@ int fourmiliere_test_superposition(MODE_LS mode){
 					if (distance - (r1+ r2) <= EPSIL_ZERO){
 						(p_fourmiliere+i)->rayon = (distance - EPSIL_ZERO)/(r1 + r2)*r1;
 						(p_fourmiliere+j)->rayon = (distance - EPSIL_ZERO)/(r1 + r2)*r2;
-						return VRAI;
 					}
 				}
-	            //~ if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbO != 0)
-		            //~ if(fourmi_test_superposition_oo(&((p_fourmiliere+i)->p_fourmi_ouvriere),
-													//~ &((p_fourmiliere+j)->p_fourmi_ouvriere),
-													//~ i, j, mode)){
-						//~ if (mode == SIMULATION){
-							//~ fourmiliere_diminuer_nbF(i,j, T_OUVRIERE, T_OUVRIERE);
-						//~ }	
-		                //~ return VRAI;
-					//~ }
-		        //~ if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbO != 0)
-		            //~ if(fourmi_test_superposition_go(&(p_fourmiliere+i)->p_fourmi_garde,
-													//~ &(p_fourmiliere+j)->p_fourmi_ouvriere,
-													//~ i, j, mode)) {
-						//~ if (mode == SIMULATION){
-							//~ fourmiliere_diminuer_nbF(i,j, T_GARDE, T_OUVRIERE);
-						//~ }	
-		                //~ return VRAI;
-					//~ }
-		        //~ if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbG != 0)
-		            //~ if(fourmi_test_superposition_og(&(p_fourmiliere+i)->p_fourmi_ouvriere,
-													//~ &(p_fourmiliere+j)->p_fourmi_garde, 
-													//~ i, j, mode)){
-						//~ if (mode == SIMULATION){
-							//~ fourmiliere_diminuer_nbF(i,j, T_OUVRIERE, T_GARDE);
-						//~ }	
-		                //~ return VRAI;
-					//~ }
-		        //~ if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbG != 0)
-		            //~ if(fourmi_test_superposition_gg(&(p_fourmiliere+i)->p_fourmi_garde,
-													//~ &(p_fourmiliere+j)->p_fourmi_garde,
-													//~ i, j, mode)) {
-						//~ if (mode == SIMULATION){
-							//~ fourmiliere_diminuer_nbF(i,j, T_GARDE, T_GARDE);
-						//~ }	
-		                //~ return VRAI;
-					//~ }
+	            if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbO != 0)
+		            if(fourmi_test_superposition_oo(&((p_fourmiliere+i)->p_fourmi_ouvriere),
+													&((p_fourmiliere+j)->p_fourmi_ouvriere),
+													i, j, mode)){
+						if (mode == SIMULATION){
+							fourmiliere_diminuer_nbF(i,j, T_OUVRIERE, T_OUVRIERE);
+						}	
+		                else return VRAI;
+					}
+		        if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbO != 0)
+		            if(fourmi_test_superposition_go(&(p_fourmiliere+i)->p_fourmi_garde,
+													&(p_fourmiliere+j)->p_fourmi_ouvriere,
+													i, j, mode)) {
+						if (mode == SIMULATION){
+							fourmiliere_diminuer_nbF(i,j, T_GARDE, T_OUVRIERE);
+						}	
+		                else return VRAI;
+					}
+		        if ((p_fourmiliere+i)->nbO != 0 || (p_fourmiliere+i)->nbG != 0)
+		            if(fourmi_test_superposition_og(&(p_fourmiliere+i)->p_fourmi_ouvriere,
+													&(p_fourmiliere+j)->p_fourmi_garde, 
+													i, j, mode)){
+						if (mode == SIMULATION){
+							fourmiliere_diminuer_nbF(i,j, T_OUVRIERE, T_GARDE);
+						}
+						else return VRAI;
+					}
+		        if ((p_fourmiliere+i)->nbG != 0 || (p_fourmiliere+i)->nbG != 0)
+		            if(fourmi_test_superposition_gg(&(p_fourmiliere+i)->p_fourmi_garde,
+													&(p_fourmiliere+j)->p_fourmi_garde,
+													i, j, mode)) {
+						if (mode == SIMULATION){
+							fourmiliere_diminuer_nbF(i,j, T_GARDE, T_GARDE);
+						}	
+		                else return VRAI;
+					}
 		}
     }
     return FAUX;
