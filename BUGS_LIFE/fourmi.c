@@ -494,12 +494,12 @@ int fourmi_nourriture_test_superposition_g(FOURMI *p_four, double x, double y){
 
 void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
     static unsigned action = GO;
+    fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx, p_ouvriere->ouvriere.posy,
+                                    &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, DEFAULT);
     if(fourmiliere_ouvri_attaque(&p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i)==ATTAQUE) action = ATTAQUE;
-    else if(nourriture_get_nb() == 0) {
-        action = WAIT;
-    }
     else action = GO;
-    
+    if(action == GO && nourriture_get_nb() == 0) action = WAIT;
+    if(action == WAIT && nourriture_get_nb() > 0) action = GO;
     if(p_ouvriere->ouvriere.bool_nourriture==EMPTY && action == GO) {       //Si ouvrière non porteuse et qu'il y a de la nourriture disponible
         nourriture_choix(&p_ouvriere->ouvriere.posx, &p_ouvriere->ouvriere.posy,
                          &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i);
@@ -540,7 +540,7 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
                 p_ouvriere->ouvriere.bool_nourriture = CARRY;
                 else {
                     fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx, p_ouvriere->ouvriere.posy,
-                                                    &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, OUV_CARRY);
+                                                    &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, DEFAULT);
                 }
             }
         }
@@ -548,7 +548,7 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
 }
 
 void fourmi_garde_deplacement(FOURMI *p_garde, unsigned i, unsigned nb_fourmiliere) {
-    fourmiliere_retour_et_deviation(p_garde->garde.posx, p_garde->garde.posy, &p_garde->garde.butx, &p_garde->garde.buty, i, GAR);
+    fourmiliere_retour_et_deviation(p_garde->garde.posx, p_garde->garde.posy, &p_garde->garde.butx, &p_garde->garde.buty, i, DEFAULT);
     fourmiliere_test_ouvri_intrustion(p_garde, i);
     double distance = utilitaire_calcul_distance(p_garde->garde.posx,
                                                  p_garde->garde.butx,

@@ -522,7 +522,7 @@ void fourmiliere_new_food(int i) {
 }
 
 void fourmiliere_retour_et_deviation(double ouvri_x, double ouvri_y, double *butx, double *buty, int i, int type) {
-    if(type==OUV_CARRY || type==GAR){
+    if(type==OUV_CARRY || type==DEFAULT || type==OUV_NO_FOOD){
         *butx = (p_fourmiliere+i)->x;
         *buty = (p_fourmiliere+i)->y;
     }
@@ -632,14 +632,23 @@ void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2
 
 int fourmiliere_ouvri_attaque(double *butx, double *buty, unsigned i) {
     int attaque = 0;
-    if(nb_fourmiliere>1) {
+    int d = 0;
+    int fourmilieres_en_vie = nb_fourmiliere;
+    for(d = 0; d<MAX_FOURMILIERE; d++)
+        fourmilieres_en_vie -= tab_dead[d];  //on décremente de 1 pour chaque fourmiliere morte
+    if(fourmilieres_en_vie>1) {
         unsigned nbG_min = (p_fourmiliere+i)->nbO; // S'il y a plus de gardes que d'ouvrières attaquantes alors pas la peine d'y aller
         unsigned k = 0;
+        double distance = utilitaire_calcul_distance(DMAX, DMIN, DMAX, DMIN);
         for (k = 0; k < nb_fourmiliere; k++){
             if(k!=i){
                 if((p_fourmiliere+k)->nbG < nbG_min) {
                     nbG_min = (p_fourmiliere+k)->nbG;
-                    if(nourriture_get_nb()==0 || (p_fourmiliere+i)->nbO>=(2*nbG_min)) {
+                    distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
+                                                          (p_fourmiliere+k)->x,
+                                                          (p_fourmiliere+i)->y,
+                                                          (p_fourmiliere+k)->y);
+                    if(nourriture_get_nb()==0 || distance <= (p_fourmiliere+i)->rayon + (p_fourmiliere+k)->rayon + RAYON_FOURMI) {
                         *butx = (p_fourmiliere+k)->x;
                         *buty = (p_fourmiliere+k)->y;
                         attaque = ATTAQUE;
@@ -648,7 +657,7 @@ int fourmiliere_ouvri_attaque(double *butx, double *buty, unsigned i) {
             }
         }
     }
-    return ATTAQUE;
+    return attaque;
 }
 
 int fourmiliere_food_diminue(double *butx, double *buty, unsigned i) {

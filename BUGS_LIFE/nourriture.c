@@ -238,9 +238,9 @@ void nourriture_choix(double *posx, double *posy, double *butx, double *buty, in
 void nourriture_cherche_retire(double x, double y) {
     if(nb_nourriture!=0) {
         NOURRITURE *nourri = p_nourriture;
-        while((nourri->x!=x || nourri->y!=y)) {
+        while((nourri&&(nourri->x!=x || nourri->y!=y))) {
             nourri = nourri->next;
         }
-            nourriture_retirer (&p_nourriture, nourri);
+            if(nourri) nourriture_retirer (&p_nourriture, nourri);
     }
 }
