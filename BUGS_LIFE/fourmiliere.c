@@ -543,7 +543,7 @@ void fourmiliere_retour_et_deviation(double ouvri_x, double ouvri_y, double *but
     if(type==OUV_CARRY || type==OUV_EMPTY){
         unsigned k = 0;
         for (k = 0; k < nb_fourmiliere; k++){
-            if(k!=i){
+            if(k!=i && tab_dead[k]==0){
                 if(fourmiliere_sur_chemin(ouvri_x, ouvri_y, i, *butx, *buty) == 1) {
                     foumriliere_ouvri_changer_but(butx, (p_fourmiliere+k)->x, buty, 
 												 (p_fourmiliere+k)->y, ouvri_x, 
@@ -558,7 +558,7 @@ void fourmiliere_retour_et_deviation(double ouvri_x, double ouvri_y, double *but
 void fourmiliere_test_ouvri_intrusion(FOURMI *p_garde, unsigned i) {
     unsigned k = 0;
     for (k = 0; k < nb_fourmiliere; k++){
-        if(k!=i){
+        if(k!=i && tab_dead[k]==0){
             fourmi_ouvriere_intrusion(p_garde, (p_fourmiliere+k)->p_fourmi_ouvriere,
 									  i, (p_fourmiliere+i)->x, (p_fourmiliere+i)->y,
                                       (p_fourmiliere+i)->rayon);
@@ -573,7 +573,7 @@ float fourmiliere_test_ouvri_competition(double distance_new, unsigned i,
     unsigned k = 0;
     float risque_mort_new=0;
     for (k = 0; k < nb_fourmiliere; k++){
-        if(k!=i){
+        if(k!=i && tab_dead[k]==0){
             if(fourmi_test_ouvri_competition(distance_new, 
 											(p_fourmiliere+k)->p_fourmi_ouvriere,
                                             nourri_x, nourri_y)==1) 
@@ -610,7 +610,7 @@ float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i,
     double fourmiliere_y;
     float risque_fourmiliere_chemin=0;
     for (k = 0; k < nb_fourmiliere; k++){
-        if(k!=i){
+        if(k!=i && tab_dead[k]==0){
             fourmiliere_x = (p_fourmiliere+k)->x - ouvri_x;
             fourmiliere_y = (p_fourmiliere+k)->y - ouvri_y;
             double distance_ortho = utilitaire_dist_proj_ortho(nourri_x, 
@@ -636,7 +636,7 @@ double fourmiliere_ouvri_sur_chemin(double ouvri_x, double ouvri_y, unsigned i,
     nourri_y = nourri_y - ouvri_y;
     float risque_ouvriere_chemin=0;
     for (k = 0; k < nb_fourmiliere; k++){
-        if(k!=i){
+        if(k!=i && tab_dead[k]==0){
             if(fourmi_ouvri_sur_chemin((p_fourmiliere+k)->p_fourmi_ouvriere, ouvri_x,
 									   ouvri_y, nourri_x, nourri_y)==1) 
 			 risque_ouvriere_chemin=RISQUE_OUVRI;
@@ -681,19 +681,22 @@ int fourmiliere_ouvri_attaque(double *butx, double *buty, unsigned i) {
             // Si nbG > nbO alors ppas la peine d'attaquer
         unsigned k = 0;
         double distance = utilitaire_calcul_distance(DMAX, DMIN, DMAX, DMIN);
+        double distance_new = distance;
         for (k = 0; k < nb_fourmiliere; k++){
-            if(k!=i){
+            if(k!=i && tab_dead[k]==0){
                 if((p_fourmiliere+k)->nbG < nbG_min) {
                     nbG_min = (p_fourmiliere+k)->nbG;
-                    distance = utilitaire_calcul_distance((p_fourmiliere+i)->x,
+                    distance_new = utilitaire_calcul_distance((p_fourmiliere+i)->x,
                                                           (p_fourmiliere+k)->x,
                                                           (p_fourmiliere+i)->y,
                                                           (p_fourmiliere+k)->y);
-                    if(nourriture_get_nb()==0 || distance <= (p_fourmiliere+i)->rayon
+                    if((nourriture_get_nb()==0 && distance_new < distance) ||
+                       distance_new <= (p_fourmiliere+i)->rayon
                        + (p_fourmiliere+k)->rayon + RAYON_FOURMI) {
                         *butx = (p_fourmiliere+k)->x;
                         *buty = (p_fourmiliere+k)->y;
                         attaque = ATTAQUE;
+                        distance = distance_new;
                     }
                 }
             }
@@ -705,7 +708,7 @@ int fourmiliere_ouvri_attaque(double *butx, double *buty, unsigned i) {
 int fourmiliere_food_diminue(double *butx, double *buty, unsigned i) {
     unsigned k = 0;
     for (k = 0; k < nb_fourmiliere; k++){
-        if(k!=i){
+        if(k!=i && tab_dead[k]==0){
             if((p_fourmiliere+k)->x == *butx && (p_fourmiliere+k)->y == *buty) {
                 if((p_fourmiliere+k)->total_food<1) return 0;
                 else {

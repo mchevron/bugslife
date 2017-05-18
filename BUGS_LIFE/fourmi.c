@@ -51,20 +51,7 @@ struct fourmi
     GARDE garde;
     FOURMI *next;
 };
-
-struct fourmiliere
-{
-    double x;
-    double y;
-    int nbO;
-    int nbG;
-    int nbF;
-    double total_food;
-    int rayon;
-    FOURMI * p_fourmi_ouvriere;
-    FOURMI * p_fourmi_garde;
-};
-
+ 
 static unsigned etape_lecture;
 static unsigned j = 0;                          //indice fourmi
 static FOURMI ** p_fourmi_ouvriere = NULL;
@@ -514,7 +501,8 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
     else action = GO;
     if(action == GO && nourriture_get_nb() == 0) action = WAIT;
     if(action == WAIT && nourriture_get_nb() > 0) action = GO;
-    if(p_ouvriere->ouvriere.bool_nourriture==EMPTY && action == GO) {
+    if(p_ouvriere->ouvriere.bool_nourriture==EMPTY && action == GO &&
+       nourriture_get_nb() > 0) {
         //Si ouvrière non porteuse et qu'il y a de la nourriture disponible
         nourriture_choix(&p_ouvriere->ouvriere.posx, &p_ouvriere->ouvriere.posy,
                          &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i);

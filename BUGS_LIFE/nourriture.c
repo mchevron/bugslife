@@ -233,10 +233,10 @@ void nourriture_choix(double *posx, double *posy, double *butx, double *buty, in
         if((risque_mort_new < risque_mort) || (risque_mort_new <= risque_mort &&
                                                distance_new <= distance && 
 											   dispo_new <= dispo)) {
-                risque_mort = risque_mort_new;
-                distance = distance_new;
-                *butx = nourri->x;
-                *buty = nourri->y;
+            risque_mort = risque_mort_new;
+            distance = distance_new;
+            *butx = nourri->x;
+            *buty = nourri->y;
         }
         nourri = nourri->next;
     }		
