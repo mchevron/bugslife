@@ -63,6 +63,9 @@ typedef enum get_info {
 #define OUV_CARRY               2
 #define OUV_EMPTY               1
 #define GAR                     0
+#define WAIT                    0
+#define GO                      1
+#define ATTAQUE                 2
 
 
 

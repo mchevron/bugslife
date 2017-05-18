@@ -629,3 +629,40 @@ void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2
     *buty = ((((p_fourmiliere+k)->rayon + RAYON_FOURMI + EPSIL_ZERO + MARGE_DEVIATION)
               *distance_fc_fpo_y)/distance_fc_fpo) + (p_fourmiliere+k)->y;
 }
+
+int fourmiliere_ouvri_attaque(double *butx, double *buty, unsigned i) {
+    int attaque = 0;
+    if(nb_fourmiliere>1) {
+        unsigned nbG_min = (p_fourmiliere+i)->nbO; // S'il y a plus de gardes que d'ouvrières attaquantes alors pas la peine d'y aller
+        unsigned k = 0;
+        for (k = 0; k < nb_fourmiliere; k++){
+            if(k!=i){
+                if((p_fourmiliere+k)->nbG < nbG_min) {
+                    nbG_min = (p_fourmiliere+k)->nbG;
+                    if(nourriture_get_nb()==0 || (p_fourmiliere+i)->nbO>=(2*nbG_min)) {
+                        *butx = (p_fourmiliere+k)->x;
+                        *buty = (p_fourmiliere+k)->y;
+                        attaque = ATTAQUE;
+                    }
+                }
+            }
+        }
+    }
+    return ATTAQUE;
+}
+
+int fourmiliere_food_diminue(double *butx, double *buty, unsigned i) {
+    unsigned k = 0;
+    for (k = 0; k < nb_fourmiliere; k++){
+        if(k!=i){
+            if((p_fourmiliere+k)->x == *butx && (p_fourmiliere+k)->y == *buty) {
+                if((p_fourmiliere+k)->total_food<1) return 0;
+                else {
+                    (p_fourmiliere+k)->total_food -= 1;
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
+}

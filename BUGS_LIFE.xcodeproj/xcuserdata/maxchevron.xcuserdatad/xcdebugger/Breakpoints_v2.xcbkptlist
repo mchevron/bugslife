@@ -70,11 +70,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "fourmi_ouvriere_lecture()"
             landmarkType = "9">
          </BreakpointContent>
@@ -102,11 +102,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "fourmi_ouvriere_lecture()"
             landmarkType = "9">
          </BreakpointContent>
@@ -182,11 +182,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "268"
-            endingLineNumber = "268"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
             landmarkName = "fourmi_test_superposition_og()"
             landmarkType = "9">
          </BreakpointContent>
@@ -198,11 +198,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
             landmarkName = "fourmi_test_superposition_og()"
             landmarkType = "9">
          </BreakpointContent>
@@ -214,11 +214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "262"
-            endingLineNumber = "262"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
             landmarkName = "fourmi_test_superposition_og()"
             landmarkType = "9">
          </BreakpointContent>
@@ -246,11 +246,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
+            startingLineNumber = "261"
+            endingLineNumber = "261"
             landmarkName = "fourmi_test_superposition_og()"
             landmarkType = "9">
          </BreakpointContent>
@@ -390,11 +390,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "fourmi_recoit()"
             landmarkType = "9">
          </BreakpointContent>
@@ -406,11 +406,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
             landmarkName = "fourmi_ajouter()"
             landmarkType = "9">
          </BreakpointContent>
@@ -422,11 +422,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154">
+            startingLineNumber = "152"
+            endingLineNumber = "152">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -436,11 +436,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "fourmi_ajouter()"
             landmarkType = "9">
          </BreakpointContent>
@@ -452,11 +452,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "fourmi_garde_lecture()"
             landmarkType = "9">
          </BreakpointContent>
@@ -468,11 +468,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "fourmi_garde_lecture()"
             landmarkType = "9">
          </BreakpointContent>
@@ -648,11 +648,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
             landmarkName = "fourmi_test_superposition_oo()"
             landmarkType = "9">
          </BreakpointContent>
@@ -664,11 +664,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "261"
-            endingLineNumber = "261"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "fourmi_test_superposition_og()"
             landmarkType = "9">
          </BreakpointContent>
@@ -934,11 +934,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "fourmi_test_superposition_og()"
             landmarkType = "9">
          </BreakpointContent>
@@ -1596,11 +1596,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "442"
-            endingLineNumber = "442"
+            startingLineNumber = "440"
+            endingLineNumber = "440"
             landmarkName = "fourmi_garde_update()"
             landmarkType = "9">
          </BreakpointContent>
@@ -1612,11 +1612,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730924.930989"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "510"
-            endingLineNumber = "510"
+            startingLineNumber = "512"
+            endingLineNumber = "512"
             landmarkName = "fourmi_ouvriere_deplacement()"
             landmarkType = "9">
          </BreakpointContent>
@@ -1628,11 +1628,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "542"
-            endingLineNumber = "542"
+            startingLineNumber = "552"
+            endingLineNumber = "552"
             landmarkName = "fourmi_garde_deplacement()"
             landmarkType = "9">
          </BreakpointContent>
@@ -1644,11 +1644,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "536"
-            endingLineNumber = "536"
+            startingLineNumber = "546"
+            endingLineNumber = "546"
             landmarkName = "fourmi_ouvriere_deplacement()"
             landmarkType = "9">
          </BreakpointContent>
@@ -1882,11 +1882,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "422"
-            endingLineNumber = "422"
+            startingLineNumber = "420"
+            endingLineNumber = "420"
             landmarkName = "fourmi_ouvriere_update()"
             landmarkType = "9">
          </BreakpointContent>
@@ -1898,11 +1898,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "421"
-            endingLineNumber = "421"
+            startingLineNumber = "419"
+            endingLineNumber = "419"
             landmarkName = "fourmi_ouvriere_update()"
             landmarkType = "9">
          </BreakpointContent>
@@ -1930,11 +1930,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "436"
-            endingLineNumber = "436"
+            startingLineNumber = "434"
+            endingLineNumber = "434"
             landmarkName = "fourmi_garde_update()"
             landmarkType = "9">
          </BreakpointContent>
@@ -1960,11 +1960,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "534"
-            endingLineNumber = "534"
+            startingLineNumber = "538"
+            endingLineNumber = "538"
             landmarkName = "fourmi_ouvriere_deplacement()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2136,11 +2136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105">
+            startingLineNumber = "103"
+            endingLineNumber = "103">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2150,11 +2150,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "fourmi_test_age()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2182,11 +2182,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "fourmi_ouvriere_lecture()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2198,11 +2198,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "fourmi_garde_lecture()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2214,11 +2214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "fourmi_ouvriere_lecture()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2262,11 +2262,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730924.930989"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "505"
-            endingLineNumber = "505"
+            startingLineNumber = "507"
+            endingLineNumber = "507"
             landmarkName = "fourmi_ouvriere_deplacement()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2278,11 +2278,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730924.930989"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "525"
-            endingLineNumber = "525"
+            startingLineNumber = "527"
+            endingLineNumber = "527"
             landmarkName = "fourmi_ouvriere_deplacement()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2294,11 +2294,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730924.930989"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "526"
-            endingLineNumber = "526"
+            startingLineNumber = "528"
+            endingLineNumber = "528"
             landmarkName = "fourmi_ouvriere_deplacement()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2326,11 +2326,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "fourmi_ajouter()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2358,11 +2358,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "563"
-            endingLineNumber = "563"
+            startingLineNumber = "573"
+            endingLineNumber = "573"
             landmarkName = "fourmi_ouvriere_intrusion()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2374,11 +2374,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "424"
-            endingLineNumber = "424"
+            startingLineNumber = "422"
+            endingLineNumber = "422"
             landmarkName = "fourmi_ouvriere_update()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2420,11 +2420,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "fourmi_test_superposition_oo()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2436,11 +2436,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "fourmi_ajouter()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2468,11 +2468,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "629"
-            endingLineNumber = "629">
+            startingLineNumber = "639"
+            endingLineNumber = "639">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2498,11 +2498,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "425"
-            endingLineNumber = "425"
+            startingLineNumber = "423"
+            endingLineNumber = "423"
             landmarkName = "fourmi_ouvriere_update()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2530,11 +2530,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "432"
-            endingLineNumber = "432"
+            startingLineNumber = "430"
+            endingLineNumber = "430"
             landmarkName = "fourmi_garde_update()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2546,11 +2546,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516810304.417673"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "437"
-            endingLineNumber = "437"
+            startingLineNumber = "435"
+            endingLineNumber = "435"
             landmarkName = "fourmi_garde_update()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2610,7 +2610,39 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516812431.287939"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "534"
+            endingLineNumber = "534"
+            landmarkName = "fourmi_ouvriere_deplacement()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BUGS_LIFE/fourmi.c"
+            timestampString = "516812431.287939"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "503"
+            endingLineNumber = "503"
+            landmarkName = "fourmi_ouvriere_deplacement()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BUGS_LIFE/fourmi.c"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "532"
@@ -2626,43 +2658,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730924.930989"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "501"
-            endingLineNumber = "501"
-            landmarkName = "fourmi_ouvriere_deplacement()"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "530"
-            endingLineNumber = "530"
-            landmarkName = "fourmi_ouvriere_deplacement()"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "529"
-            endingLineNumber = "529"
+            startingLineNumber = "531"
+            endingLineNumber = "531"
             landmarkName = "fourmi_ouvriere_deplacement()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2850,11 +2850,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730924.930989"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "515"
-            endingLineNumber = "515"
+            startingLineNumber = "517"
+            endingLineNumber = "517"
             landmarkName = "fourmi_ouvriere_deplacement()"
             landmarkType = "9">
          </BreakpointContent>
@@ -2866,11 +2866,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730443.177522"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "547"
-            endingLineNumber = "547"
+            startingLineNumber = "557"
+            endingLineNumber = "557"
             landmarkName = "fourmi_garde_deplacement()"
             landmarkType = "9">
          </BreakpointContent>
@@ -3114,7 +3114,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/nourriture.c"
@@ -3150,11 +3150,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BUGS_LIFE/fourmi.c"
-            timestampString = "516730924.930989"
+            timestampString = "516812431.287939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "509"
-            endingLineNumber = "509"
+            startingLineNumber = "511"
+            endingLineNumber = "511"
+            landmarkName = "fourmi_ouvriere_deplacement()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BUGS_LIFE/fourmi.c"
+            timestampString = "516810383.596394"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "499"
+            endingLineNumber = "499"
             landmarkName = "fourmi_ouvriere_deplacement()"
             landmarkType = "9">
          </BreakpointContent>

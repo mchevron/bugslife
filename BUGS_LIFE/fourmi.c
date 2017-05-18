@@ -23,8 +23,6 @@
 #define NB_ELEMENTS_GARDE		3
 #define NB_COORDONNEES			2
 #define NB_GARDE_PAR_LIGNE 		2
-#define WAIT                    0
-#define GO                      1
 
 
 struct ouvriere
@@ -496,16 +494,20 @@ int fourmi_nourriture_test_superposition_g(FOURMI *p_four, double x, double y){
 
 void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
     static unsigned action = GO;
-    if(nourriture_get_nb() == 0) action = WAIT;
+    if(fourmiliere_ouvri_attaque(&p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i)==ATTAQUE) action = ATTAQUE;
+    else if(nourriture_get_nb() == 0) {
+        action = WAIT;
+    }
     else action = GO;
-    if(p_ouvriere->ouvriere.bool_nourriture==EMPTY && action == GO) {
+    
+    if(p_ouvriere->ouvriere.bool_nourriture==EMPTY && action == GO) {       //Si ouvrière non porteuse et qu'il y a de la nourriture disponible
         nourriture_choix(&p_ouvriere->ouvriere.posx, &p_ouvriere->ouvriere.posy,
                          &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i);
                 //cette fonction met à jour le but de la fourmi vide
         fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx, p_ouvriere->ouvriere.posy,
                                         &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, OUV_EMPTY);
     }
-    else {
+    else if(p_ouvriere->ouvriere.bool_nourriture==CARRY || action == GO || action == WAIT) {      //Tous les cas sauf si l'ouvrière attaque
         fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx, p_ouvriere->ouvriere.posy,
                            &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, OUV_CARRY);
         
@@ -532,6 +534,14 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
                 p_ouvriere->ouvriere.bool_nourriture = CARRY;
                 nourriture_cherche_retire(p_ouvriere->ouvriere.butx,
                                       p_ouvriere->ouvriere.buty);
+            }
+            if(action==ATTAQUE){
+                if(fourmiliere_food_diminue(&p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i))
+                p_ouvriere->ouvriere.bool_nourriture = CARRY;
+                else {
+                    fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx, p_ouvriere->ouvriere.posy,
+                                                    &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, OUV_CARRY);
+                }
             }
         }
     }
