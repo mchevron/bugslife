@@ -69,5 +69,4 @@ typedef enum get_info {
 #define ATTAQUE                 2
 
 
-
 #endif

@@ -533,6 +533,7 @@ void fourmiliere_new_food(unsigned i) {
     (p_fourmiliere+i)->total_food += NEW_FOOD;
 }
 
+// chemin de retour de la fourmi avec deviation de fourmilière sur celui-ci
 void fourmiliere_retour_et_deviation(double ouvri_x, double ouvri_y, double *butx, double *buty, int i, int type) {
     if(type==OUV_CARRY || type==DEFAULT || type==OUV_NO_FOOD){
         *butx = (p_fourmiliere+i)->x;
