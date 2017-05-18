@@ -34,6 +34,7 @@ extern "C"
 #define INFO            		5
 #define BLANK           		0
 #define RUN             		1
+#define STOP             		0
 /********** User IDs pour les fonctions callback ********/
 #define FILE_NAME_OPEN  		01
 #define OPEN           			02
@@ -59,6 +60,7 @@ namespace {
     GLUI_Checkbox* record;
     GLUI_RadioGroup* auto_man_radio;
     GLUI_StaticText* rollout[R_T_LINE][R_T_COL];
+    GLUI_Button* start_stop;
 }
 
 void control_cb(int control){
@@ -78,9 +80,16 @@ void control_cb(int control){
             printf("radio group: %d\n", auto_man_radio->get_int_val() );
             break;
         case (START):
-            // start ! simulation
-            printf("start !\n");
-            run = RUN;
+            if(run==0){
+                printf("start !\n");
+                run = RUN;
+                start_stop->set_name("Stop");
+            }
+            else{
+                printf("Stop\n");
+                run = STOP;
+                start_stop->set_name("Start !");
+            }
             break;
         case (STEP):
             // step simulation
@@ -113,7 +122,7 @@ void display_cb(){
         glOrtho(-DMAX, DMAX, -DMAX/aspect_ratio, DMAX/aspect_ratio, -1.0, 1.0);
     else
         glOrtho(-DMAX*aspect_ratio, DMAX*aspect_ratio, -DMAX, DMAX, -1.0, 1.0);
-    
+
     modele_dessine_complet();
     main_rollout_update();
     glutSwapBuffers();
@@ -183,7 +192,7 @@ void add_file_panel(GLUI* glui) {
 // ajoute des fonctionnalitées au panel pour la simulaiton
 void add_simulation_panel(GLUI* glui) {
     GLUI_Panel *simulation_panel = glui->add_panel( "File" );
-    glui->add_button_to_panel(simulation_panel,  "Start !", START,
+    start_stop = glui->add_button_to_panel(simulation_panel,  "Start !", START,
                               control_cb);
     glui->add_button_to_panel(simulation_panel,  "Step", STEP,
                               control_cb);
