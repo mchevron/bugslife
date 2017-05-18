@@ -433,7 +433,7 @@ void fourmiliere_update(void) {
     
 void fourmiliere_naissance_fourmi(void){
 	unsigned i;
-	double ratio = 1;
+	double ratio = VRAI;
     double rand_max = RAND_MAX;
 	for (i = 0; i < nb_fourmiliere; i++){
 		if (!(tab_dead[i])){
@@ -491,7 +491,7 @@ void fourmiliere_destruction(unsigned i){
 	free((p_fourmiliere+i)->p_fourmi_garde);
 	(p_fourmiliere+i)->p_fourmi_ouvriere = NULL;
 	(p_fourmiliere+i)->p_fourmi_garde = NULL;
-	tab_dead[i] = 1;
+	tab_dead[i] = DEAD;
 }
 
 void fourmiliere_rayon(void){
@@ -534,7 +534,8 @@ void fourmiliere_new_food(unsigned i) {
 }
 
 // chemin de retour de la fourmi avec deviation de fourmilière sur celui-ci
-void fourmiliere_retour_et_deviation(double ouvri_x, double ouvri_y, double *butx, double *buty, int i, int type) {
+void fourmiliere_retour_et_deviation(double ouvri_x, double ouvri_y, double *butx,
+                                     double *buty, unsigned i, unsigned type) {
     if(type==OUV_CARRY || type==DEFAULT || type==OUV_NO_FOOD){
         *butx = (p_fourmiliere+i)->x;
         *buty = (p_fourmiliere+i)->y;
@@ -576,7 +577,7 @@ float fourmiliere_test_ouvri_competition(double distance_new, unsigned i,
             if(fourmi_test_ouvri_competition(distance_new, 
 											(p_fourmiliere+k)->p_fourmi_ouvriere,
                                             nourri_x, nourri_y)==1) 
-                risque_mort_new=1;
+                risque_mort_new= RISQUE_MORT;
         }
     }
     return risque_mort_new;
@@ -621,7 +622,7 @@ float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i,
             if(distance_ortho <= ((p_fourmiliere+k)->rayon + RAYON_FOURMI) &&
                ((fabs(distance_ouvri_fourmiliere - (p_fourmiliere+k)->rayon)) 
 														< distance_ouvri_nourriture))
-                risque_fourmiliere_chemin = 1;
+                risque_fourmiliere_chemin = RISQUE_FOURMILIERE;
         }
     }
     return risque_fourmiliere_chemin;
@@ -638,7 +639,7 @@ double fourmiliere_ouvri_sur_chemin(double ouvri_x, double ouvri_y, unsigned i,
         if(k!=i){
             if(fourmi_ouvri_sur_chemin((p_fourmiliere+k)->p_fourmi_ouvriere, ouvri_x,
 									   ouvri_y, nourri_x, nourri_y)==1) 
-			 risque_ouvriere_chemin=0.5;
+			 risque_ouvriere_chemin=RISQUE_OUVRI;
         }
     }
     return risque_ouvriere_chemin;
@@ -655,8 +656,10 @@ void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2
     double proj_parti_2 = x1*x1 + y1*y1;
     double proj_ortho_x = (proj_parti_1/proj_parti_2)*x1;
     double proj_ortho_y = (proj_parti_1/proj_parti_2)*y1;
-    double distance_fc_fpo = utilitaire_calcul_distance(x2, proj_ortho_x, y2, proj_ortho_y);
-            //distance fourmiliere centre avec la projetée orthogonale du centre de la fourmiliere
+    double distance_fc_fpo = utilitaire_calcul_distance(x2, proj_ortho_x, y2,
+                                                        proj_ortho_y);
+            //distance fourmiliere centre avec la projetée orthogonale
+            // du centre de la fourmiliere
     double distance_fc_fpo_x = (proj_ortho_x-x2);
     double distance_fc_fpo_y = (proj_ortho_y-y2);
     *butx = ((((p_fourmiliere+k)->rayon + RAYON_FOURMI + EPSIL_ZERO + MARGE_DEVIATION)
@@ -665,14 +668,17 @@ void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2
               *distance_fc_fpo_y)/distance_fc_fpo) + (p_fourmiliere+k)->y;
 }
 
+//Les ouvrières attaquent une autre fourmiliere
 int fourmiliere_ouvri_attaque(double *butx, double *buty, unsigned i) {
     int attaque = 0;
     int d = 0;
     int fourmilieres_en_vie = nb_fourmiliere;
     for(d = 0; d<MAX_FOURMILIERE; d++)
-        fourmilieres_en_vie -= tab_dead[d];  //on décremente de 1 pour chaque fourmiliere morte
+        fourmilieres_en_vie -= tab_dead[d];
+            //on décremente de 1 pour chaque fourmiliere morte
     if(fourmilieres_en_vie>1) {
-        unsigned nbG_min = (p_fourmiliere+i)->nbO; // S'il y a plus de gardes que d'ouvrières attaquantes alors pas la peine d'y aller
+        unsigned nbG_min = (p_fourmiliere+i)->nbO;
+            // Si nbG > nbO alors ppas la peine d'attaquer
         unsigned k = 0;
         double distance = utilitaire_calcul_distance(DMAX, DMIN, DMAX, DMIN);
         for (k = 0; k < nb_fourmiliere; k++){
@@ -683,7 +689,8 @@ int fourmiliere_ouvri_attaque(double *butx, double *buty, unsigned i) {
                                                           (p_fourmiliere+k)->x,
                                                           (p_fourmiliere+i)->y,
                                                           (p_fourmiliere+k)->y);
-                    if(nourriture_get_nb()==0 || distance <= (p_fourmiliere+i)->rayon + (p_fourmiliere+k)->rayon + RAYON_FOURMI) {
+                    if(nourriture_get_nb()==0 || distance <= (p_fourmiliere+i)->rayon
+                       + (p_fourmiliere+k)->rayon + RAYON_FOURMI) {
                         *butx = (p_fourmiliere+k)->x;
                         *buty = (p_fourmiliere+k)->y;
                         attaque = ATTAQUE;
@@ -702,7 +709,7 @@ int fourmiliere_food_diminue(double *butx, double *buty, unsigned i) {
             if((p_fourmiliere+k)->x == *butx && (p_fourmiliere+k)->y == *buty) {
                 if((p_fourmiliere+k)->total_food<1) return 0;
                 else {
-                    (p_fourmiliere+k)->total_food -= 1;
+                    (p_fourmiliere+k)->total_food --;
                     return 1;
                 }
             }

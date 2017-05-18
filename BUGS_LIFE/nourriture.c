@@ -172,7 +172,7 @@ void nourriture_retirer ( NOURRITURE ** p_tete, NOURRITURE *nour ){
             free ( courant );
         }
     }
-    nb_nourriture -= 1;
+    nb_nourriture --;
 }
 
 // renvoye l'info de nombre de nourriture 
@@ -184,7 +184,7 @@ unsigned nourriture_get_nb(void){
 void nourriture_ajouter_fixe(double x, double y){
 	NOURRITURE* nourri = NULL;
     nourri = nourriture_ajouter(&p_nourriture);
-	if (nourri != NULL) {
+	if (nourri) {
 		nourri->x = x;
 		nourri->y = y;
 		nb_nourriture += NEW_FOOD;
@@ -211,12 +211,12 @@ void nourriture_choix(double *posx, double *posy, double *butx, double *buty, in
     double distance = utilitaire_calcul_distance(DMAX, DMIN, DMAX, DMIN);
             // distance max entre fourmi et nourriture
     double distance_new = distance;
-    float risque_mort = 1;                         // 1 = risque certain
-    float risque_mort_new = 1;
+    float risque_mort = RISQUE_MORT;
+    float risque_mort_new = risque_mort;
     float risque_fourmiliere_chemin = 0;
     float risque_ouvriere_chemin = 0;
     float risque_competition = 0;
-    float dispo = 1;
+    float dispo = VRAI;
     float dispo_new = dispo;
     NOURRITURE* nourri = p_nourriture;
     while(nourri) {

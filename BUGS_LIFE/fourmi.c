@@ -24,7 +24,6 @@
 #define NB_COORDONNEES			2
 #define NB_GARDE_PAR_LIGNE 		2
 
-
 struct ouvriere
 {
     unsigned id;	// seulement utile pour superposition en mode lecture
@@ -423,7 +422,7 @@ int fourmi_ouvriere_update(FOURMI **p_ouvriere, unsigned i, unsigned nb_fourmili
     FOURMI *p_ouvri = *p_ouvriere;
     while (p_ouvri){
         fourmi_ouvriere_deplacement(p_ouvri, i);
-        p_ouvri->ouvriere.age += 1;
+        p_ouvri->ouvriere.age ++;
         if(p_ouvri->ouvriere.age == BUG_LIFE) {
             fourmi_retirer(p_ouvriere, p_ouvri);
 			return VRAI;
@@ -438,13 +437,13 @@ int fourmi_garde_update(FOURMI **p_garde, unsigned i, unsigned nb_fourmiliere){
     FOURMI *p_gar = *p_garde;
     while (p_gar){
         fourmi_garde_deplacement(p_gar, i, nb_fourmiliere);
-        p_gar->garde.age+=1;
+        p_gar->garde.age++;
         if(p_gar->garde.age==BUG_LIFE) {
             fourmi_retirer(p_garde, p_gar);
             return VRAI;
         }
         p_gar = p_gar->next;
-        j+=1;
+        j++;
     }
     return FAUX;
 }
@@ -504,28 +503,34 @@ int fourmi_nourriture_test_superposition_g(FOURMI *p_four, double x, double y){
 // Algorithme du bon choix
 void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
     static unsigned action = GO;
-    fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx, p_ouvriere->ouvriere.posy,
-                                    &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, DEFAULT);
-    if(fourmiliere_ouvri_attaque(&p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i)==ATTAQUE) action = ATTAQUE;
+    //par défaut les ouvrières vont au centre de leur fourmilière
+    fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx,
+                                    p_ouvriere->ouvriere.posy,
+                                    &p_ouvriere->ouvriere.butx,
+                                    &p_ouvriere->ouvriere.buty, i, DEFAULT);
+    if(fourmiliere_ouvri_attaque(&p_ouvriere->ouvriere.butx,
+                                 &p_ouvriere->ouvriere.buty, i)==ATTAQUE)
+        action = ATTAQUE;
     else action = GO;
     if(action == GO && nourriture_get_nb() == 0) action = WAIT;
     if(action == WAIT && nourriture_get_nb() > 0) action = GO;
-    if(p_ouvriere->ouvriere.bool_nourriture==EMPTY && action == GO) {       //Si ouvrière non porteuse et qu'il y a de la nourriture disponible
+    if(p_ouvriere->ouvriere.bool_nourriture==EMPTY && action == GO) {
+        //Si ouvrière non porteuse et qu'il y a de la nourriture disponible
         nourriture_choix(&p_ouvriere->ouvriere.posx, &p_ouvriere->ouvriere.posy,
                          &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i);
-                //cette fonction met à jour le but de la fourmi vide
+        //Déviation si une fourmilière est en chemin
         fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx,
 										p_ouvriere->ouvriere.posy,
                                         &p_ouvriere->ouvriere.butx, 
 										&p_ouvriere->ouvriere.buty, i, OUV_EMPTY);
     }
-    else if(p_ouvriere->ouvriere.bool_nourriture==CARRY || action == GO || action == WAIT) {      //Tous les cas sauf si l'ouvrière attaque
-        fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx, p_ouvriere->ouvriere.posy,
-                           &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, OUV_CARRY);
-        
+    else if(p_ouvriere->ouvriere.bool_nourriture==CARRY || action == GO ||
+            action == WAIT) {
+        fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx,
+                                        p_ouvriere->ouvriere.posy,
+                                        &p_ouvriere->ouvriere.butx,
+                                        &p_ouvriere->ouvriere.buty, i, OUV_CARRY);
     }
-        //cette fonction adapte le but en ligne droite en fonction des obstacles
-    
     double distance = utilitaire_calcul_distance(p_ouvriere->ouvriere.posx,
                                                  p_ouvriere->ouvriere.butx,
                                                  p_ouvriere->ouvriere.posy,
@@ -538,24 +543,31 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
         p_ouvriere->ouvriere.posx += BUG_SPEED*DELTA_T*Vn_x;
         p_ouvriere->ouvriere.posy += BUG_SPEED*DELTA_T*Vn_y;
     }
+    else fourmi_but_atteint(p_ouvriere, action, i);
+}
+
+//Changer le statut de l'ouvrière si elle a atteint son but
+void fourmi_but_atteint(FOURMI *p_ouvriere, unsigned action, unsigned i){
+    if(p_ouvriere->ouvriere.bool_nourriture==CARRY) {
+        fourmiliere_new_food(i);
+        p_ouvriere->ouvriere.bool_nourriture = EMPTY;
+    }
     else {
-        if(p_ouvriere->ouvriere.bool_nourriture==CARRY) {
-            fourmiliere_new_food(i);
-            p_ouvriere->ouvriere.bool_nourriture = EMPTY;
-        }
-        else {
-            if(action==GO){
-                p_ouvriere->ouvriere.bool_nourriture = CARRY;
-                nourriture_cherche_retire(p_ouvriere->ouvriere.butx,
+        if(action==GO){
+            p_ouvriere->ouvriere.bool_nourriture = CARRY;
+            nourriture_cherche_retire(p_ouvriere->ouvriere.butx,
                                       p_ouvriere->ouvriere.buty);
-            }
-            if(action==ATTAQUE){
-                if(fourmiliere_food_diminue(&p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i))
+        }
+        if(action==ATTAQUE){
+            if(fourmiliere_food_diminue(&p_ouvriere->ouvriere.butx,
+                                        &p_ouvriere->ouvriere.buty, i))
                 p_ouvriere->ouvriere.bool_nourriture = CARRY;
-                else {
-                    fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx, p_ouvriere->ouvriere.posy,
-                                                    &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, DEFAULT);
-                }
+            else {
+                fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx,
+                                                p_ouvriere->ouvriere.posy,
+                                                &p_ouvriere->ouvriere.butx,
+                                                &p_ouvriere->ouvriere.buty, i,
+                                                DEFAULT);
             }
         }
     }
@@ -563,8 +575,10 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
 
 // déplacement de la garde si elle ne se trouve plus dans la fourmilière
 void fourmi_garde_deplacement(FOURMI *p_garde, unsigned i, unsigned nb_fourmiliere) {
-    fourmiliere_retour_et_deviation(p_garde->garde.posx, p_garde->garde.posy, &p_garde->garde.butx, &p_garde->garde.buty, i, DEFAULT);
-    fourmiliere_test_ouvri_intrustion(p_garde, i);
+    fourmiliere_retour_et_deviation(p_garde->garde.posx, p_garde->garde.posy,
+                                    &p_garde->garde.butx, &p_garde->garde.buty, i,
+                                    DEFAULT);
+    fourmiliere_test_ouvri_intrusion(p_garde, i);
     double distance = utilitaire_calcul_distance(p_garde->garde.posx,
                                                  p_garde->garde.butx,
                                                  p_garde->garde.posy,
@@ -579,7 +593,7 @@ void fourmi_garde_deplacement(FOURMI *p_garde, unsigned i, unsigned nb_fourmilie
 
 // attaque de la garde sur une ouvrière si elle entre dans la fourmilière   
 void fourmi_ouvriere_intrusion(FOURMI *p_garde, FOURMI *p_ouvriere,
-                              unsigned i, unsigned c_x, unsigned c_y, unsigned rayon) {
+                              unsigned i, unsigned c_x, unsigned c_y, unsigned rayon){
     while (p_ouvriere){
         double distance = utilitaire_calcul_distance(c_x,
                                                      p_ouvriere->ouvriere.posx,
@@ -605,7 +619,7 @@ double fourmi_test_ouvri_competition(double distance_new, FOURMI *p_ouvriere,
                                                      p_ouvriere->ouvriere.posy);
         if(distance_comp <= distance_new &&
            p_ouvriere->ouvriere.bool_nourriture == EMPTY) {
-            risque_mort_new = 1;
+            risque_mort_new = RISQUE_MORT;
         }
         p_ouvriere = p_ouvriere->next;
     }
@@ -614,10 +628,10 @@ double fourmi_test_ouvri_competition(double distance_new, FOURMI *p_ouvriere,
 
 // test s'il y a des nourritures disponibles pour les ouvrières
 double fourmi_test_nourri_dispo(FOURMI *p_ouvriere, double nourri_x, double nourri_y){
-    unsigned dispo = 1;
+    unsigned dispo = VRAI;
     while (p_ouvriere){
         if(p_ouvriere->ouvriere.butx == nourri_x &&
-           p_ouvriere->ouvriere.buty == nourri_y) dispo = 0;
+           p_ouvriere->ouvriere.buty == nourri_y) dispo = FAUX;
         p_ouvriere = p_ouvriere->next;
     }
     return dispo;
@@ -640,7 +654,7 @@ double fourmi_ouvri_sur_chemin(FOURMI *p_ouvriere, double ouvri_x, double ouvri_
         if(distance_ortho <= (RAYON_FOURMI + RAYON_FOURMI) &&
            ((fabs(distance_ouvri_ouvri_adv - RAYON_FOURMI)
 												< distance_ouvri_nourriture)))
-            risque_ouvri_chemin = 0.5;
+            risque_ouvri_chemin = RISQUE_OUVRI;
         p_ouvriere = p_ouvriere->next;
     }
     return risque_ouvri_chemin;

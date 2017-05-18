@@ -49,3 +49,4 @@ double fourmi_test_ouvri_competition(double distance_new, FOURMI *p_ouvriere,
 double fourmi_test_nourri_dispo(FOURMI *p_ouvriere, double nourri_x, double nourri_y);
 double fourmi_ouvri_sur_chemin(FOURMI *p_ouvriere, double ouvri_x, double ouvri_y,
                                double nourri_x, double nourri_y);
+void fourmi_but_atteint(FOURMI *p_ouvriere, unsigned action, unsigned i);

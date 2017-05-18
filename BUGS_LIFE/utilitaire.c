@@ -45,8 +45,10 @@ double utilitaire_dist_proj_ortho(double x1,double x2,double y1,double y2) {
                                                            x1,
                                                            0,
                                                            y1);
-    if(distance_proj_but > distance_orig_but) distance = utilitaire_calcul_distance(DMIN, DMAX, DMIN, DMAX);
-            // alors l'obstacle est dans la direction opposée
-            // Nous attribuons alors une distance de projection orthogonale au maximum pour éviter qu'il altère le chemin
+    if(distance_proj_but > distance_orig_but) distance =
+        utilitaire_calcul_distance(DMIN, DMAX, DMIN, DMAX);
+            /*Alors l'obstacle est dans la direction opposée
+            Nous attribuons donc une distance de projection orthogonale
+            au maximum pour éviter qu'il altère le chemin*/
     return distance;
 }

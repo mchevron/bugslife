@@ -67,6 +67,10 @@ typedef enum get_info {
 #define WAIT                    0
 #define GO                      1
 #define ATTAQUE                 2
+#define NEW_FOOD                1
+#define RISQUE_OUVRI            0.5
+#define RISQUE_MORT             1
+#define RISQUE_FOURMILIERE      1
 
 
 #endif
