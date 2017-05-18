@@ -540,25 +540,25 @@ void fourmi_but_atteint(FOURMI *p_ouvriere, unsigned action, unsigned i){
         fourmiliere_new_food(i);
         p_ouvriere->ouvriere.bool_nourriture = EMPTY;
     }
-    else {
-        if(action==GO){
+    else if (action==GO && fourmiliere_ouvri_test_objectif(p_ouvriere->ouvriere.posx,
+                                                         p_ouvriere->ouvriere.posy,
+                                                         p_ouvriere->ouvriere.butx,
+                                                         p_ouvriere->ouvriere.buty,
+                                                         i)){
             p_ouvriere->ouvriere.bool_nourriture = CARRY;
             nourriture_cherche_retire(p_ouvriere->ouvriere.butx,
                                       p_ouvriere->ouvriere.buty);
-        }
-        if(action==ATTAQUE){
+    }
+    else if(action==ATTAQUE){
             if(fourmiliere_food_diminue(&p_ouvriere->ouvriere.butx,
                                         &p_ouvriere->ouvriere.buty, i))
                 p_ouvriere->ouvriere.bool_nourriture = CARRY;
-            else {
-                fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx,
+    }
+    else fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx,
                                                 p_ouvriere->ouvriere.posy,
                                                 &p_ouvriere->ouvriere.butx,
                                                 &p_ouvriere->ouvriere.buty, i,
                                                 DEFAULT);
-            }
-        }
-    }
 }
 
 // déplacement de la garde si elle ne se trouve plus dans la fourmilière
@@ -571,7 +571,7 @@ void fourmi_garde_deplacement(FOURMI *p_garde, unsigned i, unsigned nb_fourmilie
                                                  p_garde->garde.butx,
                                                  p_garde->garde.posy,
                                                  p_garde->garde.buty);
-    if(distance > RAYON_FOURMI) {
+    if(distance > EPSIL_ZERO) {
         double Vn_x = (p_garde->garde.butx - p_garde->garde.posx) / distance;
         double Vn_y = (p_garde->garde.buty - p_garde->garde.posy) / distance;
         p_garde->garde.posx += BUG_SPEED*DELTA_T*Vn_x;

@@ -208,7 +208,7 @@ void nourriture_creation(void){
 // choix de la nourriture pour l'ouvrière
 void nourriture_choix(double *posx, double *posy, double *butx, double *buty, int i) {
     //Chercher la nourriture la plus proche
-    double distance = utilitaire_calcul_distance(DMAX, DMIN, DMAX, DMIN);
+    double distance = DIST_MAX;
             // distance max entre fourmi et nourriture
     double distance_new = distance;
     float risque_mort = RISQUE_MORT;
@@ -251,4 +251,20 @@ void nourriture_cherche_retire(double x, double y) {
         }
             if(nourri) nourriture_retirer (&p_nourriture, nourri);
     }
+}
+
+int nourriture_ouvri_test_objectif(double posx, double posy, double butx, double buty) {
+    if(nb_nourriture!=0) {
+        double distance = DIST_MAX;
+        NOURRITURE *nourri = p_nourriture;
+        while((nourri&&(nourri->x!=butx || nourri->y!=buty))) {
+            nourri = nourri->next;
+        }
+        if(nourri){
+            distance = utilitaire_calcul_distance(nourri->x, posx,
+                                                  nourri->y, posy);
+            if(distance <= RAYON_FOURMI) return VRAI;
+        }
+    }
+    return FAUX;
 }

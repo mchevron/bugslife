@@ -71,6 +71,7 @@ typedef enum get_info {
 #define RISQUE_OUVRI            0.5
 #define RISQUE_MORT             1
 #define RISQUE_FOURMILIERE      1
+#define DIST_MAX                60
 
 
 #endif

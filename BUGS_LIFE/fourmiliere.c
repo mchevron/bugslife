@@ -23,7 +23,7 @@
 #define DEAD					1
 #define RATIO					0.25
 #define MAX_GARDE				10
-#define MARGE_DEVIATION         3
+#define MARGE_DEVIATION         1
 
 struct fourmiliere
 {
@@ -544,10 +544,10 @@ void fourmiliere_retour_et_deviation(double ouvri_x, double ouvri_y, double *but
         unsigned k = 0;
         for (k = 0; k < nb_fourmiliere; k++){
             if(k!=i && tab_dead[k]==0){
-                if(fourmiliere_sur_chemin(ouvri_x, ouvri_y, i, *butx, *buty) == 1) {
+                if(fourmiliere_sur_chemin(ouvri_x, ouvri_y, i, *butx, *buty) == VRAI){
                     foumriliere_ouvri_changer_but(butx, (p_fourmiliere+k)->x, buty, 
 												 (p_fourmiliere+k)->y, ouvri_x, 
-												  ouvri_y, k);
+												  ouvri_y, k, i);
                 }
             }
         }
@@ -647,7 +647,8 @@ double fourmiliere_ouvri_sur_chemin(double ouvri_x, double ouvri_y, unsigned i,
 
 // ouvrière change de chemin si nourriture se crée qui est plus proche que son but
 void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2, 
-								   double ouvri_x,double ouvri_y, unsigned k) {
+								   double ouvri_x,double ouvri_y, unsigned k,
+                                   unsigned i) {
     double x1 = *butx - ouvri_x;
     double y1 = *buty - ouvri_y;
     x2 = x2 - ouvri_x;
@@ -662,10 +663,22 @@ void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2
             // du centre de la fourmiliere
     double distance_fc_fpo_x = (proj_ortho_x-x2);
     double distance_fc_fpo_y = (proj_ortho_y-y2);
-    *butx = ((((p_fourmiliere+k)->rayon + RAYON_FOURMI + EPSIL_ZERO + MARGE_DEVIATION)
-              *distance_fc_fpo_x)/distance_fc_fpo) + (p_fourmiliere+k)->x;
-    *buty = ((((p_fourmiliere+k)->rayon + RAYON_FOURMI + EPSIL_ZERO + MARGE_DEVIATION)
-              *distance_fc_fpo_y)/distance_fc_fpo) + (p_fourmiliere+k)->y;
+    double devia_x = ((((p_fourmiliere+k)->rayon + RAYON_FOURMI + EPSIL_ZERO + MARGE_DEVIATION)
+                                 *distance_fc_fpo_x)/distance_fc_fpo) + (p_fourmiliere+k)->x;
+    double devia_y = ((((p_fourmiliere+k)->rayon + RAYON_FOURMI + EPSIL_ZERO + MARGE_DEVIATION)
+                       *distance_fc_fpo_y)/distance_fc_fpo) + (p_fourmiliere+k)->y;
+    double distance_devia_pos = utilitaire_calcul_distance(ouvri_x, devia_x, ouvri_y,
+                                                           devia_y);
+    if(distance_devia_pos > RAYON_FOURMI || distance_devia_pos < DIST_MAX) {
+        *butx = devia_x;
+        *buty = devia_y;
+    }
+    else{
+        *butx = (p_fourmiliere+i)->x;
+        *buty = (p_fourmiliere+i)->y;
+        printf("%lf %lf\n", *butx, *buty);
+        printf("%lf %lf\n", devia_x, devia_y);
+    }
 }
 
 //Les ouvrières attaquent une autre fourmiliere
@@ -680,7 +693,7 @@ int fourmiliere_ouvri_attaque(double *butx, double *buty, unsigned i) {
         unsigned nbG_min = (p_fourmiliere+i)->nbO;
             // Si nbG > nbO alors ppas la peine d'attaquer
         unsigned k = 0;
-        double distance = utilitaire_calcul_distance(DMAX, DMIN, DMAX, DMIN);
+        double distance = DIST_MAX;
         double distance_new = distance;
         for (k = 0; k < nb_fourmiliere; k++){
             if(k!=i && tab_dead[k]==0){
@@ -719,4 +732,20 @@ int fourmiliere_food_diminue(double *butx, double *buty, unsigned i) {
         }
     }
     return 0;
+}
+
+int fourmiliere_ouvri_test_objectif(double posx, double posy,
+                                    double butx, double buty, double i) {
+    unsigned k = 0;
+    double distance = DIST_MAX;
+    for (k = 0; k < nb_fourmiliere; k++){
+        if(k!=i && tab_dead[k]==0){
+            distance = utilitaire_calcul_distance((p_fourmiliere+k)->x, posx,
+                                                  (p_fourmiliere+k)->y, posy);
+            if(distance <= RAYON_FOURMI)
+                return VRAI;
+        }
+    }
+    if(nourriture_ouvri_test_objectif(posx, posy, butx, buty)) return VRAI;
+    return FAUX;
 }

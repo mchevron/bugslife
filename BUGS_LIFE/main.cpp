@@ -80,7 +80,7 @@ void control_cb(int control){
             printf("radio group: %d\n", auto_man_radio->get_int_val() );
             break;
         case (START):
-            if(run==0){
+            if(run==0||run==STEP){
                 printf("start !\n");
                 run = RUN;
                 start_stop->set_name("Stop");
@@ -99,6 +99,7 @@ void control_cb(int control){
             modele_record(record->get_int_val());
             glutPostRedisplay();
             run = STEP;
+            start_stop->set_name("Start !");
             break;
         case (RECORD):
             // record simulation

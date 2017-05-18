@@ -64,7 +64,7 @@ void graphic_find_color (unsigned i) {
                                          {1. ,0. ,1. },
                                          {0.5,0.5,0.5},
                                          {1.0,0.5,0. },
-                                         {0.5,0.1,0.3},
+                                         {0.5,0.1,0.1},
                                          {0.6,0.7,0.3}};
     graphic_set_color3f(color[i][0], color[i][1], color[i][2]);
 }
