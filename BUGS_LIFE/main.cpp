@@ -62,7 +62,7 @@ namespace {
 }
 
 void control_cb(int control){
-    char mode[] = "Graphic";
+    char mode[] = "Final";
     switch (control){
         case (OPEN): 
             printf( "Open file: %s\n", entree->get_text());
@@ -249,11 +249,10 @@ int main(int argc, char *argv[]){
 			return EXIT_SUCCESS;
         case MODE_SPECIFIQUE:
             if ((strcmp(argv[1], "Error") == 0) ||
-                (strcmp(argv[1] , "Verification") == 0)
-                || (strcmp(argv[1], "Final") == 0)) {
+                (strcmp(argv[1] , "Verification") == 0)) {
                 if (modele_lecture(argv[1], argv[2])) return EXIT_FAILURE;
             }
-            if (strcmp(argv[1], "Graphic") == 0) {
+            if (strcmp(argv[1], "Final") == 0) {
                 if (modele_lecture(argv[1], argv[2])) modele_cleanup();
             }
             break;
