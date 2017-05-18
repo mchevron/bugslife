@@ -63,7 +63,7 @@ typedef enum get_info {
 #define OUV_CARRY               2
 #define OUV_EMPTY               1
 #define GAR                     0
-
+#define NEW_FOOD				1
 
 
 #endif

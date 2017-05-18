@@ -41,13 +41,18 @@ void fourmiliere_consommation(void);
 void fourmiliere_destruction(unsigned i);
 void fourmiliere_rayon(void);
 int fourmiliere_nourriture_test_superposition(double x, double y);
-void fourmiliere_new_food(int i);
-void fourmiliere_retour_et_deviation(double ouvri_x, double ouvri_y, double *butx, double *buty, int i, int type);
-void fourmiliere_test_ouvri_intrustion(FOURMI *p_garde, unsigned i);
-float fourmiliere_test_ouvri_competition(double distance_new, unsigned i, double nourri_x, double nourri_y);
+void fourmiliere_new_food(unsigned i);
+void fourmiliere_retour_et_deviation(double ouvri_x, double ouvri_y, double *butx, 
+									 double *buty, unsigned i, unsigned type);
+void fourmiliere_test_ouvri_intrusion(FOURMI *p_garde, unsigned i);
+float fourmiliere_test_ouvri_competition(double distance_new, unsigned i, 
+										 double nourri_x, double nourri_y);
 float fourmiliere_test_nourri_dispo(unsigned i, double nourri_x, double nourri_y);
 void fourmiliere_record(FILE *f_record);
-float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double nourri_x, double nourri_y);
-double fourmiliere_ouvri_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, double nourri_x, double nourri_y);
-void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2, double ouvri_x,double ouvri_y, unsigned k);
+float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, 
+							 double nourri_x, double nourri_y);
+double fourmiliere_ouvri_sur_chemin(double ouvri_x, double ouvri_y, unsigned i, 
+									double nourri_x, double nourri_y);
+void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2, 
+								   double ouvri_x,double ouvri_y, unsigned k);
 

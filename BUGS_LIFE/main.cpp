@@ -87,6 +87,7 @@ void control_cb(int control){
             printf("modele_update\n one step\n");
             if (glutGetWindow() != main_window) glutSetWindow( main_window );
             modele_update(auto_man_radio->get_int_val());
+            modele_record(record->get_int_val());
             glutPostRedisplay();
             run = STEP;
             break;
@@ -126,6 +127,7 @@ void  reshape_cb ( int  x,  int  y){
     glutPostRedisplay();
 }
 
+// s'occupe de la convertion OPENGL/GLUT de l'endroit cliquer par la souris
 void processMouse(int button, int state, int x, int y){
     float pos_x, pos_y;
     if (state == GLUT_DOWN && auto_man_radio->get_int_val() != AUTOMATIC) {
@@ -161,6 +163,7 @@ void idle_cb(){
     }
 }
 
+// ajoute des fonctionnalitées au panel
 void add_file_panel(GLUI* glui) {
     GLUI_Panel *File_panel = glui->add_panel( "File" );
     entree = glui->add_edittext_to_panel(File_panel, "FileName:");
@@ -177,6 +180,7 @@ void add_file_panel(GLUI* glui) {
     glui->add_radiobutton_to_group( auto_man_radio, "Manual" );
 }
 
+// ajoute des fonctionnalitées au panel pour la simulaiton
 void add_simulation_panel(GLUI* glui) {
     GLUI_Panel *simulation_panel = glui->add_panel( "File" );
     glui->add_button_to_panel(simulation_panel,  "Start !", START,
@@ -187,6 +191,8 @@ void add_simulation_panel(GLUI* glui) {
                                            RECORD, control_cb);
 }
 
+
+// s'occupe de remplir le tableau du panel
 void add_rollout(GLUI* glui) {
     GLUI_Panel *info_rollout = glui->add_rollout( "Information");
     //header
@@ -229,8 +235,9 @@ void add_rollout(GLUI* glui) {
     rollout[TOTAL_ROLLOUT][NB_NOURRITURE] = glui->add_statictext_to_panel(total, "");
 }
 
+// s'occupe d'actualiser le tableau du panel avec les nouvelles valeurs
 void main_rollout_update(void) {
-    int i, c;
+    int i, c;								// indices des lignes i et colonnes c
     for(i=0; i<MAX_FOURMILIERE; i=i+1) {
         for(c=0; c<R_T_COL; c=c+1) {
             rollout[i][c]->set_text(modele_get_info_glui(c, i));
@@ -241,6 +248,7 @@ void main_rollout_update(void) {
 																 BLANK));
     }
 }
+
 
 int main(int argc, char *argv[]){
     switch (argc) {
