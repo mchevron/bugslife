@@ -23,6 +23,8 @@
 #define NB_ELEMENTS_GARDE		3
 #define NB_COORDONNEES			2
 #define NB_GARDE_PAR_LIGNE 		2
+#define WAIT                    0
+#define GO                      1
 
 
 struct ouvriere
@@ -493,14 +495,19 @@ int fourmi_nourriture_test_superposition_g(FOURMI *p_four, double x, double y){
 }
 
 void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
-    if(p_ouvriere->ouvriere.bool_nourriture==EMPTY) {
+    static unsigned action = GO;
+    if(nourriture_get_nb() == 0) action = WAIT;
+    else action = GO;
+    if(p_ouvriere->ouvriere.bool_nourriture==EMPTY && action == GO) {
         nourriture_choix(&p_ouvriere->ouvriere.posx, &p_ouvriere->ouvriere.posy,
                          &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i);
-        //cette fonction met à jour le but de la fourmi vide
+                //cette fonction met à jour le but de la fourmi vide
+        fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx, p_ouvriere->ouvriere.posy,
+                                        &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, OUV_EMPTY);
     }
     else {
-        fourmiliere_retour(p_ouvriere->ouvriere.posx, p_ouvriere->ouvriere.posy,
-                           &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, OUV);
+        fourmiliere_retour_et_deviation(p_ouvriere->ouvriere.posx, p_ouvriere->ouvriere.posy,
+                           &p_ouvriere->ouvriere.butx, &p_ouvriere->ouvriere.buty, i, OUV_CARRY);
         
     }
         //cette fonction adapte le but en ligne droite en fonction des obstacles
@@ -521,15 +528,17 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
             p_ouvriere->ouvriere.bool_nourriture = EMPTY;
         }
         else {
-            p_ouvriere->ouvriere.bool_nourriture = CARRY;
-            nourriture_cherche_retire(p_ouvriere->ouvriere.butx,
+            if(action==GO){
+                p_ouvriere->ouvriere.bool_nourriture = CARRY;
+                nourriture_cherche_retire(p_ouvriere->ouvriere.butx,
                                       p_ouvriere->ouvriere.buty);
+            }
         }
     }
 }
 
 void fourmi_garde_deplacement(FOURMI *p_garde, unsigned i, unsigned nb_fourmiliere) {
-    fourmiliere_retour(p_garde->garde.posx, p_garde->garde.posy, &p_garde->garde.butx, &p_garde->garde.buty, i, GAR);
+    fourmiliere_retour_et_deviation(p_garde->garde.posx, p_garde->garde.posy, &p_garde->garde.butx, &p_garde->garde.buty, i, GAR);
     fourmiliere_test_ouvri_intrustion(p_garde, i);
     double distance = utilitaire_calcul_distance(p_garde->garde.posx,
                                                  p_garde->garde.butx,
