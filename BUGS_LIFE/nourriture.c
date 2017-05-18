@@ -22,7 +22,6 @@
 #define NB_ELEMENTS_NOURRITURE	2
 #define NB_NOURRITURE_PAR_LIGNE 3
 #define	REUSSI					1
-#define NEW_FOOD				1
 
 struct nourriture
 {
@@ -176,10 +175,12 @@ void nourriture_retirer ( NOURRITURE ** p_tete, NOURRITURE *nour ){
     nb_nourriture -= 1;
 }
 
+// renvoye l'info de nombre de nourriture 
 unsigned nourriture_get_nb(void){
 	return nb_nourriture;
 }
 
+// ajoute un élément de nourriture à un endroit donné
 void nourriture_ajouter_fixe(double x, double y){
 	NOURRITURE* nourri = NULL;
     nourri = nourriture_ajouter(&p_nourriture);
@@ -190,6 +191,7 @@ void nourriture_ajouter_fixe(double x, double y){
 	}
 }
 
+// crée un élément de nourriture avec probabilités
 void nourriture_creation(void){
     double rand_max = RAND_MAX;
 	if (rand()/rand_max <= FOOD_RATE){
@@ -203,6 +205,7 @@ void nourriture_creation(void){
 	}
 }
 
+// choix de la nourriture pour l'ouvrière
 void nourriture_choix(double *posx, double *posy, double *butx, double *buty, int i) {
     //Chercher la nourriture la plus proche
     double distance = utilitaire_calcul_distance(DMAX, DMIN, DMAX, DMIN);
@@ -218,13 +221,18 @@ void nourriture_choix(double *posx, double *posy, double *butx, double *buty, in
     NOURRITURE* nourri = p_nourriture;
     while(nourri) {
         distance_new = utilitaire_calcul_distance(*posx, nourri->x, *posy, nourri->y);
-        risque_fourmiliere_chemin = fourmiliere_sur_chemin(*posx, *posy, i, nourri->x, nourri->y);
-        risque_ouvriere_chemin = fourmiliere_ouvri_sur_chemin(*posx, *posy, i, nourri->x, nourri->y);
-        risque_competition = fourmiliere_test_ouvri_competition(distance_new, i, nourri->x, nourri->y);
-        risque_mort_new = (risque_fourmiliere_chemin+risque_ouvriere_chemin+risque_competition)/3;
+        risque_fourmiliere_chemin = fourmiliere_sur_chemin(*posx, *posy, i, 
+														   nourri->x, nourri->y);
+        risque_ouvriere_chemin = fourmiliere_ouvri_sur_chemin(*posx, *posy, i, 
+															  nourri->x, nourri->y);
+        risque_competition = fourmiliere_test_ouvri_competition(distance_new, i, 
+																nourri->x, nourri->y);
+        risque_mort_new = (risque_fourmiliere_chemin+risque_ouvriere_chemin
+															+risque_competition)/3;
         dispo_new = fourmiliere_test_nourri_dispo(i, nourri->x, nourri->y);
         if((risque_mort_new < risque_mort) || (risque_mort_new <= risque_mort &&
-                                               distance_new <= distance && dispo_new <= dispo)) {
+                                               distance_new <= distance && 
+											   dispo_new <= dispo)) {
                 risque_mort = risque_mort_new;
                 distance = distance_new;
                 *butx = nourri->x;

@@ -23,6 +23,7 @@
 static unsigned mise_a_jour = 0;
 static FILE *f_record = NULL;
 
+// choix du mode de lecture
 int modele_lecture(char mode[], char nom_fichier[]){
     if (strcmp(mode, "Error") == 0){
         if (modele_lecture_fichier(nom_fichier)) return EXIT;
@@ -114,6 +115,7 @@ void modele_dessine_complet(void) {
     nourriture_dessine();
 }
 
+//  cherche les informations dans module fourmilière pour actualisation du panel
 char* modele_get_info_glui(unsigned info, unsigned i) {
     return fourmiliere_get_info_rollout(info, i);
 }
@@ -128,17 +130,29 @@ void modele_sauvegarde(char *fsortie) {
 }
 
 void modele_record(int record){
+	printf("%d\n", __LINE__);
 	if (record) {
-		if (!(f_record))
+		printf("%d\n", __LINE__);
+		if (!(f_record)){
 			f_record = fopen("out.dat","w");
+			printf("%d\n", __LINE__);
+		}
+		printf("%d\n", __LINE__);
 		fprintf(f_record, "%u", mise_a_jour);
+		printf("%d\n", __LINE__);
 		fourmiliere_record(f_record);
+		printf("%d\n", __LINE__);
 		mise_a_jour += INCREMENTATION;
+		printf("%d\n", __LINE__);
 	}
 	else {
 		if (f_record) {
+			printf("%d\n", __LINE__);
 			fclose(f_record);
+			f_record = NULL;
+			printf("%d\n", __LINE__);
 			mise_a_jour = 0;
+			printf("%d\n", __LINE__);
 		}
 	}	
 }
