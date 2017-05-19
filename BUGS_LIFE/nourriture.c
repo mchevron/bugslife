@@ -23,7 +23,6 @@
 #define NB_NOURRITURE_PAR_LIGNE 3
 #define	REUSSI					1
 #define	LIMITE					1000
-#define	LIMITE_NOUR				200
 
 struct nourriture
 {
@@ -205,10 +204,7 @@ void nourriture_creation(void){
             y = (rand()/rand_max)*(DMAX*2) + DMIN;
             l++;
         }
-        if(l<LIMITE && nb_nourriture<LIMITE_NOUR) nourriture_ajouter_fixe(x, y);
-        /*Il n'y a pas de plus value à avoir trop de nourriture disponible
-        Pour éviter de faire trop de coût calcul, s'il y a plus de 200 éléments
-        nourriture disponible alors on ne produit plus de nourriture*/
+        nourriture_ajouter_fixe(x, y);
     }
 }
 
