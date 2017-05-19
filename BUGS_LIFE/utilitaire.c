@@ -50,6 +50,5 @@ double utilitaire_dist_proj_ortho(double x1,double x2,double y1,double y2) {
             /*Alors l'obstacle est dans la direction opposée
             Nous attribuons donc une distance de projection orthogonale
             au maximum pour éviter qu'il altère le chemin*/
-    printf("%lf\n", distance);
     return distance;
 }

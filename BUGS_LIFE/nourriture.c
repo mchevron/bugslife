@@ -22,6 +22,8 @@
 #define NB_ELEMENTS_NOURRITURE	2
 #define NB_NOURRITURE_PAR_LIGNE 3
 #define	REUSSI					1
+#define	LIMITE					1000
+#define	LIMITE_NOUR				200
 
 struct nourriture
 {
@@ -193,16 +195,21 @@ void nourriture_ajouter_fixe(double x, double y){
 
 // crée un élément de nourriture avec probabilités
 void nourriture_creation(void){
+    int l = 0;
     double rand_max = RAND_MAX;
-	if (rand()/rand_max <= FOOD_RATE){
-		double x = (rand()/rand_max)*(DMAX*2) + DMIN;
-		double y = (rand()/rand_max)*(DMAX*2) + DMIN;
-		while (fourmiliere_nourriture_test_superposition(x,y)){ 
-			x = (rand()/rand_max)*(DMAX*2) + DMIN;
-			y = (rand()/rand_max)*(DMAX*2) + DMIN;
-		}
-		nourriture_ajouter_fixe(x, y);
-	}
+    if (rand()/rand_max <= FOOD_RATE){
+        double x = (rand()/rand_max)*(DMAX*2) + DMIN;
+        double y = (rand()/rand_max)*(DMAX*2) + DMIN;
+        while (fourmiliere_nourriture_test_superposition(x,y) && l<LIMITE){
+            x = (rand()/rand_max)*(DMAX*2) + DMIN;
+            y = (rand()/rand_max)*(DMAX*2) + DMIN;
+            l++;
+        }
+        if(l<LIMITE && nb_nourriture<LIMITE_NOUR) nourriture_ajouter_fixe(x, y);
+        /*Il n'y a pas de plus value à avoir trop de nourriture disponible
+        Pour éviter de faire trop de coût calcul, s'il y a plus de 200 éléments
+        nourriture disponible alors on ne produit plus de nourriture*/
+    }
 }
 
 // choix de la nourriture pour l'ouvrière
@@ -253,7 +260,8 @@ void nourriture_cherche_retire(double x, double y) {
     }
 }
 
-int nourriture_ouvri_test_objectif(double posx, double posy, double butx, double buty) {
+// vérifie si l'objectif était un élément de nourriture
+int nourriture_ouvri_test_objectif(double posx, double posy, double butx, double buty){
     if(nb_nourriture!=0) {
         double distance = DIST_MAX;
         NOURRITURE *nourri = p_nourriture;

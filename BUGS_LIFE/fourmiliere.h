@@ -54,7 +54,8 @@ float fourmiliere_sur_chemin(double ouvri_x, double ouvri_y, unsigned i,
 double fourmiliere_ouvri_sur_chemin(double ouvri_x, double ouvri_y, unsigned i,
                                     double nourri_x, double nourri_y);
 void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2,
-                                   double ouvri_x,double ouvri_y, unsigned k, unsigned i);
+                                   double ouvri_x,double ouvri_y, unsigned k,
+                                   unsigned i);
 int fourmiliere_ouvri_attaque(double *butx, double *buty, unsigned i);
 int fourmiliere_food_diminue(double *butx, double *buty, unsigned i);
 int fourmiliere_ouvri_test_objectif(double posx, double posy,

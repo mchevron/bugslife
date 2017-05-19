@@ -77,7 +77,8 @@ void control_cb(int control){
             modele_sauvegarde((char*)sortie->get_text());
             break;
         case (AUTO_MAN):
-            printf("radio group: %d\n", auto_man_radio->get_int_val() );
+            if(auto_man_radio->get_int_val()) printf("Manual food creation\n");
+            else printf("Automatic food creation\n");
             break;
         case (START):
             if(run==0||run==STEP){

@@ -523,8 +523,8 @@ void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i) {
                                                  p_ouvriere->ouvriere.butx,
                                                  p_ouvriere->ouvriere.posy,
                                                  p_ouvriere->ouvriere.buty);
-    if(distance > RAYON_FOURMI) {
-        double Vn_x = (p_ouvriere->ouvriere.butx - p_ouvriere->ouvriere.posx) / 
+    if(distance > RAYON_FOURMI){
+        double Vn_x = (p_ouvriere->ouvriere.butx - p_ouvriere->ouvriere.posx) /
 					  distance;
         double Vn_y = (p_ouvriere->ouvriere.buty - p_ouvriere->ouvriere.posy) / 
 					  distance;
@@ -571,17 +571,25 @@ void fourmi_garde_deplacement(FOURMI *p_garde, unsigned i, unsigned nb_fourmilie
                                                  p_garde->garde.butx,
                                                  p_garde->garde.posy,
                                                  p_garde->garde.buty);
-    if(distance > EPSIL_ZERO) {
+    double distance_mvmt = utilitaire_calcul_distance(0,
+                                                     BUG_SPEED*DELTA_T,
+                                                     0,
+                                                     BUG_SPEED*DELTA_T);
+    if(distance > distance_mvmt + EPSIL_ZERO) {
         double Vn_x = (p_garde->garde.butx - p_garde->garde.posx) / distance;
         double Vn_y = (p_garde->garde.buty - p_garde->garde.posy) / distance;
         p_garde->garde.posx += BUG_SPEED*DELTA_T*Vn_x;
         p_garde->garde.posy += BUG_SPEED*DELTA_T*Vn_y;
     }
+    else {
+        p_garde->garde.posx = p_garde->garde.posx;
+        p_garde->garde.posy = p_garde->garde.posy;
+    }
 }
 
 // attaque de la garde sur une ouvrière si elle entre dans la fourmilière   
 void fourmi_ouvriere_intrusion(FOURMI *p_garde, FOURMI *p_ouvriere,
-                              unsigned i, unsigned c_x, unsigned c_y, unsigned rayon){
+                              unsigned i, double c_x, double c_y, double rayon){
     while (p_ouvriere){
         double distance = utilitaire_calcul_distance(c_x,
                                                      p_ouvriere->ouvriere.posx,

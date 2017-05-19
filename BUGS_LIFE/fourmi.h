@@ -43,7 +43,7 @@ int fourmi_garde_update(FOURMI **p_garde, unsigned i, unsigned nb_fourmiliere);
 void fourmi_ouvriere_deplacement(FOURMI *p_ouvriere, unsigned i);
 void fourmi_garde_deplacement(FOURMI *p_garde, unsigned i, unsigned nb_fourmiliere);
 void fourmi_ouvriere_intrusion(FOURMI *p_garde, FOURMI *p_ouvriere,
-                              unsigned i, unsigned c_x, unsigned c_y, unsigned rayon);
+                              unsigned i, double c_x, double c_y, double rayon);
 double fourmi_test_ouvri_competition(double distance_new, FOURMI *p_ouvriere,
                               double nourri_x, double nourri_y);
 double fourmi_test_nourri_dispo(FOURMI *p_ouvriere, double nourri_x, double nourri_y);

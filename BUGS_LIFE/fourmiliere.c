@@ -23,7 +23,8 @@
 #define DEAD					1
 #define RATIO					0.25
 #define MAX_GARDE				10
-#define MARGE_DEVIATION         1
+#define MARGE_DEVIATION         2
+#define PROXIMITE               3
 
 struct fourmiliere
 {
@@ -676,8 +677,6 @@ void foumriliere_ouvri_changer_but(double *butx,double x2,double *buty,double y2
     else{
         *butx = (p_fourmiliere+i)->x;
         *buty = (p_fourmiliere+i)->y;
-        printf("%lf %lf\n", *butx, *buty);
-        printf("%lf %lf\n", devia_x, devia_y);
     }
 }
 
@@ -690,22 +689,21 @@ int fourmiliere_ouvri_attaque(double *butx, double *buty, unsigned i) {
         fourmilieres_en_vie -= tab_dead[d];
             //on décremente de 1 pour chaque fourmiliere morte
     if(fourmilieres_en_vie>1) {
-        unsigned nbG_min = (p_fourmiliere+i)->nbO;
+        //unsigned nbG_min = (p_fourmiliere+i)->nbO;
             // Si nbG > nbO alors ppas la peine d'attaquer
         unsigned k = 0;
         double distance = DIST_MAX;
         double distance_new = distance;
         for (k = 0; k < nb_fourmiliere; k++){
             if(k!=i && tab_dead[k]==0){
-                if((p_fourmiliere+k)->nbG < nbG_min) {
-                    nbG_min = (p_fourmiliere+k)->nbG;
+                if((p_fourmiliere+k)->nbG < (p_fourmiliere+i)->nbO) {
                     distance_new = utilitaire_calcul_distance((p_fourmiliere+i)->x,
                                                           (p_fourmiliere+k)->x,
                                                           (p_fourmiliere+i)->y,
                                                           (p_fourmiliere+k)->y);
                     if((nourriture_get_nb()==0 && distance_new < distance) ||
                        distance_new <= (p_fourmiliere+i)->rayon
-                       + (p_fourmiliere+k)->rayon + RAYON_FOURMI) {
+                       + (p_fourmiliere+k)->rayon + PROXIMITE) {
                         *butx = (p_fourmiliere+k)->x;
                         *buty = (p_fourmiliere+k)->y;
                         attaque = ATTAQUE;
@@ -734,6 +732,7 @@ int fourmiliere_food_diminue(double *butx, double *buty, unsigned i) {
     return 0;
 }
 
+// vérifie si l'objectif était une fourmiliere ou un élément de nourriture
 int fourmiliere_ouvri_test_objectif(double posx, double posy,
                                     double butx, double buty, double i) {
     unsigned k = 0;
